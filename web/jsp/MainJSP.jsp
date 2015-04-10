@@ -20,8 +20,15 @@
         <script type="text/javascript" src="../js/materialize.min.js"></script>
         <h1>Foodlocker</h1><br/>
         <div class="input-field col s6" style="width: 30%">
-            <input id="ingredient" type="text" class="validate" >
-            <label for="ingredient">Ingredient</label>
+            <form>
+                <a class="waves-effect waves-light btn">Stuff</a>
+                <a class="waves-effect waves-light btn"><i class="mdi-file-cloud left"></i>button</a>
+                <a class="waves-effect waves-light btn"><i class="mdi-file-cloud right"></i>button</a>
+                <a class="btn-floating btn-large waves-effect waves-light red"><i class="mdi-content-add"></i></a>
+                <input id="ingredient" type="text" class="validate">
+                <label for="ingredient">Ingredient</label>
+                <a class="btn-floating btn-large waves-effect waves-light red" onclick="Materialize.toast('I am a toast')"><i class="mdi-content-add"></i></a>
+            </form>
         </div>
         <div style="width: 50%">
             <input type="checkbox" id="include" />
@@ -41,9 +48,6 @@
                     <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
                 </li>
             </ul>
-            <form action="test.js">
-              <a class="btn" onclick="Materialize.toast('I am a toast')">Toast!</a>
-            </form>
         </div>
     </center>
 </body>
