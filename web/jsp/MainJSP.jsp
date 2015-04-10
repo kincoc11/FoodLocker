@@ -22,17 +22,28 @@
         <div class="input-field col s6" style="width: 30%">
             <input id="ingredient" type="text" class="validate" >
             <label for="ingredient">Ingredient</label>
-                <input type="checkbox" id="test5" />
-                <label for="test5">Do you want to include ingredients you did not mention?</label>
         </div>
-        <div style="float: left; margin-left: 2%">
-            <ul class="collection">
-                <li class="collection-item">a</li>
-                <li class="collection-item">b</li>
-                <li class="collection-item">c</li>
-                <li class="collection-item">d</li>
+        <div style="width: 50%">
+            <input type="checkbox" id="include" />
+            <label for="include">Do you want to include ingredients you did not mention?</label>
+            <br/><br/>
+            <ul class="collapsible" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header">First</div>
+                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
+                <li>
+                    <div class="collapsible-header"></i>Second</div>
+                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
+                <li>
+                    <div class="collapsible-header"></i>Third</div>
+                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
             </ul>
-
+            <form action="test.js">
+              <a class="btn" onclick="Materialize.toast('I am a toast')">Toast!</a>
+            </form>
         </div>
     </center>
 </body>
