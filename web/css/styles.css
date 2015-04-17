@@ -1,0 +1,15 @@
+#div_listIngredients
+{
+    float:right; 
+    margin-right: 10%; 
+    margin-top: -7%
+}
+
+#td_ingredients
+{
+    background-color: #000000; 
+    color: #FFFFFF; 
+    border-bottom:  10px solid #FFFFFF;
+    border-top:  10px solid #FFFFFF; 
+    border-radius: 30%;
+}
