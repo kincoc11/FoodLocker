@@ -19,36 +19,47 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="../js/materialize.min.js"></script>
         <h1>Foodlocker</h1><br/>
-        <div class="input-field col s6" style="width: 30%">
+        <div class="input-field col s6" style="width: 25%">
             <form>
-                <a class="waves-effect waves-light btn">Stuff</a>
-                <a class="waves-effect waves-light btn"><i class="mdi-file-cloud left"></i>button</a>
-                <a class="waves-effect waves-light btn"><i class="mdi-file-cloud right"></i>button</a>
-                <a class="btn-floating btn-large waves-effect waves-light red"><i class="mdi-content-add"></i></a>
-                <input id="ingredient" type="text" class="validate">
+                <input id="ingredient" type="text" class="validate" onkeydown="if (event.keyCode == 13) {
+                            Materialize.toast('I am a toast');
+                            this.form.submit();
+                            return false;
+                        }">
                 <label for="ingredient">Ingredient</label>
-                <a class="btn-floating btn-large waves-effect waves-light red" onclick="Materialize.toast('I am a toast')"><i class="mdi-content-add"></i></a>
-            </form>
         </div>
-        <div style="width: 50%">
-            <input type="checkbox" id="include" />
-            <label for="include">Do you want to include ingredients you did not mention?</label>
-            <br/><br/>
-            <ul class="collapsible" data-collapsible="accordion">
-                <li>
-                    <div class="collapsible-header">First</div>
-                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-                </li>
-                <li>
-                    <div class="collapsible-header"></i>Second</div>
-                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-                </li>
-                <li>
-                    <div class="collapsible-header"></i>Third</div>
-                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-                </li>
-            </ul>
-        </div>
-    </center>
+        <input type="checkbox" id="include" />
+        <label for="include">Do you want to include ingredients you did not mention?</label>
+        <div style="float:right; margin-right: 10%; margin-top: -7%" id="listIngredients" >
+            <table>
+            <tr><td style="background-color: #000000; color: #FFFFFF; border-bottom:  10px solid #FFFFFF;
+border-top:  10px solid #FFFFFF; border-radius: 30%">herbert</td></tr>
+            <tr><td style="background-color: #000000; color: #FFFFFF; border-bottom:  10px solid #FFFFFF;
+border-top:  10px solid #FFFFFF; border-radius: 30%; ">herbert</td></tr>
+            <tr><td style="background-color: #000000; color: #FFFFFF; border-bottom:  10px solid #FFFFFF;
+border-top:  10px solid #FFFFFF; border-radius: 30%; ">herbert</td></tr>
+            <tr><td style="background-color: #000000; color: #FFFFFF; border-bottom:  10px solid #FFFFFF;
+border-top:  10px solid #FFFFFF; border-radius: 30%; ">herbert</td></tr>
+            </table>
+   </div>
+    </form>
+    <div style="width: 50%">
+        <br/><br/>
+        <ul class="collapsible" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header">First</div>
+                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+            </li>
+            <li>
+                <div class="collapsible-header"></i>Second</div>
+                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+            </li>
+            <li>
+                <div class="collapsible-header"></i>Third</div>
+                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+            </li>
+        </ul>
+    </div>
+</center>
 </body>
 </html>
