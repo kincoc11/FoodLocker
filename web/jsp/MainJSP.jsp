@@ -4,6 +4,7 @@
     Author     : Corinna
 --%>
 
+<%@page import="java.util.LinkedList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,25 +22,30 @@
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <h1>Foodlocker</h1><br/>
         <div class="input-field col s6" style="width: 25%">
-            <form>
-                <input id="txt_ingredient" type="text" class="validate" onkeydown="
-                    if (event.keyCode === 13) 
-                    {
+            <form action="FoodLockerServlet" method="POST">
+                <input name ="txt_ingredient" type="text" onkeydown="
+                        if (event.keyCode === 13)
+                        {
                             this.form.submit();
                             return false;
-                    }">
+                        }">
                 <label for="txt_ingredient">Ingredient</label>
         </div>
         <input type="checkbox" id="cb_include" />
         <label for="cb_include">Do you want to include ingredients you did not mention?</label>
         <div id="div_listIngredients" >
             <table>
-            <tr><td id="td_ingredients">herbert</td></tr>
-            <tr><td id="td_ingredients">herbert</td></tr>
-            <tr><td id="td_ingredients">herbert</td></tr>
-            <tr><td id="td_ingredients">herbert</td></tr>
+                <%
+                    if (request.getAttribute("li_ingredients") != null) {
+                        LinkedList<String> li_ingredients = (LinkedList<String>) request.getAttribute("li_ingredients");
+                        for (String ingredient : li_ingredients) {
+                %><tr><td id="td_ingredients"><%=ingredient%></td></tr>
+                    <% }
+                                 
+                 }%>
+
             </table>
-   </div>
+        </div>
     </form>
     <div style="width: 50%">
         <br/><br/>

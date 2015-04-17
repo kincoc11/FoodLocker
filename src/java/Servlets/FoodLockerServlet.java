@@ -7,6 +7,7 @@ package Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Corinna
  */
 public class FoodLockerServlet extends HttpServlet {
+
+    private LinkedList<String> li_ingredients = new LinkedList<>();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,8 +33,7 @@ public class FoodLockerServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) 
-        {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
         }
@@ -50,6 +52,7 @@ public class FoodLockerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
+        li_ingredients.clear();
         processRequest(request, response);
     }
 
@@ -64,7 +67,17 @@ public class FoodLockerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
+        if (request.getParameter("txt_ingredient") != null) {
+            String ingredient = request.getParameter("txt_ingredient");
+            if (!li_ingredients.contains(ingredient) && li_ingredients.size() < 10 && ingredient.length() <= 20) {
+                li_ingredients.add(ingredient);
+            }
+            request.setAttribute("li_ingredients", li_ingredients);
+            
+            System.out.println("Size: "+li_ingredients.size());
+            request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
+        }
     }
 
     /**
