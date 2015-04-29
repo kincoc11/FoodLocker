@@ -10,16 +10,17 @@
 <html>
     <head>
         <title>TODO supply a title</title>
+        
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body style="text-align: center">
     <center>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="js/materialize.min.js"></script>
         <h1>Foodlocker</h1><br/>
         <div class="input-field col s6" style="width: 25%">
             <form action="FoodLockerServlet" method="POST">
@@ -40,8 +41,7 @@
                         LinkedList<String> li_ingredients = (LinkedList<String>) request.getAttribute("li_ingredients");
                         for (String ingredient : li_ingredients) {
                 %><tr><td id="td_ingredients"><%=ingredient%></td></tr>
-                    <% }
-                                 
+                    <% }          
                  }%>
 
             </table>
