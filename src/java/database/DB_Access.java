@@ -34,14 +34,14 @@ public class DB_Access
     private DB_Access() throws ClassNotFoundException, Exception 
     {
         connPool = DB_ConnectionPool.getInstance();
-        test(); 
+        getIngredients(); 
     }
     
-    public void test() throws Exception
+    public LinkedList getIngredients() throws Exception
     {
         Connection conn = connPool.getConnection(); 
         Statement stat = conn.createStatement(); 
-        LinkedList<String> genreList = new LinkedList<>(); 
+        LinkedList<String> li_ingredients = new LinkedList<>(); 
         String sqlString = "";
         sqlString ="SELECT * " +
                     "FROM ingredient;"; 
@@ -52,11 +52,16 @@ public class DB_Access
         while (rs.next()) 
         {
             String name= rs.getString("name"); 
-            System.out.println(name);
             
+            if(!li_ingredients.contains(name))
+            {
+                li_ingredients.add(name); 
+            }
         }
         
         connPool.releaseConnection(conn);
+        
+        return li_ingredients; 
     }
     
     public static void main(String[] args) throws ClassNotFoundException, Exception
