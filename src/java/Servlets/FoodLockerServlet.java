@@ -2,15 +2,16 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
-
-
-hihihihihih
  */
 package Servlets;
 
+import beans.Ingredient;
+import database.DB_Access;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,72 +23,54 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class FoodLockerServlet extends HttpServlet {
 
-    private LinkedList<String> li_ingredients = new LinkedList<>();
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
-        }
+    private LinkedList<String> li_input_ingredients = new LinkedList<>();
+    private LinkedList<Ingredient> li_all_ingredients; 
+    DB_Access access; 
+    
+    
+    public void initalizeListAllIngredients(HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        li_all_ingredients = access.getIngredients(); 
+        request.setAttribute("li_all_ingredients", li_all_ingredients);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
+        try {  
+            access = DB_Access.getInstance();
+        } catch (Exception ex) {
+            Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+        
         request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
-        li_ingredients.clear();
-        processRequest(request, response);
+        li_input_ingredients.clear();
+        
+        
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
-        if (request.getParameter("txt_ingredient") != null) {
+      
+        if (request.getParameter("txt_ingredient") != null) 
+        {
             String ingredient = request.getParameter("txt_ingredient");
-            if (!li_ingredients.contains(ingredient) && li_ingredients.size() < 10 && ingredient.length() <= 20) {
-                li_ingredients.add(ingredient);
+            if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) 
+            {
+                li_input_ingredients.add(ingredient);
             }
-            request.setAttribute("li_ingredients", li_ingredients);
+            request.setAttribute("li_input_ingredients", li_input_ingredients);
             
             
             request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+   
     @Override
     public String getServletInfo() {
         return "Short description";

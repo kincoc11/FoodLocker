@@ -37,8 +37,8 @@
         <div id="div_listIngredients" >
             <table>
                 <%
-                    if (request.getAttribute("li_ingredients") != null) {
-                        LinkedList<String> li_ingredients = (LinkedList<String>) request.getAttribute("li_ingredients");
+                    if (request.getAttribute("li_input_ingredients") != null) {
+                        LinkedList<String> li_ingredients = (LinkedList<String>) request.getAttribute("li_input_ingredients");
                         for (String ingredient : li_ingredients) {
                 %><tr><td id="td_ingredients"><%=ingredient%></td></tr>
                     <% }          
