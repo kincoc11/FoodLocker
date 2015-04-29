@@ -5,6 +5,7 @@
  */
 package database;
 
+import beans.Ingredient;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -16,7 +17,7 @@ import java.util.LinkedList;
  */
 public class DB_Access 
 {
-    private LinkedList<String> filmList; 
+    private LinkedList<Ingredient> li_ingredients; 
     private DB_ConnectionPool connPool; 
    
     private static DB_Access theInstance = null; 
@@ -37,11 +38,13 @@ public class DB_Access
         getIngredients(); 
     }
     
+    
+    
     public LinkedList getIngredients() throws Exception
     {
         Connection conn = connPool.getConnection(); 
         Statement stat = conn.createStatement(); 
-        LinkedList<String> li_ingredients = new LinkedList<>(); 
+        li_ingredients = new LinkedList<>(); 
         String sqlString = "";
         sqlString ="SELECT * " +
                     "FROM ingredient;"; 
@@ -52,10 +55,12 @@ public class DB_Access
         while (rs.next()) 
         {
             String name= rs.getString("name"); 
+            int ingredient_id = rs.getInt("ingredient_id");
             
             if(!li_ingredients.contains(name))
             {
-                li_ingredients.add(name); 
+                Ingredient ingredient = new Ingredient(ingredient_id, name); 
+                li_ingredients.add(ingredient); 
             }
         }
         
