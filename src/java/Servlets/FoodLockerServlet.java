@@ -2,6 +2,9 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+
+
+hihihihihih
  */
 package Servlets;
 
@@ -75,7 +78,7 @@ public class FoodLockerServlet extends HttpServlet {
             }
             request.setAttribute("li_ingredients", li_ingredients);
             
-            System.out.println("Size: "+li_ingredients.size());
+            
             request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
         }
     }
