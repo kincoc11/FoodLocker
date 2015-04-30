@@ -75,5 +75,26 @@ public class Recipe
     
     
     
+    public String toHTMLString()
+    {
+        return "<td onclick='displaydata(this)'>"+title+
+              "<div style='display:none'>"
+            + "<ul class='collapsible' data-collapsible='accordion'>"
+            +"<li>"
+            +    "<div class='collapsible-header'>First</div>"
+            +    "<div class='collapsible-body'><p>Lorem ipsum dolor sit amet.</p></div>"
+            +"</li>"
+            +"<li>"
+            +    "<div class='collapsible-header'></i>Second</div>"
+            +    "<div class='collapsible-body'><p>Lorem ipsum dolor sit amet.</p></div>"
+            +" </li>"
+            +"<li>"
+            +   " <div class='collapsible-header'></i>Third</div>"
+            +   " <div class='collapsible-body'><p>Lorem ipsum dolor sit amet.</p></div>"
+            +"</li>"
+       +" </ul>"
+             +   "</div>";
+    }
+    
     
 }

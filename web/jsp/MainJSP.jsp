@@ -47,7 +47,7 @@
             </table>
         </div>
     </form>
-    <div style="width: 50%">
+    <div id="outerRecipeDiv" style="width: 50%">
         <br/><br/>
         <ul class="collapsible" data-collapsible="accordion">
             <li>
