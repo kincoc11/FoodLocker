@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -30,8 +31,23 @@ public class FoodLockerServlet extends HttpServlet {
     
     public void initalizeListAllIngredients(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-        li_all_ingredients = access.getIngredients(); 
-        request.setAttribute("li_all_ingredients", li_all_ingredients);
+        li_all_ingredients = access.getIngredients();
+        System.out.println(li_all_ingredients);
+         StringBuffer sb = new StringBuffer();
+            sb.append("[");
+            for (int i = 0; i < li_all_ingredients.size(); i++) {
+                sb.append("\"").append(li_all_ingredients.get(i).getName()).append("\"");
+                if (i + 1 < li_all_ingredients.size()) {
+                    sb.append(",");
+                }
+            }
+            sb.append("]");
+            
+            System.out.println(sb.toString());
+
+        request.setAttribute("sb", sb);
+        
+        
     }
 
     
@@ -45,6 +61,11 @@ public class FoodLockerServlet extends HttpServlet {
             Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
         }    
         
+        try {
+            initalizeListAllIngredients(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
         li_input_ingredients.clear();
         
