@@ -10,33 +10,56 @@
 <html>
     <head>
         <title>TODO supply a title</title>
-        
+
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
-<script>
-    
-$(function() {
-    var myArray = <%= request.getAttribute("sb") %>;
-    $( "#txt_ingredient" ).autocomplete({
-      source: myArray
-    });
-  });
-  </script>
+        <script>
+
+            $(function () {
+                //var myArray = <%= request.getAttribute("sb")%>;
+                var availableTags = [
+                "ActionScript",
+                "AppleScript",
+                "Asp",
+                "BASIC",
+                "C",
+                "C++",
+                "Clojure",
+                "COBOL",
+                "ColdFusion",
+                "Erlang",
+                "Fortran",
+                "Groovy",
+                "Haskell",
+                "Java",
+                "JavaScript",
+                "Lisp",
+                "Perl",
+                "PHP",
+                "Python",
+                "Ruby",
+                "Scala",
+                "Scheme"
+            ];
+                $("#txt_ingredient").autocomplete({
+                    source: availableTags
+                });
+            });
+        </script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    
+
 
     <body style="text-align: center">
     <center>
         <h1>Foodlocker</h1><br/>
-               <div class="input-field col s6" style="width: 25%">
+        <div class="input-field col s6" style="width: 25%">
             <form action="FoodLockerServlet" method="POST">
                 <input id ="txt_ingredient" name ="txt_ingredient" type="text" onkeydown="
                         if (event.keyCode === 13)
@@ -55,8 +78,8 @@ $(function() {
                         LinkedList<String> li_ingredients = (LinkedList<String>) request.getAttribute("li_input_ingredients");
                         for (String ingredient : li_ingredients) {
                 %><tr><td id="td_ingredients"><%=ingredient%></td></tr>
-                    <% }          
-                 }%>
+                    <% }
+                        }%>
 
             </table>
         </div>

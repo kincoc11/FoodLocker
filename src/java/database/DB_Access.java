@@ -69,6 +69,33 @@ public class DB_Access
         return li_ingredients; 
     }
     
+     public LinkedList getIngredients(String name) throws Exception
+    {
+        Connection conn = connPool.getConnection(); 
+        Statement stat = conn.createStatement(); 
+        LinkedList<String> strIngredients = new LinkedList<>();
+        String sqlString = "";
+        sqlString ="SELECT * " +
+                    "FROM ingredient WHERE name LIKE '%"+name+"%';"; 
+    
+    
+        ResultSet rs = stat.executeQuery(sqlString);
+        
+        while (rs.next()) 
+        {
+            String strIngredient= rs.getString("name"); 
+            
+            if(!li_ingredients.contains(name))
+            {
+                strIngredients.add(strIngredient); 
+            }
+        }
+        
+        connPool.releaseConnection(conn);
+        
+        return strIngredients; 
+    }
+    
     public static void main(String[] args) throws ClassNotFoundException, Exception
     {
         DB_Access.getInstance();

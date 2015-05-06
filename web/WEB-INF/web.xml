@@ -4,9 +4,17 @@
         <servlet-name>FoodLockerServlet</servlet-name>
         <servlet-class>Servlets.FoodLockerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AutoCompleteServlet</servlet-name>
+        <servlet-class>Servlets.AutoCompleteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FoodLockerServlet</servlet-name>
         <url-pattern>/FoodLockerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AutoCompleteServlet</servlet-name>
+        <url-pattern>/AutoCompleteServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

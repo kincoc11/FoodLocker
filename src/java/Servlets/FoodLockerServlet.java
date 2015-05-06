@@ -46,8 +46,6 @@ public class FoodLockerServlet extends HttpServlet {
             System.out.println(sb.toString());
 
         request.setAttribute("sb", sb);
-        
-        
     }
 
     
