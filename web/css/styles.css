@@ -15,3 +15,9 @@
     text-align: center;
     line-height: 50%;
 }
+#h3_error
+{
+    color: #E53935;
+    font-size: 10px;
+    font-weight: bold;
+}

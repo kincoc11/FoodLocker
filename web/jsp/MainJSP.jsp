@@ -20,33 +20,10 @@
         <script>
 
             $(function () {
-                //var myArray = <%= request.getAttribute("sb")%>;
-                var availableTags = [
-                "ActionScript",
-                "AppleScript",
-                "Asp",
-                "BASIC",
-                "C",
-                "C++",
-                "Clojure",
-                "COBOL",
-                "ColdFusion",
-                "Erlang",
-                "Fortran",
-                "Groovy",
-                "Haskell",
-                "Java",
-                "JavaScript",
-                "Lisp",
-                "Perl",
-                "PHP",
-                "Python",
-                "Ruby",
-                "Scala",
-                "Scheme"
-            ];
+                var arrayIngredients = <%= this.getServletContext().getAttribute("attrIngredients")%>;
+
                 $("#txt_ingredient").autocomplete({
-                    source: availableTags
+                    source: arrayIngredients
                 });
             });
         </script>
@@ -59,8 +36,19 @@
     <body style="text-align: center">
     <center>
         <h1>Foodlocker</h1><br/>
+        <span id="error">
+                    <%
+                    if(request.getAttribute("error") != null)
+                    {
+                        System.out.println(request.getAttribute("error"));
+                       
+                        %><h3 id="h3_error"><%=request.getAttribute("error")%></h3><%
+                    }  
+                        %>        
+                </span>
         <div class="input-field col s6" style="width: 25%">
             <form action="FoodLockerServlet" method="POST">
+                
                 <input id ="txt_ingredient" name ="txt_ingredient" type="text" onkeydown="
                         if (event.keyCode === 13)
                         {

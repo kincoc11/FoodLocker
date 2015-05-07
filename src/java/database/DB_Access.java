@@ -15,89 +15,67 @@ import java.util.LinkedList;
  *
  * @author Yvonne
  */
-public class DB_Access 
-{
-    private LinkedList<Ingredient> li_ingredients; 
-    private DB_ConnectionPool connPool; 
-   
-    private static DB_Access theInstance = null; 
-    
-    
-    public static DB_Access getInstance() throws ClassNotFoundException, Exception
-    {
-        if(theInstance == null)
-        {
-            theInstance = new DB_Access(); 
+public class DB_Access {
+
+    private LinkedList<Ingredient> li_ingredients;
+    private DB_ConnectionPool connPool;
+
+    private static DB_Access theInstance = null;
+
+    public static DB_Access getInstance() throws ClassNotFoundException, Exception {
+        if (theInstance == null) {
+            theInstance = new DB_Access();
         }
-        return theInstance; 
+        return theInstance;
     }
 
-    private DB_Access() throws ClassNotFoundException, Exception 
-    {
+    private DB_Access() throws ClassNotFoundException, Exception {
         connPool = DB_ConnectionPool.getInstance();
-        getIngredients(); 
+        getIngredients();
     }
-    
-    
-    
-    public LinkedList getIngredients() throws Exception
-    {
-        Connection conn = connPool.getConnection(); 
-        Statement stat = conn.createStatement(); 
-        li_ingredients = new LinkedList<>(); 
+
+    public LinkedList getIngredients() throws Exception {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        li_ingredients = new LinkedList<>();
         String sqlString = "";
-        sqlString ="SELECT * " +
-                    "FROM ingredient;"; 
-    
-    
+        sqlString = "SELECT * "
+                + "FROM ingredient;";
+
         ResultSet rs = stat.executeQuery(sqlString);
-        
-        while (rs.next()) 
-        {
-            String name= rs.getString("name"); 
+
+        while (rs.next()) {
+            String name = rs.getString("name");
             int ingredient_id = rs.getInt("ingredient_id");
-            
-            if(!li_ingredients.contains(name))
-            {
-                Ingredient ingredient = new Ingredient(ingredient_id, name); 
-                li_ingredients.add(ingredient); 
+
+            if (!li_ingredients.contains(name)) {
+                Ingredient ingredient = new Ingredient(ingredient_id, name);
+                li_ingredients.add(ingredient);
             }
         }
-        
+
         connPool.releaseConnection(conn);
-        
-        return li_ingredients; 
+
+        return li_ingredients;
     }
-    
-     public LinkedList getIngredients(String name) throws Exception
-    {
-        Connection conn = connPool.getConnection(); 
-        Statement stat = conn.createStatement(); 
-        LinkedList<String> strIngredients = new LinkedList<>();
+
+    public boolean isIngredientAvailable(String name) throws Exception {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
         String sqlString = "";
-        sqlString ="SELECT * " +
-                    "FROM ingredient WHERE name LIKE '%"+name+"%';"; 
-    
-    
+        sqlString = "SELECT * "
+                + "FROM ingredient WHERE UPPER(name) = UPPER('" + name + "');";
+
         ResultSet rs = stat.executeQuery(sqlString);
-        
-        while (rs.next()) 
-        {
-            String strIngredient= rs.getString("name"); 
-            
-            if(!li_ingredients.contains(name))
-            {
-                strIngredients.add(strIngredient); 
-            }
+        if (rs.next() == true) {
+            return true;
         }
-        
         connPool.releaseConnection(conn);
-        
-        return strIngredients; 
+        return false;
     }
     
-    public static void main(String[] args) throws ClassNotFoundException, Exception
-    {
+   
+    public static void main(String[] args) throws ClassNotFoundException, Exception {
         DB_Access.getInstance();
     }
 }
