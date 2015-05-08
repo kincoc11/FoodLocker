@@ -6,6 +6,7 @@
 package database;
 
 import beans.Ingredient;
+import beans.Recipe;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -72,6 +73,32 @@ public class DB_Access {
         }
         connPool.releaseConnection(conn);
         return false;
+    }
+    
+    
+     public LinkedList getRecipe() throws Exception {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        LinkedList<Recipe> li_recipe = new LinkedList<>();
+        String sqlString = "";
+        sqlString = "SELECT * "
+                + "FROM recipe;";
+
+        ResultSet rs = stat.executeQuery(sqlString);
+
+        while (rs.next()) {
+            String name = rs.getString("name");
+            int ingredient_id = rs.getInt("ingredient_id");
+
+            if (!li_ingredients.contains(name)) {
+                Ingredient ingredient = new Ingredient(ingredient_id, name);
+                li_ingredients.add(ingredient);
+            }
+        }
+
+        connPool.releaseConnection(conn);
+
+        return li_ingredients;
     }
     
    
