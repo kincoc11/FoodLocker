@@ -80,6 +80,7 @@ public class FoodLockerServlet extends HttpServlet {
                 if (access.isIngredientAvailable(ingredient)) {
                     if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) {
                         li_input_ingredients.add(ingredient);
+                        access.getRecipeForIngredients(li_input_ingredients);
                         
                         for(int i = 0; i<li_all_ingredients.size(); i++)
                         {
