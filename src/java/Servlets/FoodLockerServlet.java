@@ -6,6 +6,7 @@
 package Servlets;
 
 import beans.Ingredient;
+import beans.Recipe;
 import database.DB_Access;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +26,7 @@ public class FoodLockerServlet extends HttpServlet {
 
     private LinkedList<String> li_input_ingredients = new LinkedList<>();
     private LinkedList<Ingredient> li_all_ingredients;
+    private LinkedList<Recipe> li_recipes;
     DB_Access access;
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -80,7 +81,8 @@ public class FoodLockerServlet extends HttpServlet {
                 if (access.isIngredientAvailable(ingredient)) {
                     if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) {
                         li_input_ingredients.add(ingredient);
-                        access.getRecipeForIngredients(li_input_ingredients);
+                        li_recipes = access.getRecipeForIngredients(li_input_ingredients);
+                        request.setAttribute("li_recipes", li_recipes);
                         
                         for(int i = 0; i<li_all_ingredients.size(); i++)
                         {

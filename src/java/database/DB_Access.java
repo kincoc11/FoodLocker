@@ -82,7 +82,7 @@ public class DB_Access {
      {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
-        LinkedList<Recipe> li_recipe = new LinkedList<>();
+        LinkedList<Recipe> li_recipes = new LinkedList<>();
         int count = 0; 
         String sqlString = "";
         sqlString = "SELECT * "
@@ -99,32 +99,30 @@ public class DB_Access {
              }
              else
              {
-                 sqlString+= "UPPER(i.name) = UPPER('"+str+"') AND ";
+                 sqlString+= "UPPER(i.name) = UPPER('"+str+"') OR ";
              }
               
          }
                 
          System.out.println(sqlString);
+        ResultSet rs = stat.executeQuery(sqlString);
 
-//        ResultSet rs = stat.executeQuery(sqlString);
-//
-//        while (rs.next()) {
-//            String description = rs.getString("description");
-//            int recipe_id = rs.getInt("recipe_id");
-//            String title = rs.getString("title");
-//            
-//            Recipe recipe = new Recipe(recipe_id, description, title);
-//            li_recipe.add(recipe);
-//            
-//        }
-//
-//         for (Recipe recipe : li_recipe) {
-//             System.out.println(li_recipe.toString());
-//         }
-//        
-//        connPool.releaseConnection(conn);
+        while (rs.next()) {
+            String description = rs.getString("description");
+            int recipe_id = rs.getInt("recipe_id");
+            String title = rs.getString("title");
+            
+            Recipe recipe = new Recipe(recipe_id, description, title);
+            if(!li_recipes.contains(recipe))
+            {
+                            li_recipes.add(recipe);
 
-        return li_recipe;
+            }
+            
+        }
+        
+        connPool.releaseConnection(conn);
+        return li_recipes;
     }
     
    

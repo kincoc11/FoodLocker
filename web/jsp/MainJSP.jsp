@@ -4,6 +4,7 @@
     Author     : Corinna
 --%>
 
+<%@page import="beans.Recipe"%>
 <%@page import="java.util.LinkedList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -37,18 +38,16 @@
     <center>
         <h1>Foodlocker</h1><br/>
         <span id="error">
-                    <%
-                    if(request.getAttribute("error") != null)
-                    {
-                        System.out.println(request.getAttribute("error"));
-                       
-                        %><h3 id="h3_error"><%=request.getAttribute("error")%></h3><%
-                    }  
-                        %>        
-                </span>
+            <%
+                if (request.getAttribute("error") != null) {
+                    System.out.println(request.getAttribute("error"));
+
+            %><h3 id="h3_error"><%=request.getAttribute("error")%></h3><%
+                    }
+            %>        
+        </span>
         <div class="input-field col s6" style="width: 25%">
             <form action="FoodLockerServlet" method="POST">
-                
                 <input id ="txt_ingredient" name ="txt_ingredient" type="text" onkeydown="
                         if (event.keyCode === 13)
                         {
@@ -72,23 +71,19 @@
             </table>
         </div>
     </form>
-    <div style="width: 50%">
-        <br/><br/>
-        <ul class="collapsible" data-collapsible="accordion">
-            <li>
-                <div class="collapsible-header">First</div>
-                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-            </li>
-            <li>
-                <div class="collapsible-header"></i>Second</div>
-                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-            </li>
-            <li>
-                <div class="collapsible-header"></i>Third</div>
-                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-            </li>
-        </ul>
-    </div>
+
+
+    <% if (request.getAttribute("li_recipes") != null) {%> <div style="width: 50%">
+        <br/><br/><ul class="collapsible" data-collapsible="accordion"><%
+            LinkedList<Recipe> li_recipes = (LinkedList<Recipe>) request.getAttribute("li_recipes");
+            for (Recipe r : li_recipes) {%>
+            <li><div class="collapsible-header"><%=r.getTitle()%></div>
+                <div class="collapsible-body"><p><%=r.getDescription()%></p></div></li>
+                        <%}%>
+        </ul>            
+    </div><%}%>
+
+
 </center>
 </body>
 </html>
