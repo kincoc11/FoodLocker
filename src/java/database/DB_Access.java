@@ -78,8 +78,60 @@ public class DB_Access {
     }
     
    
-    
+    public  LinkedList<Recipe> getRecipeForIngredientsTest(LinkedList<String> li_used_ingredients) throws Exception
+    {
+        
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        LinkedList<Recipe> li_recipes = new LinkedList<>();
+        int count = 0; 
+        String sqlString = "";
 
+        
+        sqlString = "SELECT * " +
+                    "FROM Ingredient i INNER JOIN Recipe_ingredient ri "+
+                   "ON (i.ingredient_id = ri.ingredient_id) INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "; 
+              
+        
+         for (String str : li_used_ingredients) 
+         {
+             count++;
+             if (count == 1)
+             {
+                 sqlString+= "WHERE UPPER(i.name) = UPPER('"+str+"') ";
+             }
+             else if(li_used_ingredients.size() == count)
+             {
+                 sqlString+= "UNION "+
+                    "SELECT * "+
+                    "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "+
+                    "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "+
+                    "WHERE UPPER(i.name) = UPPER('"+str+"') ";
+             }
+         }
+                
+         System.out.println(sqlString);
+        ResultSet rs = stat.executeQuery(sqlString);
+
+        while (rs.next()) {
+            String description = rs.getString("description");
+            int recipe_id = rs.getInt("recipe_id");
+            String title = rs.getString("title");
+            
+            Recipe recipe = new Recipe(recipe_id, description, title);
+            if(!li_recipes.contains(recipe))
+            {
+                            li_recipes.add(recipe);
+
+            }
+            
+        }
+        
+        connPool.releaseConnection(conn);
+        return li_recipes;
+
+    }
+    
     
      public LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients) throws Exception 
      {
