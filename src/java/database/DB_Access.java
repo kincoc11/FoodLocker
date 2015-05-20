@@ -77,12 +77,7 @@ public class DB_Access {
         return false;
     }
     
-    public  LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients)
-    {
-//        SELECT * 
-//FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) 
-
-    }
+   
     
 
     
@@ -99,12 +94,12 @@ public class DB_Access {
 //                +"WHERE ";
         
         
-        sqlString = "SELECT * " +
-        "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "+
-        "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) ";
+        sqlString = "SELECT DISTINCT r.recipe_id, r.description, r.title " +
+"FROM Ingredient i " +
+"INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id)  " +
+"INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) ";
         
 
-        
         
         
          for (String str : li_used_ingredients) 
@@ -112,15 +107,16 @@ public class DB_Access {
              count++;
              if (count == 1)
              {
-                 sqlString+= "WHERE UPPER(i.name) = UPPER('"+str+"') ";
+
+                 sqlString+= "WHERE UPPER(i.name) = UPPER('"+str+"') GROUP BY r.recipe_id, r.description, r.title ";
              }
              else if(li_used_ingredients.size() == count)
              {
-                 sqlString+= "UNION "+
-                    "SELECT * "+
+                 sqlString+= "INTERSECT "+
+                    "SELECT DISTINCT r.recipe_id, r.description, r.title "+
                     "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "+
                     "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "+
-                    "WHERE UPPER(i.name) = UPPER('"+str+"') ";
+                    "WHERE UPPER(i.name) = UPPER('"+str+"') GROUP BY r.recipe_id, r.description, r.title ";
              }
          }
                 

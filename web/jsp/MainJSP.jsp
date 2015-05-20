@@ -20,7 +20,8 @@
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
 
-            $(function () {
+            $(function () 
+            {
                 var arrayIngredients = <%= this.getServletContext().getAttribute("attrIngredients")%>;
 
                 $("#txt_ingredient").autocomplete({
@@ -42,7 +43,9 @@
                 if (request.getAttribute("error") != null) {
                     System.out.println(request.getAttribute("error"));
 
-            %><h3 id="h3_error"><%=request.getAttribute("error")%></h3><%
+            %><h3 id="h3_error"><%=request.getAttribute("error")%>
+            </h3>
+            <%
                     }
             %>        
         </span>
