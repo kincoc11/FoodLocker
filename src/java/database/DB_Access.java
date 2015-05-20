@@ -77,6 +77,14 @@ public class DB_Access {
         return false;
     }
     
+    public  LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients)
+    {
+//        SELECT * 
+//FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) 
+
+    }
+    
+
     
      public LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients) throws Exception 
      {
@@ -85,23 +93,35 @@ public class DB_Access {
         LinkedList<Recipe> li_recipes = new LinkedList<>();
         int count = 0; 
         String sqlString = "";
-        sqlString = "SELECT * "
-                +"FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "
-                +"INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "
-                +"WHERE ";
+//        sqlString = "SELECT * "
+//                +"FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "
+//                +"INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "
+//                +"WHERE ";
+        
+        
+        sqlString = "SELECT * " +
+        "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "+
+        "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) ";
+        
+
+        
+        
         
          for (String str : li_used_ingredients) 
          {
              count++;
-             if(li_used_ingredients.size() == count)
+             if (count == 1)
              {
-                 sqlString+= "UPPER(i.name) = UPPER('"+str+"');";
+                 sqlString+= "WHERE UPPER(i.name) = UPPER('"+str+"') ";
              }
-             else
+             else if(li_used_ingredients.size() == count)
              {
-                 sqlString+= "UPPER(i.name) = UPPER('"+str+"') OR ";
+                 sqlString+= "UNION "+
+                    "SELECT * "+
+                    "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "+
+                    "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "+
+                    "WHERE UPPER(i.name) = UPPER('"+str+"') ";
              }
-              
          }
                 
          System.out.println(sqlString);
