@@ -2,6 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+asasdasdasd
  */
 package database;
 
@@ -10,6 +11,7 @@ import beans.Recipe;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -77,21 +79,94 @@ public class DB_Access {
         return false;
     }
     
-   
-    public  LinkedList<Recipe> getRecipeForIngredientsTest(LinkedList<String> li_used_ingredients) throws Exception
+    public  LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients) throws Exception
     {
         
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
         LinkedList<Recipe> li_recipes = new LinkedList<>();
+        HashMap<Integer, Integer> hm_Recipe_Ingredient = new HashMap<>(); 
+        
         int count = 0; 
-        String sqlString = "";
+        String sqlString = "SELECT * " +
+                                "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "+
+                                "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) ";;
+
+       
+        ResultSet rs = stat.executeQuery(sqlString);
+
+        while (rs.next()) {
+            String description = rs.getString("description");
+            int recipe_id = rs.getInt("recipe_id");
+            String title = rs.getString("title");
+            
+            Recipe recipe = new Recipe(recipe_id, description, title);
+            if(!li_recipes.contains(recipe))
+            {
+                li_recipes.add(recipe);
+            }
+            
+            
+        }
+                                
+        sqlString = "SELECT * " +
+                                "Recipe_ingredient ";
+
+       
+        rs = stat.executeQuery(sqlString);
+
+        while (rs.next()) {
+            
+            int recipe_id = rs.getInt("recipe_id");
+            int ingredient_id = rs.getInt("ingredient_id");
+            
+            hm_Recipe_Ingredient.keySet().add(recipe_id); 
+            hm_Recipe_Ingredient.values().add(ingredient_id);
+        }                        
+        
+        for (Ingredient ingredient : li_ingredients) 
+        {
+            for (String str : li_used_ingredients) {
+                if(ingredient.getName().equals(str))
+                {
+                    for (int testInt : hm_Recipe_Ingredient.values()) 
+                    {
+                        if(testInt == ingredient.getIngredient_id())
+                        {
+                            System.out.println("dafuq was mach i da");
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+        
 
         
+        connPool.releaseConnection(conn);
+        return li_recipes;
+
+    }
+    
+    
+     public LinkedList<Recipe> getRecipeForIngredientsa(LinkedList<String> li_used_ingredients) throws Exception 
+     {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        LinkedList<Recipe> li_recipes = new LinkedList<>();
+        int count = 0; 
+        String sqlString = "";
+//        sqlString = "SELECT * "
+//                +"FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "
+//                +"INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "
+//                +"WHERE ";
+        
+        
         sqlString = "SELECT * " +
-                    "FROM Ingredient i INNER JOIN Recipe_ingredient ri "+
-                   "ON (i.ingredient_id = ri.ingredient_id) INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "; 
-              
+        "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "+
+        "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) ";
+        
         
          for (String str : li_used_ingredients) 
          {
@@ -107,68 +182,6 @@ public class DB_Access {
                     "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "+
                     "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "+
                     "WHERE UPPER(i.name) = UPPER('"+str+"') ";
-             }
-         }
-                
-         System.out.println(sqlString);
-        ResultSet rs = stat.executeQuery(sqlString);
-
-        while (rs.next()) {
-            String description = rs.getString("description");
-            int recipe_id = rs.getInt("recipe_id");
-            String title = rs.getString("title");
-            
-            Recipe recipe = new Recipe(recipe_id, description, title);
-            if(!li_recipes.contains(recipe))
-            {
-                            li_recipes.add(recipe);
-
-            }
-            
-        }
-        
-        connPool.releaseConnection(conn);
-        return li_recipes;
-
-    }
-    
-    
-     public LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients) throws Exception 
-     {
-        Connection conn = connPool.getConnection();
-        Statement stat = conn.createStatement();
-        LinkedList<Recipe> li_recipes = new LinkedList<>();
-        int count = 0; 
-        String sqlString = "";
-//        sqlString = "SELECT * "
-//                +"FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "
-//                +"INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "
-//                +"WHERE ";
-        
-        
-        sqlString = "SELECT DISTINCT r.recipe_id, r.description, r.title " +
-"FROM Ingredient i " +
-"INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id)  " +
-"INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) ";
-        
-
-        
-        
-         for (String str : li_used_ingredients) 
-         {
-             count++;
-             if (count == 1)
-             {
-
-                 sqlString+= "WHERE UPPER(i.name) = UPPER('"+str+"') GROUP BY r.recipe_id, r.description, r.title ";
-             }
-             else if(li_used_ingredients.size() == count)
-             {
-                 sqlString+= "INTERSECT "+
-                    "SELECT DISTINCT r.recipe_id, r.description, r.title "+
-                    "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "+
-                    "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "+
-                    "WHERE UPPER(i.name) = UPPER('"+str+"') GROUP BY r.recipe_id, r.description, r.title ";
              }
          }
                 
