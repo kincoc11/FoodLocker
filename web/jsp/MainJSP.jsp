@@ -86,7 +86,7 @@
         <br/><br/><ul class="collapsible" data-collapsible="accordion"><%
                 for (Recipe r : li_recipes) {%>
             <li><div class="collapsible-header"><%=r.getTitle()%></div>
-                <div class="collapsible-body"><p><%=r.getDescription()%></p></div></li>
+                <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div></li>
                         <%}%>
         </ul>            
     </div><%}
