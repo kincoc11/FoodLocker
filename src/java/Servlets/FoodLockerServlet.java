@@ -76,6 +76,7 @@ public class FoodLockerServlet extends HttpServlet {
                 if (access.isIngredientAvailable(ingredient)) {
                     if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) {
                         li_input_ingredients.add(ingredient);
+                        
                         li_recipes = access.getRecipeForIngredients(li_input_ingredients);
                         request.setAttribute("li_recipes", li_recipes);
                         
@@ -95,7 +96,7 @@ public class FoodLockerServlet extends HttpServlet {
                 }
                 else
                 {
-                    System.out.println("salödkfjasöldkfjasölykdfjalösdf");
+                    
                     request.setAttribute("error", "The ingredient you want to add is not available. We're sorry! :(");
                 }
             } catch (Exception ex) {

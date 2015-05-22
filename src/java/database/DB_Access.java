@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
-asasdasdasd
- */
 package database;
 
 import beans.Ingredient;
@@ -24,6 +18,7 @@ public class DB_Access {
     private DB_ConnectionPool connPool;
 
     private static DB_Access theInstance = null;
+    
 
     public static DB_Access getInstance() throws ClassNotFoundException, Exception {
         if (theInstance == null) {
@@ -34,9 +29,6 @@ public class DB_Access {
 
     private DB_Access() throws ClassNotFoundException, Exception {
         connPool = DB_ConnectionPool.getInstance();
-        //getIngredients();
-        //getRecipe(); 
-        //  getRecipeForIngredients();
     }
 
     public LinkedList getIngredients() throws Exception {
@@ -86,6 +78,7 @@ public class DB_Access {
         int count = 0;
         String sqlString = "";
 
+      
         sqlString = "SELECT DISTINCT r.recipe_id, r.description, r.title "
                 + "FROM Ingredient i "
                 + "INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id)  "
@@ -97,7 +90,7 @@ public class DB_Access {
             {
                 sqlString += "WHERE UPPER(i.name) = UPPER('" + str + "') GROUP BY r.recipe_id, r.description, r.title ";
             } 
-            else if (li_used_ingredients.size() == count) 
+            else
             {
                 sqlString += "INTERSECT "
                         + "SELECT DISTINCT r.recipe_id, r.description, r.title "
@@ -106,6 +99,7 @@ public class DB_Access {
                         + "WHERE UPPER(i.name) = UPPER('" + str + "') GROUP BY r.recipe_id, r.description, r.title ";
             }
         }
+        System.out.println(sqlString);
         ResultSet rs = stat.executeQuery(sqlString);
 
         while (rs.next()) {
