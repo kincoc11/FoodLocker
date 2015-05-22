@@ -20,7 +20,7 @@
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script>
 
-            $(function () 
+            $(function ()
             {
                 var arrayIngredients = <%= this.getServletContext().getAttribute("attrIngredients")%>;
 
@@ -41,12 +41,10 @@
         <span id="error">
             <%
                 if (request.getAttribute("error") != null) {
-                    System.out.println(request.getAttribute("error"));
-
             %><h3 id="h3_error"><%=request.getAttribute("error")%>
             </h3>
             <%
-                    }
+                }
             %>        
         </span>
         <div class="input-field col s6" style="width: 25%">
@@ -57,10 +55,14 @@
                             this.form.submit();
                             return false;
                         }">
+                
                 <label for="txt_ingredient">Ingredient</label>
-        </div>
-        <input type="checkbox" id="cb_include" />
+                </div>
+        <div id="div_checkbox_include">
+                <input type="checkbox" id="cb_include" />
         <label for="cb_include">Do you want to include ingredients you did not mention?</label>
+        </div>
+        
         <div id="div_listIngredients" >
             <table>
                 <%
@@ -76,15 +78,20 @@
     </form>
 
 
-    <% if (request.getAttribute("li_recipes") != null) {%> <div style="width: 50%">
-        <br/><br/><ul class="collapsible" data-collapsible="accordion"><%
+    <% if (request.getAttribute("li_recipes") != null) {%> <%
             LinkedList<Recipe> li_recipes = (LinkedList<Recipe>) request.getAttribute("li_recipes");
-            for (Recipe r : li_recipes) {%>
+            if (!li_recipes.isEmpty()) 
+            {
+                %><div style="width: 50%">
+        <br/><br/><ul class="collapsible" data-collapsible="accordion"><%
+                for (Recipe r : li_recipes) {%>
             <li><div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body"><p><%=r.getDescription()%></p></div></li>
                         <%}%>
         </ul>            
-    </div><%}%>
+    </div><%}
+        }
+    %>
 
 
 </center>
