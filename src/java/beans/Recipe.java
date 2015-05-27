@@ -8,13 +8,25 @@ public class Recipe
     private int recipe_id;
     private String description; 
     private String title; 
+    private int category_id; 
 
-    public Recipe(int recipe_id, String description, String title) {
+    public Recipe(int recipe_id, String description, String title, int category_id) {
         this.recipe_id = recipe_id;
         this.description = description;
         this.title = title;
+        this.category_id = category_id;
     }
 
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
+
+    
+    
     public int getRecipe_id() {
         return recipe_id;
     }
@@ -61,6 +73,9 @@ public class Recipe
             return false;
         }
         if (!Objects.equals(this.title, other.title)) {
+            return false;
+        }
+        if (this.category_id != other.category_id) {
             return false;
         }
         return true;

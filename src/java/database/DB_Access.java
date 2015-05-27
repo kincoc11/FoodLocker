@@ -16,6 +16,7 @@ public class DB_Access {
 
     private LinkedList<Ingredient> li_ingredients;
     private DB_ConnectionPool connPool;
+    private LinkedList<Recipe> li_recipes; 
 
     private static DB_Access theInstance = null;
     
@@ -29,6 +30,8 @@ public class DB_Access {
 
     private DB_Access() throws ClassNotFoundException, Exception {
         connPool = DB_ConnectionPool.getInstance();
+        
+        getRecipeForCategory("Breakfast");
     }
 
     public LinkedList getIngredients() throws Exception {
@@ -74,12 +77,12 @@ public class DB_Access {
     public LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients) throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
-        LinkedList<Recipe> li_recipes = new LinkedList<>();
+        li_recipes = new LinkedList<>();
         int count = 0;
         String sqlString = "";
 
       
-        sqlString = "SELECT DISTINCT r.recipe_id, r.description, r.title "
+        sqlString = "SELECT DISTINCT r.recipe_id, r.description, r.title, r.category_id "
                 + "FROM Ingredient i "
                 + "INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id)  "
                 + "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) ";
@@ -88,12 +91,12 @@ public class DB_Access {
             count++;
             if (count == 1) 
             {
-                sqlString += "WHERE UPPER(i.name) = UPPER('" + str + "') GROUP BY r.recipe_id, r.description, r.title ";
+                sqlString += "WHERE UPPER(i.name) = UPPER('" + str + "') GROUP BY r.recipe_id, r.description, r.title, r.category_id ";
             } 
             else
             {
                 sqlString += "INTERSECT "
-                        + "SELECT DISTINCT r.recipe_id, r.description, r.title "
+                        + "SELECT DISTINCT r.recipe_id, r.description, r.title, r.category_id "
                         + "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "
                         + "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) "
                         + "WHERE UPPER(i.name) = UPPER('" + str + "') GROUP BY r.recipe_id, r.description, r.title ";
@@ -106,8 +109,9 @@ public class DB_Access {
             String description = rs.getString("description");
             int recipe_id = rs.getInt("recipe_id");
             String title = rs.getString("title");
+            int category_id = rs.getInt("category_id");
 
-            Recipe recipe = new Recipe(recipe_id, description, title);
+            Recipe recipe = new Recipe(recipe_id, description, title, category_id);
             if (!li_recipes.contains(recipe)) {
                 li_recipes.add(recipe);
             }
@@ -116,4 +120,42 @@ public class DB_Access {
         connPool.releaseConnection(conn);
         return li_recipes;
     }
+    
+    
+    public LinkedList getRecipeForCategory(String category) throws Exception
+    {
+        Connection conn = connPool.getConnection(); 
+        Statement stat = conn.createStatement(); 
+        
+        li_recipes = new LinkedList<>(); 
+        String sqlString = "";
+        sqlString ="SELECT * " +
+                    "FROM recipe r INNER JOIN category c ON(r.category_id = c.category_id) " +
+                    "WHERE UPPER(c.name) = UPPER('"+category+"')"; 
+    
+    
+        ResultSet rs = stat.executeQuery(sqlString);
+        
+        while (rs.next()) {
+            String description = rs.getString("description");
+            int recipe_id = rs.getInt("recipe_id");
+            String title = rs.getString("title");
+            int category_id = rs.getInt("category_id");
+
+            Recipe recipe = new Recipe(recipe_id, description, title, category_id);
+            if (!li_recipes.contains(recipe)) {
+                li_recipes.add(recipe);
+            }
+        }
+        
+        for (Recipe r : li_recipes) {
+            
+            System.out.println(r.getTitle());
+        }
+        
+        connPool.releaseConnection(conn);
+        return li_recipes; 
+    }
+    
+  
 }
