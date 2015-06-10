@@ -3,6 +3,10 @@ package beans;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * 
+ * @author Yvonne
+ */
 public class Recipe 
 {
     private int recipe_id;
@@ -10,6 +14,12 @@ public class Recipe
     private String title; 
     private int category_id; 
 
+    /**
+     * @param recipe_id
+     * @param description
+     * @param title
+     * @param category_id 
+     */
     public Recipe(int recipe_id, String description, String title, int category_id) {
         this.recipe_id = recipe_id;
         this.description = description;
@@ -17,44 +27,76 @@ public class Recipe
         this.category_id = category_id;
     }
 
+    /**
+     * @return 
+     */
     public int getCategory_id() {
         return category_id;
     }
 
+    /** 
+     * @param category_id 
+     */
     public void setCategory_id(int category_id) {
         this.category_id = category_id;
     }
 
+    
+    /**
+     * @return 
+     */
     public int getRecipe_id() {
         return recipe_id;
     }
 
+    /**
+     * @param recipe_id 
+     */
     public void setRecipe_id(int recipe_id) {
         this.recipe_id = recipe_id;
     }
 
+    /**
+     * @return 
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @param description 
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * @return 
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * @param title 
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * @return 
+     */
     @Override
     public int hashCode() {
         int hash = 7;
         return hash;
     }
 
+    /**
+     * @param obj
+     * @return 
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -80,14 +122,18 @@ public class Recipe
     }
 
     
-    
+    /**
+     * @return 
+     */
     @Override
     public String toString() {
         return "Recipe{" + "recipe_id=" + recipe_id + ", description=" + description + ", title=" + title + '}';
     }
     
     
-    
+    /**
+     * @return 
+     */
     public String toHTMLString()
     {
         return 
