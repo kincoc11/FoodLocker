@@ -25,8 +25,6 @@ public class Recipe
         this.category_id = category_id;
     }
 
-    
-    
     public int getRecipe_id() {
         return recipe_id;
     }
