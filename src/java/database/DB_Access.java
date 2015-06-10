@@ -9,6 +9,19 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
+ * jedes rezept + jeweilige Zutaten aus der DB entnehmen in Liste
+dann geh ich li_used_ingredients durch, schaue ob alle diese zutaten in der db-liste drin sind (evtl. mit count)
+wenn ja, speicher ich dieses rezept in die finale liste, die dann im endeffekt zurückgegeben wird.
+
+SELECT r.recipe_id, r.description, r.title, r.category_id, i.name, COUNT(i.name)
+     FROM recipe_ingredient ri INNER JOIN recipe r ON(ri.recipe_id = r.recipe_id) INNER JOIN ingredient i ON(i.ingredient_id = ri.ingredient_id)
+     WHERE r.recipe_id = 1
+     GROUP BY r.recipe_id, r.description, r.title, r.category_id, i.name;
+
+subselect mit count!!! funktioniert so nicht
+
+ */
+/**
  *
  * @author Yvonne
  */
@@ -149,7 +162,6 @@ public class DB_Access {
         }
         
         for (Recipe r : li_recipes) {
-            
             System.out.println(r.getTitle());
         }
         
