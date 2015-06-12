@@ -6,29 +6,30 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
- * jedes rezept + jeweilige Zutaten aus der DB entnehmen in Liste
-dann geh ich li_used_ingredients durch, schaue ob alle diese zutaten in der db-liste drin sind (evtl. mit count)
-wenn ja, speicher ich dieses rezept in die finale liste, die dann im endeffekt zurückgegeben wird.
-
-SELECT r.recipe_id, r.description, r.title, r.category_id, i.name, COUNT(i.name)
-     FROM recipe_ingredient ri INNER JOIN recipe r ON(ri.recipe_id = r.recipe_id) INNER JOIN ingredient i ON(i.ingredient_id = ri.ingredient_id)
-     WHERE r.recipe_id = 1
-     GROUP BY r.recipe_id, r.description, r.title, r.category_id, i.name;
-
-subselect mit count!!! funktioniert so nicht
-asdd
+ * jedes rezept + jeweilige Zutaten aus der DB entnehmen in Liste dann geh ich
+ * li_used_ingredients durch, schaue ob alle diese zutaten in der db-liste drin
+ * sind (evtl. mit count) wenn ja, speicher ich dieses rezept in die finale
+ * liste, die dann im endeffekt zurückgegeben wird.
+ *
+ * SELECT r.recipe_id, r.description, r.title, r.category_id, i.name,
+ * COUNT(i.name) FROM recipe_ingredient ri INNER JOIN recipe r ON(ri.recipe_id =
+ * r.recipe_id) INNER JOIN ingredient i ON(i.ingredient_id = ri.ingredient_id)
+ * WHERE r.recipe_id = 1 GROUP BY r.recipe_id, r.description, r.title,
+ * r.category_id, i.name;
+ *
+ * subselect mit count!!! funktioniert so nicht asdd
  */
-
-
 /**
- * Kategorie Ausgabe => Design?
- * Statement 2 => Wahrscheinlich mit Java
- * Einkaufsliste mit fehlenden Zutaten generieren => evtl. herunterladen auf Desktop
+ * Kategorie Ausgabe => Design? Statement 2 => Wahrscheinlich mit Java
+ * Einkaufsliste mit fehlenden Zutaten generieren => evtl. herunterladen auf
+ * Desktop
  */
-
 /**
  *
  * @author Yvonne
@@ -37,10 +38,10 @@ public class DB_Access {
 
     private LinkedList<Ingredient> li_ingredients;
     private DB_ConnectionPool connPool;
-    private LinkedList<Recipe> li_recipes; 
+    private LinkedList<Recipe> li_recipes;
+    private HashMap<Recipe, LinkedList<Ingredient>> recipesWithIngredients = new HashMap<>();
 
     private static DB_Access theInstance = null;
-    
 
     public static DB_Access getInstance() throws ClassNotFoundException, Exception {
         if (theInstance == null) {
@@ -51,8 +52,7 @@ public class DB_Access {
 
     private DB_Access() throws ClassNotFoundException, Exception {
         connPool = DB_ConnectionPool.getInstance();
-        
-        getRecipeForCategory("Breakfast");
+        //getRecipeForIngredientsWhereAllIngredientsAreAvailable();
     }
 
     public LinkedList getIngredients() throws Exception {
@@ -94,7 +94,6 @@ public class DB_Access {
         return false;
     }
 
-    
     public LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients) throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -102,7 +101,6 @@ public class DB_Access {
         int count = 0;
         String sqlString = "";
 
-      
         sqlString = "SELECT DISTINCT r.recipe_id, r.description, r.title, r.category_id "
                 + "FROM Ingredient i "
                 + "INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id)  "
@@ -110,12 +108,9 @@ public class DB_Access {
 
         for (String str : li_used_ingredients) {
             count++;
-            if (count == 1) 
-            {
+            if (count == 1) {
                 sqlString += "WHERE UPPER(i.name) = UPPER('" + str + "') GROUP BY r.recipe_id, r.description, r.title, r.category_id ";
-            } 
-            else
-            {
+            } else {
                 sqlString += "INTERSECT "
                         + "SELECT DISTINCT r.recipe_id, r.description, r.title, r.category_id "
                         + "FROM Ingredient i INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "
@@ -123,7 +118,6 @@ public class DB_Access {
                         + "WHERE UPPER(i.name) = UPPER('" + str + "') GROUP BY r.recipe_id, r.description, r.title ";
             }
         }
-        System.out.println(sqlString);
         ResultSet rs = stat.executeQuery(sqlString);
 
         while (rs.next()) {
@@ -141,22 +135,56 @@ public class DB_Access {
         connPool.releaseConnection(conn);
         return li_recipes;
     }
-    
-    
-    public LinkedList getRecipeForCategory(String category) throws Exception
-    {
-        Connection conn = connPool.getConnection(); 
-        Statement stat = conn.createStatement(); 
-        
-        li_recipes = new LinkedList<>(); 
+
+    public void getRecipeForIngredientsWhereAllIngredientsAreAvailable(LinkedList<String> li_used_ingredients) throws Exception {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        LinkedList<Ingredient> li_ingredientsPerRecipe = new LinkedList<>();
+        int count = 0;
         String sqlString = "";
-        sqlString ="SELECT * " +
-                    "FROM recipe r INNER JOIN category c ON(r.category_id = c.category_id) " +
-                    "WHERE UPPER(c.name) = UPPER('"+category+"')"; 
-    
-    
+
+        sqlString = "SELECT r.recipe_id, r.description, r.title, r.category_id, i.ingredient_id, i.name "
+                + "FROM Ingredient i "
+                + "INNER JOIN Recipe_ingredient ri ON (i.ingredient_id = ri.ingredient_id) "
+                + "INNER JOIN Recipe r ON (r.recipe_id = ri.recipe_id) ";
+
+        System.out.println(sqlString);
         ResultSet rs = stat.executeQuery(sqlString);
-        
+
+        while (rs.next()) {
+            String description = rs.getString("description");
+            int recipe_id = rs.getInt("recipe_id");
+            String title = rs.getString("title");
+            int category_id = rs.getInt("category_id");
+
+            int ingredient_id = rs.getInt("ingredient_id");
+            String ingredient = rs.getString("name");
+
+            Recipe r = new Recipe(recipe_id, description, title, category_id);
+            Ingredient i = new Ingredient(ingredient_id, ingredient);
+
+            li_ingredientsPerRecipe.add(i);
+            recipesWithIngredients.put(r, i);
+        }
+
+        connPool.releaseConnection(conn);
+        for (Recipe r : recipesWithIngredients.keySet()) {
+            System.out.println(r.getTitle());
+        }
+    }
+
+    public LinkedList getRecipeForCategory(String category) throws Exception {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+
+        li_recipes = new LinkedList<>();
+        String sqlString = "";
+        sqlString = "SELECT * "
+                + "FROM recipe r INNER JOIN category c ON(r.category_id = c.category_id) "
+                + "WHERE UPPER(c.name) = UPPER('" + category + "')";
+
+        ResultSet rs = stat.executeQuery(sqlString);
+
         while (rs.next()) {
             String description = rs.getString("description");
             int recipe_id = rs.getInt("recipe_id");
@@ -168,14 +196,9 @@ public class DB_Access {
                 li_recipes.add(recipe);
             }
         }
-        
-        for (Recipe r : li_recipes) {
-            System.out.println(r.getTitle());
-        }
-        
+
         connPool.releaseConnection(conn);
-        return li_recipes; 
+        return li_recipes;
     }
-    
-  
+
 }
