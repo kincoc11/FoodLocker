@@ -1,9 +1,11 @@
 package database;
 
+import beans.Category;
 import beans.Ingredient;
 import beans.Recipe;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -197,15 +199,15 @@ public class DB_Access {
         connPool.releaseConnection(conn);
         return li_ingredientsPerRecipe;
     }
-    public LinkedList getRecipeForCategory(String category) throws Exception {
+    public LinkedList<Recipe> getRecipeForCategory(int cat_id) throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
 
         li_recipes = new LinkedList<>();
         String sqlString = "";
         sqlString = "SELECT * "
-                + "FROM recipe r INNER JOIN category c ON(r.category_id = c.category_id) "
-                + "WHERE UPPER(c.name) = UPPER('" + category + "')";
+                + "FROM recipe r "
+                + "WHERE r.category_id = " + cat_id;
 
         ResultSet rs = stat.executeQuery(sqlString);
 
@@ -223,6 +225,34 @@ public class DB_Access {
 
         connPool.releaseConnection(conn);
         return li_recipes;
+    }
+    
+    public LinkedList<Category> getCategory() throws SQLException, Exception
+    {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+
+        LinkedList<Category> li_category = new LinkedList<>(); 
+        
+        String sqlString = "";
+        sqlString = "SELECT * "
+                + "FROM category "; 
+
+        ResultSet rs = stat.executeQuery(sqlString);
+
+        while (rs.next()) {
+            String name = rs.getString("name"); 
+            int category_id = rs.getInt("category_id");
+
+            Category category = new Category(name, category_id); 
+            
+            if (!li_category.contains(category)) {
+                li_category.add(category);
+            }
+        }
+
+        connPool.releaseConnection(conn);
+        return li_category;
     }
 
 }

@@ -1,5 +1,6 @@
 package Servlets;
 
+import beans.Category;
 import beans.Ingredient;
 import beans.Recipe;
 import database.DB_Access;
@@ -22,6 +23,7 @@ public class FoodLockerServlet extends HttpServlet {
     private LinkedList<String> li_input_ingredients = new LinkedList<>();
     private LinkedList<Ingredient> li_all_ingredients;
     private LinkedList<Recipe> li_recipes;
+    private LinkedList<Category> li_category; 
     DB_Access access;
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -57,9 +59,23 @@ public class FoodLockerServlet extends HttpServlet {
 
         try {
             initalizeListAllIngredients(null, request, response);
+            li_category = access.getCategory();
+            request.setAttribute("li_category", li_category);
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        if(request.getParameter("param")!= null)
+        {
+            int cat_id = Integer.parseInt(request.getParameter("param")); 
+            try { 
+                li_recipes = access.getRecipeForCategory(cat_id);
+                request.setAttribute("li_recipes", li_recipes);
+            } catch (Exception ex) {
+                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
         li_input_ingredients.clear();
 

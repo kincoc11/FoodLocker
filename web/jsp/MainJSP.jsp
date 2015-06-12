@@ -4,6 +4,7 @@
     Author     : Corinna
 --%>
 
+<%@page import="beans.Category"%>
 <%@page import="beans.Recipe"%>
 <%@page import="java.util.LinkedList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -37,12 +38,20 @@
 
     <body style="text-align: center">
         
-        <nav id="nav_style"style="background-color: #26a69a">
+        <%
+        LinkedList<Category> li_category = (LinkedList)request.getAttribute("li_category");  
+              
+        %>
+        
+        <nav id="nav_style">
             <div class="nav-wrapper">
               <ul id="nav-mobile" class="left hide-on-med-and-down">
-                <li><a href="sass.html">Sass</a></li>
-                <li><a href="components.html">Components</a></li>
-                <li><a href="javascript.html">JavaScript</a></li>
+                <li><a href="FoodLockerServlet?param=0">Breakfasts</a></li> 
+                <li><a href="FoodLockerServlet?param=1">Main Dishes</a></li>
+                <li><a href="FoodLockerServlet?param=2">Side Dishes</a></li>
+                <li><a href="FoodLockerServlet?param=3">Desserts</a></li>
+                <li><a href="FoodLockerServlet?param=4">Easter</a></li>
+                
               </ul>
             </div>
          </nav>
@@ -135,13 +144,11 @@
         <ul class="collapsible" data-collapsible="accordion">
             <% if(li_Cat0.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Breakfast</div>
+                <div class="collapsible-header" id="div_recipeHeader" >Breakfast</div>
             </li>
             <%
-                
                 for (Recipe r : li_Cat0) 
                 {
-                    
             %>
                 <li>
                 <div class="collapsible-header"><%=r.getTitle()%></div>
@@ -150,7 +157,7 @@
            
             <% if(li_Cat1.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Main Dishes</div>
+                <div class="collapsible-header" id="div_recipeHeader">Main Dishes</div>
             </li>
             <%
                 for (Recipe r : li_Cat1) 
@@ -164,7 +171,7 @@
             
             <% if(li_Cat2.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Snacks and Side Dishes</div>
+                <div class="collapsible-header" id="div_recipeHeader" >Snacks and Side Dishes</div>
             </li>
             <%
                 for (Recipe r : li_Cat2) 
@@ -178,7 +185,7 @@
             
             <% if(li_Cat3.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Desserts</div>
+                <div class="collapsible-header" id="div_recipeHeader" >Desserts</div>
             </li>
             <%
                 for (Recipe r : li_Cat3) 
@@ -192,7 +199,7 @@
             
             <% if(li_Cat4.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Easter</div>
+                <div class="collapsible-header" id="div_recipeHeader" >Easter</div>
             </li>
             <%
                 for (Recipe r : li_Cat4) 
@@ -204,19 +211,7 @@
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div>
             </li>    <%}}%>
             
-            <% if(li_Cat5.size()!=0){ %>
-            <li>
-                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Drinks</div>
-            </li>
-            <%
-                for (Recipe r : li_Cat5) 
-                {
-                    
-            %>
-                <li>
-                <div class="collapsible-header"><%=r.getTitle()%></div>
-                <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div>
-            </li>    <%}}%>
+            
         </ul>            
     </div><%}
         }
