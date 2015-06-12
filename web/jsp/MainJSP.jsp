@@ -36,6 +36,17 @@
 
 
     <body style="text-align: center">
+        
+        <nav>
+            <div class="nav-wrapper">
+              <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li><a href="sass.html">Sass</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="javascript.html">JavaScript</a></li>
+              </ul>
+            </div>
+         </nav>
+        
     <center>
         <h1>Foodlocker</h1><br/>
         <span id="error">
@@ -80,14 +91,132 @@
 
     <% if (request.getAttribute("li_recipes") != null) {%> <%
             LinkedList<Recipe> li_recipes = (LinkedList<Recipe>) request.getAttribute("li_recipes");
+            
+            LinkedList<Recipe> li_Cat0 = new LinkedList<>();
+            LinkedList<Recipe> li_Cat1 = new LinkedList<>();
+            LinkedList<Recipe> li_Cat2 = new LinkedList<>();
+            LinkedList<Recipe> li_Cat3 = new LinkedList<>();
+            LinkedList<Recipe> li_Cat4 = new LinkedList<>();
+            LinkedList<Recipe> li_Cat5 = new LinkedList<>();
+            
+            for (Recipe r : li_recipes) 
+            {
+                if(r.getCategory_id()==0)
+                {
+                    li_Cat0.add(r);
+                }
+                else if(r.getCategory_id()==1)
+                {
+                    li_Cat1.add(r);
+                }
+                else if(r.getCategory_id()==2)
+                {
+                    li_Cat2.add(r);
+                }
+                else if(r.getCategory_id()==3)
+                {
+                    li_Cat3.add(r);
+                }
+                else if(r.getCategory_id()==4)
+                {
+                    li_Cat4.add(r);
+                }
+                else if(r.getCategory_id()==4)
+                {
+                    li_Cat4.add(r);
+                }
+            }
+            
             if (!li_recipes.isEmpty()) 
             {
                 %><div style="width: 50%">
-        <br/><br/><ul class="collapsible" data-collapsible="accordion"><%
-                for (Recipe r : li_recipes) {%>
-            <li><div class="collapsible-header"><%=r.getTitle()%></div>
-                <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div></li>
-                        <%}%>
+        <br/><br/>
+      
+        <ul class="collapsible" data-collapsible="accordion">
+            <% if(li_Cat0.size()!=0){ %>
+            <li>
+                <div class="collapsible-header" id="div_recipeHeader">Breakfast</div>
+            </li>
+            <%
+                
+                for (Recipe r : li_Cat0) 
+                {
+                    
+            %>
+                <li>
+                <div class="collapsible-header"><%=r.getTitle()%></div>
+                <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div>
+            </li>    <%}}%>
+           
+            <% if(li_Cat1.size()!=0){ %>
+            <li>
+                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Main Dishes</div>
+            </li>
+            <%
+                for (Recipe r : li_Cat1) 
+                {
+                    
+            %>
+                <li>
+                <div class="collapsible-header"><%=r.getTitle()%></div>
+                <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div>
+            </li>    <%}}%>
+            
+            <% if(li_Cat2.size()!=0){ %>
+            <li>
+                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Snacks and Side Dishes</div>
+            </li>
+            <%
+                for (Recipe r : li_Cat2) 
+                {
+                    
+            %>
+                <li>
+                <div class="collapsible-header"><%=r.getTitle()%></div>
+                <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div>
+            </li>    <%}}%>
+            
+            <% if(li_Cat3.size()!=0){ %>
+            <li>
+                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Desserts</div>
+            </li>
+            <%
+                for (Recipe r : li_Cat3) 
+                {
+                    
+            %>
+                <li>
+                <div class="collapsible-header"><%=r.getTitle()%></div>
+                <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div>
+            </li>    <%}}%>
+            
+            <% if(li_Cat4.size()!=0){ %>
+            <li>
+                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Easter</div>
+            </li>
+            <%
+                for (Recipe r : li_Cat4) 
+                {
+                    
+            %>
+                <li>
+                <div class="collapsible-header"><%=r.getTitle()%></div>
+                <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div>
+            </li>    <%}}%>
+            
+            <% if(li_Cat5.size()!=0){ %>
+            <li>
+                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Drinks</div>
+            </li>
+            <%
+                for (Recipe r : li_Cat5) 
+                {
+                    
+            %>
+                <li>
+                <div class="collapsible-header"><%=r.getTitle()%></div>
+                <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%></p></div>
+            </li>    <%}}%>
         </ul>            
     </div><%}
         }
