@@ -30,4 +30,10 @@
 #div_recipeHeader
 {
     background-color: #26a69a;
+    font-weight: bold;
+}
+
+#nav_style
+{
+    background-color: #26a69a;
 }

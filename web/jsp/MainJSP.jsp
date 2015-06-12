@@ -37,7 +37,7 @@
 
     <body style="text-align: center">
         
-        <nav>
+        <nav id="nav_style"style="background-color: #26a69a">
             <div class="nav-wrapper">
               <ul id="nav-mobile" class="left hide-on-med-and-down">
                 <li><a href="sass.html">Sass</a></li>
@@ -135,7 +135,7 @@
         <ul class="collapsible" data-collapsible="accordion">
             <% if(li_Cat0.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader">Breakfast</div>
+                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Breakfast</div>
             </li>
             <%
                 
@@ -150,7 +150,7 @@
            
             <% if(li_Cat1.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Main Dishes</div>
+                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Main Dishes</div>
             </li>
             <%
                 for (Recipe r : li_Cat1) 
@@ -164,7 +164,7 @@
             
             <% if(li_Cat2.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Snacks and Side Dishes</div>
+                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Snacks and Side Dishes</div>
             </li>
             <%
                 for (Recipe r : li_Cat2) 
@@ -178,7 +178,7 @@
             
             <% if(li_Cat3.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Desserts</div>
+                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Desserts</div>
             </li>
             <%
                 for (Recipe r : li_Cat3) 
@@ -192,7 +192,7 @@
             
             <% if(li_Cat4.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Easter</div>
+                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Easter</div>
             </li>
             <%
                 for (Recipe r : li_Cat4) 
@@ -206,7 +206,7 @@
             
             <% if(li_Cat5.size()!=0){ %>
             <li>
-                <div class="collapsible-header" id="div_recipeHeader" style="color: #26a69a; font-weight: bold; font-size: 20">Drinks</div>
+                <div class="collapsible-header" id="div_recipeHeader" style=" font-weight: bold; background-color: #26a69a">Drinks</div>
             </li>
             <%
                 for (Recipe r : li_Cat5) 
