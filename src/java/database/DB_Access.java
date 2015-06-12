@@ -19,8 +19,16 @@ SELECT r.recipe_id, r.description, r.title, r.category_id, i.name, COUNT(i.name)
      GROUP BY r.recipe_id, r.description, r.title, r.category_id, i.name;
 
 subselect mit count!!! funktioniert so nicht
-
+asdd
  */
+
+
+/**
+ * Kategorie Ausgabe => Design?
+ * Statement 2 => Wahrscheinlich mit Java
+ * Einkaufsliste mit fehlenden Zutaten generieren => evtl. herunterladen auf Desktop
+ */
+
 /**
  *
  * @author Yvonne
