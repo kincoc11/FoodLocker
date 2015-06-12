@@ -110,30 +110,17 @@
             
             for (Recipe r : li_recipes) 
             {
-                if(r.getCategory_id()==0)
-                {
-                    li_Cat0.add(r);
-                }
-                else if(r.getCategory_id()==1)
-                {
-                    li_Cat1.add(r);
-                }
-                else if(r.getCategory_id()==2)
-                {
-                    li_Cat2.add(r);
-                }
-                else if(r.getCategory_id()==3)
-                {
-                    li_Cat3.add(r);
-                }
-                else if(r.getCategory_id()==4)
-                {
-                    li_Cat4.add(r);
-                }
-                else if(r.getCategory_id()==4)
-                {
-                    li_Cat4.add(r);
-                }
+                if (r.getCategory_id() == 0) {
+                        li_Cat0.add(r);
+                    } else if (r.getCategory_id() == 1) {
+                        li_Cat1.add(r);
+                    } else if (r.getCategory_id() == 2) {
+                        li_Cat2.add(r);
+                    } else if (r.getCategory_id() == 3) {
+                        li_Cat3.add(r);
+                    } else if (r.getCategory_id() == 4) {
+                        li_Cat4.add(r);
+                    }
             }
             
             if (!li_recipes.isEmpty()) 
