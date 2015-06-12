@@ -89,7 +89,12 @@ public class FoodLockerServlet extends HttpServlet {
             String ingredient = request.getParameter("txt_ingredient");
             int index = -1;
             try {
-                if (access.isIngredientAvailable(ingredient)) {
+                if(ingredient.equals("omnomnom"))
+                {
+                    li_recipes = access.getEasterEggRecipes();
+                    request.setAttribute("li_recipes", li_recipes);
+                }
+                else if (access.isIngredientAvailable(ingredient)) {
                     if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) {
                         li_input_ingredients.add(ingredient);
                         

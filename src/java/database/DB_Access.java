@@ -255,4 +255,32 @@ public class DB_Access {
         return li_category;
     }
 
+    
+    public LinkedList<Recipe> getEasterEggRecipes() throws Exception {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+
+        li_recipes = new LinkedList<>();
+        String sqlString = "";
+        sqlString = "SELECT * "
+                + "FROM recipe r "
+                + "WHERE r.recipe_id = 1";
+
+        ResultSet rs = stat.executeQuery(sqlString);
+
+        while (rs.next()) {
+            String description = rs.getString("description");
+            int recipe_id = rs.getInt("recipe_id");
+            String title = rs.getString("title");
+            int category_id = rs.getInt("category_id");
+
+            Recipe recipe = new Recipe(recipe_id, description, title, category_id);
+            if (!li_recipes.contains(recipe)) {
+                li_recipes.add(recipe);
+            }
+        }
+
+        connPool.releaseConnection(conn);
+        return li_recipes;
+    }    
 }
