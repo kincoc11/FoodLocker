@@ -92,7 +92,6 @@ public class FoodLockerServlet extends HttpServlet {
                     if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) {
                         li_input_ingredients.add(ingredient);
 
-                        System.out.println(request.getParameter("cb_include"));
                         //wenn Parameter null ist, ist die Checkbox unchecked
                         if (request.getParameter("cb_include") == null) {
                             li_recipes = access.getRecipeForIngredientsWhereAllIngredientsAreAvailable(li_input_ingredients);

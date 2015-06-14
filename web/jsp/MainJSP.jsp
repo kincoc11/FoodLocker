@@ -107,7 +107,12 @@
 
     <% if (request.getAttribute("li_recipes") != null) {%> <%
             LinkedList<Recipe> li_recipes = (LinkedList<Recipe>) request.getAttribute("li_recipes");
-            
+            if(li_recipes.isEmpty())
+            {%>
+                <h3 id="h3_error">Unfortunately no recipes were found! We're sorry!</h3>
+            <%}else
+                
+                {
             LinkedList<Recipe> li_Cat0 = new LinkedList<>();
             LinkedList<Recipe> li_Cat1 = new LinkedList<>();
             LinkedList<Recipe> li_Cat2 = new LinkedList<>();
@@ -208,7 +213,7 @@
             
         </ul>            
     </div><%}
-        }
+        }}
     %>
 
 
