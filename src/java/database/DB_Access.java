@@ -224,6 +224,27 @@ public class DB_Access {
         connPool.releaseConnection(conn);
         return li_ingredientsPerRecipe;
     }
+    
+    public LinkedList<Ingredient> getShoppingList(Recipe r, LinkedList<String> li_used_ingredients) throws Exception {
+        LinkedList<Ingredient> li_ingredientsPerRecipe = getIngredientsForRecipe(r.getTitle());
+
+        Collections.sort(li_ingredientsPerRecipe, new IngredientComparator());
+        Collections.sort(li_used_ingredients);
+
+        for(int i = 0; i<li_ingredientsPerRecipe.size(); i++)
+        {
+            for(int j = 0; j<li_used_ingredients.size(); j++)
+            {
+                if(li_ingredientsPerRecipe.get(i).getName().equals(li_used_ingredients.get(j)))
+                {
+                    li_ingredientsPerRecipe.remove(li_ingredientsPerRecipe.get(i));
+                }
+            }
+            
+        }
+
+        return li_ingredientsPerRecipe;
+    }
 
     public LinkedList<Recipe> getRecipeForCategory(int cat_id) throws Exception {
         Connection conn = connPool.getConnection();

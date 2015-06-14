@@ -3,9 +3,13 @@ package Servlets;
 import beans.Category;
 import beans.Ingredient;
 import beans.Recipe;
+import com.itextpdf.text.DocumentException;
 import database.DB_Access;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import pdf.pdfCreator;
 
 /**
  *
@@ -24,7 +29,8 @@ public class FoodLockerServlet extends HttpServlet {
     private LinkedList<Ingredient> li_all_ingredients;
     private LinkedList<Recipe> li_recipes;
     private LinkedList<Category> li_category;
-    DB_Access access;
+    private pdfCreator pdf = new pdfCreator();
+    private DB_Access access;
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -83,6 +89,7 @@ public class FoodLockerServlet extends HttpServlet {
 
         if (request.getParameter("txt_ingredient") != null) {
             String ingredient = request.getParameter("txt_ingredient");
+            HashMap<Recipe, LinkedList<Ingredient>> shoppingList = new HashMap<>();
             int index = -1;
             try {
                 if (ingredient.equals("omnomnom")) {
@@ -98,6 +105,11 @@ public class FoodLockerServlet extends HttpServlet {
 
                         } else {
                             li_recipes = access.getRecipeForIngredients(li_input_ingredients);
+                            for (Recipe r : li_recipes) {
+                                LinkedList<Ingredient> li_shoppingList = access.getShoppingList(r, li_input_ingredients);
+                                shoppingList.put(r, li_shoppingList);
+                            }
+                            request.setAttribute("shoppingList", shoppingList);
                             request.setAttribute("checkbox_checked", "checked");
                         }
                         request.setAttribute("li_recipes", li_recipes);
@@ -121,6 +133,17 @@ public class FoodLockerServlet extends HttpServlet {
                 ex.printStackTrace();
             }
         }
+        if(request.getParameter("ingredients")!=null)
+        {
+            String list = request.getParameter("ingredients");
+            try {
+                pdf.createPdf(list);
+                Desktop.getDesktop().open(new File(System.getProperty("user.home")+File.separator+"/Desktop"+File.separator+"shopping_list.pdf"));
+            } catch (DocumentException ex) {
+                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         request.setAttribute("li_input_ingredients", li_input_ingredients);
         request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
     }
