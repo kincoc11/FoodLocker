@@ -23,18 +23,15 @@ public class FoodLockerServlet extends HttpServlet {
     private LinkedList<String> li_input_ingredients = new LinkedList<>();
     private LinkedList<Ingredient> li_all_ingredients;
     private LinkedList<Recipe> li_recipes;
-    private LinkedList<Category> li_category; 
+    private LinkedList<Category> li_category;
     DB_Access access;
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         StringBuffer sb = new StringBuffer();
-        if (toDeleteIngredient == null) 
-        {
+        if (toDeleteIngredient == null) {
             li_all_ingredients = access.getIngredients();
-        }
-        else
-        {
+        } else {
             li_all_ingredients.remove(toDeleteIngredient);
         }
         sb.append("[");
@@ -61,21 +58,20 @@ public class FoodLockerServlet extends HttpServlet {
             initalizeListAllIngredients(null, request, response);
             li_category = access.getCategory();
             request.setAttribute("li_category", li_category);
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        if(request.getParameter("param")!= null)
-        {
-            int cat_id = Integer.parseInt(request.getParameter("param")); 
-            try { 
+        if (request.getParameter("param") != null) {
+            int cat_id = Integer.parseInt(request.getParameter("param"));
+            try {
                 li_recipes = access.getRecipeForCategory(cat_id);
                 request.setAttribute("li_recipes", li_recipes);
             } catch (Exception ex) {
                 Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
         li_input_ingredients.clear();
 
@@ -89,35 +85,37 @@ public class FoodLockerServlet extends HttpServlet {
             String ingredient = request.getParameter("txt_ingredient");
             int index = -1;
             try {
-                if(ingredient.equals("omnomnom"))
-                {
+                if (ingredient.equals("omnomnom")) {
                     li_recipes = access.getEasterEggRecipes();
                     request.setAttribute("li_recipes", li_recipes);
-                }
-                else if (access.isIngredientAvailable(ingredient)) {
+                } else if (access.isIngredientAvailable(ingredient)) {
                     if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) {
                         li_input_ingredients.add(ingredient);
-                        
-                        li_recipes = access.getRecipeForIngredients(li_input_ingredients);
+
+                        System.out.println(request.getParameter("cb_include"));
+                        //wenn Parameter null ist, ist die Checkbox unchecked
+                        if (request.getParameter("cb_include") == null) {
+                            li_recipes = access.getRecipeForIngredientsWhereAllIngredientsAreAvailable(li_input_ingredients);
+
+                        } else {
+                            li_recipes = access.getRecipeForIngredients(li_input_ingredients);
+                            request.setAttribute("checkbox_checked", "checked");
+                        }
                         request.setAttribute("li_recipes", li_recipes);
-                        
-                        for(int i = 0; i<li_all_ingredients.size(); i++)
-                        {
+
+                        for (int i = 0; i < li_all_ingredients.size(); i++) {
                             Ingredient ing = li_all_ingredients.get(i);
                             String name = ing.getName();
-                            if(name.equals(ingredient))
-                            {
+                            if (name.equals(ingredient)) {
                                 index = ing.getIngredient_id();
                             }
                         }
-                        
+
                         Ingredient ing = new Ingredient(index, ingredient);
                         initalizeListAllIngredients(ing, request, response);
                     }
-                }
-                else
-                {
-                    
+                } else {
+
                     request.setAttribute("error", "The ingredient you want to add is not available. We're sorry! :(");
                 }
             } catch (Exception ex) {

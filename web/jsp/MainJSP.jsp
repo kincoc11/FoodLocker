@@ -79,7 +79,14 @@
                 <label for="txt_ingredient">Ingredient</label>
                 </div>
         <div id="div_checkbox_include">
-                <input type="checkbox" id="cb_include" checked />
+            <%
+                if(request.getAttribute("checkbox_checked")!=null){
+            %>
+            <input type="checkbox" id="cb_include" name="cb_include" checked />
+                <%}else{%>
+                            <input type="checkbox" id="cb_include" name="cb_include" />
+            <%}%>
+
         <label for="cb_include">Do you want to include ingredients you did not mention?</label>
         </div>
         
