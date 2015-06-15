@@ -15,7 +15,7 @@
 <html>
     <head>
         <title>FoodLocker</title>
-<!--test-->
+<!--test2-->
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
