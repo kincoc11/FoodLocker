@@ -22,7 +22,6 @@ import pdf.PdfCreator;
 /**
  *
  * @author Corinna
- * asdfjaslödkfjdsölf
  */
 public class FoodLockerServlet extends HttpServlet {
 
