@@ -10,30 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.Map;
-
-/**
- * jedes rezept + jeweilige Zutaten aus der DB entnehmen in Liste dann geh ich
- * li_used_ingredients durch, schaue ob alle diese zutaten in der db-liste drin
- * sind (evtl. mit count) wenn ja, speicher ich dieses rezept in die finale
- * liste, die dann im endeffekt zurückgegeben wird.
- *
- * SELECT r.recipe_id, r.description, r.title, r.category_id, i.name,
- * COUNT(i.name) FROM recipe_ingredient ri INNER JOIN recipe r ON(ri.recipe_id =
- * r.recipe_id) INNER JOIN ingredient i ON(i.ingredient_id = ri.ingredient_id)
- * WHERE r.recipe_id = 1 GROUP BY r.recipe_id, r.description, r.title,
- * r.category_id, i.name;
- *
- * subselect mit count!!! funktioniert so nicht asdd
- */
-/**
- * Kategorie Ausgabe => Design? Statement 2 => Wahrscheinlich mit Java
- * Einkaufsliste mit fehlenden Zutaten generieren => evtl. herunterladen auf
- * Desktop
- */
 /**
  *
  * @author Yvonne

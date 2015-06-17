@@ -17,7 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import pdf.pdfCreator;
+import pdf.PdfCreator;
 
 /**
  *
@@ -30,7 +30,7 @@ public class FoodLockerServlet extends HttpServlet {
     private LinkedList<Ingredient> li_all_ingredients;
     private LinkedList<Recipe> li_recipes;
     private LinkedList<Category> li_category;
-    private pdfCreator pdf = new pdfCreator();
+    private PdfCreator pdf = new PdfCreator();
     private DB_Access access;
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
