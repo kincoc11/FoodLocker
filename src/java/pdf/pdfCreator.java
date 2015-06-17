@@ -28,7 +28,7 @@ public class pdfCreator {
     
 public static final String PDF = System.getProperty("user.home")+File.separator+"/Desktop"+File.separator+"shopping_list.pdf";
 
-    public Document createPdf(String ingredients) throws DocumentException, IOException 
+    public Document createPdf(String ingredients, String recipe) throws DocumentException, IOException 
     {
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(PDF));
