@@ -37,3 +37,13 @@
 {
     background-color: #26a69a;
 }
+#bt_ingredients
+{
+    background-color: #000000; 
+    color: #FFFFFF; 
+    border-bottom:  10px solid #FFFFFF;
+    border-top:  10px solid #FFFFFF; 
+    border-radius: 30%;
+    text-align: center;
+    line-height: 50%;
+}

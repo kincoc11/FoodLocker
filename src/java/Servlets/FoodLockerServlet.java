@@ -53,7 +53,8 @@ public class FoodLockerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            
+             throws ServletException, IOException {
         try {
             access = DB_Access.getInstance();
         } catch (Exception ex) {
