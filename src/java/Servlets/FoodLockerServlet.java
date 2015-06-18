@@ -133,17 +133,23 @@ public class FoodLockerServlet extends HttpServlet {
                 ex.printStackTrace();
             }
         }
-        if(request.getParameter("ingredients")!=null)
-        {
+        if (request.getParameter("ingredients") != null) {
             String list = request.getParameter("ingredients");
+            String recipeTitle = request.getParameter("recipeTitle");
+            String recipeDescription = request.getParameter("recipeDescription");
+            recipeDescription = recipeDescription.replace("<br/>", "");
+            recipeDescription = recipeDescription.replace("<b>", "");
+            recipeDescription = recipeDescription.replace("</b>", "");
+
             try {
-                pdf.createPdf(list);
-                Desktop.getDesktop().open(new File(System.getProperty("user.home")+File.separator+"/Desktop"+File.separator+"shopping_list.pdf"));
+                pdf.createPdf(list, recipeTitle, recipeDescription);
             } catch (DocumentException ex) {
-                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
+            Desktop.getDesktop().open(new File(System.getProperty("user.home") + File.separator + "/Desktop" + File.separator + "shopping_list.pdf"));
+
         }
-        
+
         request.setAttribute("li_input_ingredients", li_input_ingredients);
         request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
     }

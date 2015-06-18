@@ -15,7 +15,7 @@
 <html>
     <head>
         <title>FoodLocker</title>
-<!--test5-->
+        <!--test5-->
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -61,14 +61,7 @@
 
     <center>
         <h1>Foodlocker</h1><br/>
-        <span id="error">
-            <%                if (request.getAttribute("error") != null) {
-            %><h3 id="h3_error"><%=request.getAttribute("error")%>
-            </h3>
-            <%
-                }
-            %>        
-        </span>
+
         <div class="input-field col s6" style="width: 25%">
             <form action="FoodLockerServlet" method="POST">
                 <input id ="txt_ingredient" name ="txt_ingredient" type="text" onkeydown="
@@ -81,8 +74,7 @@
                 <label for="txt_ingredient">Ingredient</label>
         </div>
         <div id="div_checkbox_include">
-            <%
-                if (request.getAttribute("checkbox_checked") != null) {
+            <%                if (request.getAttribute("checkbox_checked") != null) {
             %>
             <input type="checkbox" id="cb_include" name="cb_include" checked />
             <%} else {%>
@@ -106,7 +98,14 @@
         </div>
     </form>
 
-
+    <span id="error">
+        <%                if (request.getAttribute("error") != null) {
+        %><h3 id="h3_error"><%=request.getAttribute("error")%>
+        </h3>
+        <%
+            }
+        %>        
+    </span>
     <% if (request.getAttribute("li_recipes") != null) {%> <%
         LinkedList<Recipe> li_recipes = (LinkedList<Recipe>) request.getAttribute("li_recipes");
         HashMap<Recipe, LinkedList<Ingredient>> shoppingList = null;
@@ -118,7 +117,6 @@
         LinkedList<Recipe> li_Cat2 = new LinkedList<>();
         LinkedList<Recipe> li_Cat3 = new LinkedList<>();
         LinkedList<Recipe> li_Cat4 = new LinkedList<>();
-        LinkedList<Recipe> li_Cat5 = new LinkedList<>();
 
         for (Recipe r : li_recipes) {
             if (r.getCategory_id() == 0) {
@@ -152,21 +150,23 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                        if (request.getAttribute("shoppingList") != null) {
-                            if (shoppingList.containsKey(r)) {
-                                LinkedList<Ingredient> ings = shoppingList.get(r);
-                                String list="";
-                                for(Ingredient i : ings)
-                                {
-                                    list+=i.getName()+";";
-                                }
-                                %><form action="FoodLockerServlet" method="POST">
-                                    <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                                    <input type="hidden" name="ingredients" value="<%=list%>" />
-                                 </form>
-<%                              
-                                }%></p></div>
-            </li>    <%}}
+                            if (request.getAttribute("shoppingList") != null) {
+                                if (shoppingList.containsKey(r)) {
+                                    LinkedList<Ingredient> ings = shoppingList.get(r);
+                                    String list = "";
+                                    for (Ingredient i : ings) {
+                                        list += i.getName() + ";";
+                                    }
+                        %><form action="FoodLockerServlet" method="POST">
+                        <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
+                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
+                        <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
+                    </form>
+                    <%
+                        }%></p></div>
+            </li>    <%}
+                    }
                 }%>
 
             <% if (li_Cat1.size() != 0) { %>
@@ -181,21 +181,23 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                        if (request.getAttribute("shoppingList") != null) {
-                            if (shoppingList.containsKey(r)) {
-                                LinkedList<Ingredient> ings = shoppingList.get(r);
-                                String list="";
-                                for(Ingredient i : ings)
-                                {
-                                    list+=i.getName()+";";
-                                }
-                                %><form action="FoodLockerServlet" method="POST">
-                                    <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                                    <input type="hidden" name="ingredients" value="<%=list%>" />
-                                 </form>
-<%                              
-                                }%></p></div>
-            </li>    <%}}
+                            if (request.getAttribute("shoppingList") != null) {
+                                if (shoppingList.containsKey(r)) {
+                                    LinkedList<Ingredient> ings = shoppingList.get(r);
+                                    String list = "";
+                                    for (Ingredient i : ings) {
+                                        list += i.getName() + ";";
+                                    }
+                        %><form action="FoodLockerServlet" method="POST">
+                        <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
+                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
+                        <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
+                    </form>
+                    <%
+                        }%></p></div>
+            </li>    <%}
+                    }
                 }%>
 
             <% if (li_Cat2.size() != 0) { %>
@@ -210,20 +212,22 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                        if (request.getAttribute("shoppingList") != null) {
-                            if (shoppingList.containsKey(r)) {
-                                LinkedList<Ingredient> ings = shoppingList.get(r);
-                                String list="";
-                                for(Ingredient i : ings)
-                                {
-                                    list+=i.getName()+";";
-                                }
-                                %><form action="FoodLockerServlet" method="POST">
-                                    <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                                    <input type="hidden" name="ingredients" value="<%=list%>" />
-                                 </form>
-<%                              
-                                }}%></p></div>
+                            if (request.getAttribute("shoppingList") != null) {
+                                if (shoppingList.containsKey(r)) {
+                                    LinkedList<Ingredient> ings = shoppingList.get(r);
+                                    String list = "";
+                                    for (Ingredient i : ings) {
+                                        list += i.getName() + ";";
+                                    }
+                        %><form action="FoodLockerServlet" method="POST">
+                        <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
+                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
+                        <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
+                    </form>
+                    <%
+                            }
+                        }%></p></div>
             </li>    <%}
                 }%>
 
@@ -239,21 +243,23 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                        if (request.getAttribute("shoppingList") != null) {
-                            if (shoppingList.containsKey(r)) {
-                                LinkedList<Ingredient> ings = shoppingList.get(r);
-                                String list="";
-                                for(Ingredient i : ings)
-                                {
-                                    list+=i.getName()+";";
-                                }
-                                %><form action="FoodLockerServlet" method="POST">
-                                    <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                                    <input type="hidden" name="ingredients" value="<%=list%>" />
-                                 </form>
-<%                              
-                                }%></p></div>
-            </li>    <%}}
+                            if (request.getAttribute("shoppingList") != null) {
+                                if (shoppingList.containsKey(r)) {
+                                    LinkedList<Ingredient> ings = shoppingList.get(r);
+                                    String list = "";
+                                    for (Ingredient i : ings) {
+                                        list += i.getName() + ";";
+                                    }
+                        %><form action="FoodLockerServlet" method="POST">
+                        <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
+                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
+                        <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
+                    </form>
+                    <%
+                        }%></p></div>
+            </li>    <%}
+                    }
                 }%>
 
             <% if (li_Cat4.size() != 0) { %>
@@ -268,21 +274,23 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                        if (request.getAttribute("shoppingList") != null) {
-                            if (shoppingList.containsKey(r)) {
-                                LinkedList<Ingredient> ings = shoppingList.get(r);
-                                String list="";
-                                for(Ingredient i : ings)
-                                {
-                                    list+=i.getName()+";";
-                                }
-                                %><form action="FoodLockerServlet" method="POST">
-                                    <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                                    <input type="hidden" name="ingredients" value="<%=list%>" />
-                                 </form>
-<%                              
-                                }%></p></div>
-            </li>    <%}}
+                            if (request.getAttribute("shoppingList") != null) {
+                                if (shoppingList.containsKey(r)) {
+                                    LinkedList<Ingredient> ings = shoppingList.get(r);
+                                    String list = "";
+                                    for (Ingredient i : ings) {
+                                        list += i.getName() + ";";
+                                    }
+                        %><form action="FoodLockerServlet" method="POST">
+                        <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
+                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
+                        <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
+                    </form>
+                    <%
+                        }%></p></div>
+            </li>    <%}
+                    }
                 }%>
 
 
