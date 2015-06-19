@@ -26,15 +26,45 @@
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         
+        <%
+            int idCount = -1; 
+            
+            %>
         <script>
 
             $(function ()
             {
+                var nameIdCount = <%=idCount%>+1;
+                var autoCompleteIngredientName =  "#txt_ingredient" + nameIdCount; 
                 var arrayIngredients = <%= this.getServletContext().getAttribute("attrIngredients")%>;
 
-                $("#txt_ingredient").autocomplete({
+                $(autoCompleteIngredientName).autocomplete({
                     source: arrayIngredients
                 });
+            });
+            
+            
+            $(function ()
+            {
+                var arrayUnit = ["kg", "ml", "dag", "tablespoon", "teaspoon"];
+                var nameIdCount = <%=idCount%>+1;
+                var autoCompleteUnitName =  "#txt_einheit" + nameIdCount; 
+               
+                    $(autoCompleteUnitName).autocomplete({
+                    source: arrayUnit
+                });
+                
+            });
+            
+            $(function ()
+            {
+                var arrayUnit = ["Breakfast", "Snacks and Side Dishes", "Main Dishes", "Desserts", "Easter"];
+                 
+               
+                    $("#txt_category").autocomplete({
+                    source: arrayUnit
+                });
+                
             });
         </script>
         
@@ -54,10 +84,10 @@
         <% 
         int anzZutaten = (Integer)request.getAttribute("countIngredientInput"); 
         int count = 0; 
-        int idCount = -1; 
+        
         String title = ""; 
         String description = ""; 
-        
+        String category = ""; 
        
         
         if(request.getParameter("txt_title")!= null) 
@@ -68,6 +98,10 @@
         { 
            description = request.getParameter("textarea");
         }
+        if(request.getParameter("txt_category")!= null) 
+        { 
+           category = request.getParameter("txt_category");
+        }
         
        %> 
         
@@ -76,11 +110,22 @@
         <form action="FoodLockerServlet" method="POST">
          <h1>Insert your own Recipe</h1><br/>
         
-         <div class="input-field col s6" style="width: 25%">
-             <input id ="txt_title" name ="txt_title" type="text" 
-                    value= <%=title%>> 
-                <label for="txt_title">Title</label>
-        </div>
+         <table style="width: 50%">
+             <tr>
+                 <td>
+                    <div class="input-field col s6" >
+                        <input id ="txt_title" name ="txt_title" type="text" 
+                               value= <%=title%>> 
+                           <label for="txt_title">Title</label>
+                    </div>
+                 </td>
+                <td>
+                    <div class="input-field col s6">
+                       <input id ="txt_category" name ="txt_category" type="text" 
+                              value= <%=category%>> 
+                          <label for="txt_category">Category</label>
+                   </div>
+                </td></tr></table>
         
         <div style="width: 50%" class="row">
               <div class="row">
@@ -99,6 +144,8 @@
                 
             while(count < anzZutaten )
             {
+                
+                
                 String menge = "";
                 String einheit = ""; 
                 String new_ingredient = ""; 
@@ -116,8 +163,8 @@
                    new_ingredient = request.getParameter("txt_ingredient"+idCount);
                 }
             
-                idCount++; 
-                
+                 
+                idCount++;
                 
             
          %>    
@@ -159,7 +206,7 @@
          <% count++; } %>
          </form>
         
-         <form action="#" method="POST">
+         <form action="FoodLockerServlet" method="POST">
              
             <button style = "width:50% " id ="bt_submitRecipe" name ="bt_submitRecipe" class="btn waves-effect waves-light" onclick="this.form.submit()">Add recipe</button>  
  

@@ -21,7 +21,7 @@ public class DB_Access {
     private DB_ConnectionPool connPool;
     private LinkedList<Recipe> li_recipes;
     private HashMap<Recipe, LinkedList<Ingredient>> recipesWithIngredients = new HashMap<>();
-
+    private int recipeCount = 0; 
     private static DB_Access theInstance = null;
 
     public static DB_Access getInstance() throws ClassNotFoundException, Exception {
@@ -322,22 +322,96 @@ public class DB_Access {
         return li_updatedIngredients;
     }
     
-    public void insertOwnRecipe(String title, String description, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
+    public void insertOwnRecipe(String title, String description, String category, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
+    {
+        String sqlString = "";
+        
+       
+        for (String str : li_toInsertIngredients) 
+        {
+            sqlString = "SELECT i.ingredient_id, " +
+                "(SELECT c.category_id FROM category c " +
+                "WHERE UPPER(name) ='"+category.toUpperCase()+"'), " +
+                "(SELECT MAX(recipe_id) FROM recipe) " +
+                "FROM ingredient i " +
+                "WHERE UPPER(name) = '"+str.toUpperCase()+"' " +
+                "GROUP BY i.ingredient_id"; 
+         
+             
+            
+            dummesResultSetWieSolliDasSchonWiederBenennen( sqlString, description, title);
+           
+        
+        }
+        
+    }
+    
+    public void dummesResultSetWieSolliDasSchonWiederBenennen( String sqlString, String description, String title) throws SQLException, Exception
+    {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        
+         ResultSet rs = stat.executeQuery(sqlString);
+
+        String insertString1 = "";
+        String insertString2 = "";
+        
+            while (rs.next()) 
+            {
+                int maxRecipeId = rs.getInt("max");
+                int categoryId = rs.getInt("category_id");
+                String ingredientId = rs.getString("ingredient_id");
+
+                if(recipeCount == 0)
+                {
+                    insertString1 = "INSERT INTO recipe( recipe_id, description, title, category_id) " +
+                                "VALUES ("+(maxRecipeId+1)+",'"+description+"','"+title+"',"+categoryId+") "; 
+                                
+                    insertString2 = "INSERT INTO recipe_ingredient(ingredient_id, recipe_id) " +
+                                "VALUES ("+ingredientId+", "+(maxRecipeId+1)+") ";
+               
+                    executeInsertStatement1(insertString1);
+                    executeInsertStatement2(insertString2);
+                    
+                }
+                else
+                {
+                    insertString2 = "INSERT INTO recipe_ingredient(ingredient_id, recipe_id) " +
+                                "VALUES ("+ingredientId+", "+(maxRecipeId)+") ";
+                    executeInsertStatement2(insertString2);
+                }
+           
+                 recipeCount++;                
+                
+                
+            }
+            
+            connPool.releaseConnection(conn);
+    }
+    
+    public void executeInsertStatement1(String sqlString) throws Exception
     {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
 
-   
-
-        String sqlString = "";
-        sqlString = "SELECT * "
-                + "FROM category ";
-
-        stat.executeQuery(sqlString);
-
-      
-
+        try{
+        stat.executeQuery(sqlString); }
+        catch(Exception ex){}
         connPool.releaseConnection(conn);
-       // return li_category;
+
+
+    }
+    public void executeInsertStatement2(String sqlString) throws Exception
+    {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+
+        try{
+        stat.executeQuery(sqlString); }
+        catch(Exception ex){}
+        
+        connPool.releaseConnection(conn);
+
+
     }
 }

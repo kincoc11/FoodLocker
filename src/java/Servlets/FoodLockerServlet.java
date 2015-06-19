@@ -35,10 +35,11 @@ public class FoodLockerServlet extends HttpServlet {
     
     private int countIngredientInput = 1; 
     private LinkedList<String> li_txt_ingredient = new LinkedList<>(); 
-    private LinkedList<Integer> li_menge = new LinkedList<>(); 
+    private LinkedList<Integer> li_txt_menge = new LinkedList<>(); 
     private LinkedList<String> li_txt_einheit = new LinkedList<>(); 
-    private int idCount;         
-            
+    private String title; 
+    private String description; 
+    private String category;       
     
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -69,13 +70,13 @@ public class FoodLockerServlet extends HttpServlet {
     public void saveInput(HttpServletRequest request, HttpServletResponse response)
     {
         
-        String title = request.getParameter("txt_title");
-        String description = request.getParameter("textarea");
-        li_menge.add(Integer.parseInt(request.getParameter("txt_menge"+idCount)));
-        li_txt_einheit.add(request.getParameter("txt_einheit"+idCount));
-        li_txt_ingredient.add(request.getParameter("txt_ingredient"+idCount));
-        idCount++; 
-        System.out.println(description);
+        title = request.getParameter("txt_title");
+        description = request.getParameter("textarea");
+        category = request.getParameter("txt_category"); 
+        li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
+        li_txt_einheit.add(request.getParameter("txt_einheit0"));
+        li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+        
        
     }
     
@@ -84,7 +85,7 @@ public class FoodLockerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int cat_id = -1;
-        idCount=0; 
+
         countIngredientInput=1; 
         request.setAttribute("countIngredientInput", countIngredientInput);
         try {
@@ -138,6 +139,17 @@ public class FoodLockerServlet extends HttpServlet {
             request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
         }
+        else if(request.getParameter("bt_submitRecipe") != null)
+        {
+            try {
+                access.insertOwnRecipe(title, description, category, li_txt_menge, li_txt_einheit, li_txt_ingredient);
+            } catch (Exception ex) {
+                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }            
+
+       //     request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+        }
+        
         if (request.getParameter("txt_ingredient") != null) {
             String ingredient = request.getParameter("txt_ingredient");
             HashMap<Recipe, LinkedList<Ingredient>> shoppingList = new HashMap<>();
