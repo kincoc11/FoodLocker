@@ -32,6 +32,7 @@ public class FoodLockerServlet extends HttpServlet {
     private PdfCreator pdf = new PdfCreator();
     private DB_Access access;
     private String pdfPath = System.getProperty("user.home") + File.separator + "/Desktop" + File.separator;
+    private int countIngredientInput = 1; 
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -52,10 +53,19 @@ public class FoodLockerServlet extends HttpServlet {
         this.getServletContext().setAttribute("attrIngredients", sb);
     }
 
+    public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+       countIngredientInput++; 
+       request.setAttribute("countIngredientInput", countIngredientInput);
+       request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int cat_id = -1;
+        countIngredientInput=1; 
+        request.setAttribute("countIngredientInput", countIngredientInput);
         try {
             access = DB_Access.getInstance();
         } catch (Exception ex) {
@@ -100,6 +110,10 @@ public class FoodLockerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        if(request.getParameter("bt_newInsertNewIngredient") != null)
+        {
+            initializeNewIngredientInput(request, response);
+        }
         if (request.getParameter("txt_ingredient") != null) {
             String ingredient = request.getParameter("txt_ingredient");
             HashMap<Recipe, LinkedList<Ingredient>> shoppingList = new HashMap<>();

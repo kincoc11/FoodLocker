@@ -58,35 +58,67 @@
                 <input id ="txt_title" name ="txt_title" type="text">
                 <label for="txt_title">Title</label>
         </div>
+        
+        <div style="width: 50%" class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="textarea" class="materialize-textarea"></textarea>
+                  <label for="textarea">Description</label>
+                </div>
+              </div>
+            </form>
+          </div>
          
          
+         <form action="FoodLockerServlet" method="POST">
+             
+         <%
+            int anzZutaten = (Integer)request.getAttribute("countIngredientInput"); 
+            int count = 0; 
+            while(count < anzZutaten )
+            {
+         %>    
+         <div style="width: 50%">
          <table border="0">
-            <tr>
+              <tr>
                 <td>
-                    <div class="input-field col s6" style="width: 25%">
+                    <div class="input-field col s6">
                     <input id ="txt_menge" name ="txt_menge" type="text">
-                    <label for="txt_title">Amount</label>
+                    <label for="txt_menge">Amount</label>
                     </div>
                     
                 </td>
                 <td>
-                    <div class="input-field col s6" style="width: 25%">
+                    <div class="input-field col s6">
+                    <input id ="txt_einheit" name ="txt_einheit" type="text">
+                    <label for="txt_einheit">Einheit</label>
+                    </div>
+                    
+                </td>
+                <td>
+                    <div class="input-field col s6">
                     <input id ="txt_ingredient" name ="txt_ingredient" type="text">
                      <label for="txt_ingredient">Ingredient</label>
                     </div>
                     
                 </td>
                 <td>
-                    <form action="#" method="POST">
-                        <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">+</button>  
-                    </form>
+                    <button id ="bt_newInsertNewIngredient" name ="bt_newInsertNewIngredient" class="btn waves-effect waves-light" onclick="this.form.submit()">+</button>  
+                   
                 </td>
             </tr>
              
          </table>
-
-         
+         </div>
+         <% count++; } %>
+         </form>
         
+         <form action="#" method="POST">
+             
+            <button style = "width:50% " id ="bt_submitRecipe" name ="bt_submitRecipe" class="btn waves-effect waves-light" onclick="this.form.submit()">Add recipe</button>  
+ 
+         </form>
     </center>
         
     </body>
