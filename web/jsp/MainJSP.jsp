@@ -15,39 +15,26 @@ asasas
 <!DOCTYPE html>
 <html>
     <head>
-        
+
         <%
-            if(request.getParameter("param") == null)
-            {
-                %><title>Food Locker</title><%
-            }
-            else if(Integer.parseInt(request.getParameter("param")) == 0)
-            {
-                %><title>Breakfast</title><%
-            }
-            else if(Integer.parseInt(request.getParameter("param")) == 1)
-            {
-                %><title>Main Dishes</title><%
-            }
-            else if(Integer.parseInt(request.getParameter("param")) == 2)
-            {
-                %><title>Side Dishes</title><%
-            }
-            else if(Integer.parseInt(request.getParameter("param")) == 3)
-            {
-                %><title>Desserts</title><%
-            }
-            else if(Integer.parseInt(request.getParameter("param")) == 4)
-            {
-                %><title>Easter</title><%
-            }
-            else
-            {
-                %><title>Food Locker</title><%
+            if (request.getParameter("param") == null) {
+        %><title>Food Locker</title><%
+        } else if (Integer.parseInt(request.getParameter("param")) == 0) {
+        %><title>Breakfast</title><%
+        } else if (Integer.parseInt(request.getParameter("param")) == 1) {
+        %><title>Main Dishes</title><%
+        } else if (Integer.parseInt(request.getParameter("param")) == 2) {
+        %><title>Side Dishes</title><%
+        } else if (Integer.parseInt(request.getParameter("param")) == 3) {
+        %><title>Desserts</title><%
+        } else if (Integer.parseInt(request.getParameter("param")) == 4) {
+        %><title>Easter</title><%
+        } else {
+        %><title>Food Locker</title><%
             }
         %>
-        
-       
+
+
         <!--test5-->
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
@@ -88,6 +75,10 @@ asasas
                     <li><a href="FoodLockerServlet?param=3">Desserts</a></li>
                     <li><a href="FoodLockerServlet?param=4">Easter</a></li>
 
+                </ul>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="FoodLockerServlet?param=5">Add Recipe</a></li>
+                    <li><a href="FoodLockerServlet?param=6">Restart</a></li>
                 </ul>
             </div>
         </nav>
@@ -301,7 +292,6 @@ asasas
             </li>
             <%
                 for (Recipe r : li_Cat4) {
-
             %>
             <li>
                 <div class="collapsible-header"><%=r.getTitle()%></div>

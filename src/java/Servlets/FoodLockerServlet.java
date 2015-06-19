@@ -8,6 +8,7 @@ import database.DB_Access;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -54,6 +55,7 @@ public class FoodLockerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int cat_id = -1;
         try {
             access = DB_Access.getInstance();
         } catch (Exception ex) {
@@ -69,18 +71,29 @@ public class FoodLockerServlet extends HttpServlet {
             ex.printStackTrace();
         }
         if (request.getParameter("param") != null) {
-            int cat_id = Integer.parseInt(request.getParameter("param"));
-            try {
-                li_recipes = access.getRecipeForCategory(cat_id);
-                request.setAttribute("li_recipes", li_recipes);
-            } catch (Exception ex) {
-                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            cat_id = Integer.parseInt(request.getParameter("param"));
+            if (cat_id >= 0 && cat_id <= 4) {
+                try {
+                    li_recipes = access.getRecipeForCategory(cat_id);
+                    request.setAttribute("li_recipes", li_recipes);
+                } catch (Exception ex) {
+                    Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (cat_id == 5) {
+                request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+            } else if (cat_id == 6) {
+                Enumeration<String> enumStr = request.getAttributeNames();
+                while (enumStr.hasMoreElements()) {
+                    request.removeAttribute(enumStr.nextElement());
+                }
             }
+           
+
         }
-
-        request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
-        li_input_ingredients.clear();
-
+         if (cat_id != 5) {
+                request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
+                li_input_ingredients.clear();
+            }
     }
 
     @Override
