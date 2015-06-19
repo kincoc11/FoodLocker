@@ -325,7 +325,7 @@ public class DB_Access {
     public void createSqlStringForOwnRecipeInsert(String title, String description, String category, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
     {
         String sqlString = "";
-        
+        System.out.println(description);
        
         for (String str : li_toInsertIngredients) 
         {
