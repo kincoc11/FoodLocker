@@ -51,62 +51,82 @@
             </div>
         </nav>
         
+        <% 
+        String title = ""; 
+        String description = ""; 
+        if(request.getParameter("txt_title")!= null) 
+        { 
+           title = request.getParameter("txt_title");
+        }
+        if(request.getParameter("textarea")!= null) 
+        { 
+           description = request.getParameter("textarea");
+        }
+       %> 
+        
+        
     <center>
+        <form action="FoodLockerServlet" method="POST">
          <h1>Insert your own Recipe</h1><br/>
         
          <div class="input-field col s6" style="width: 25%">
-                <input id ="txt_title" name ="txt_title" type="text">
+             <input id ="txt_title" name ="txt_title" type="text" 
+                    value= <%=title%>> 
                 <label for="txt_title">Title</label>
         </div>
         
         <div style="width: 50%" class="row">
-            <form class="col s12">
               <div class="row">
                 <div class="input-field col s12">
-                  <textarea id="textarea" class="materialize-textarea"></textarea>
+                  <textarea id="textarea" name ="textarea" class="materialize-textarea"><%=description%></textarea>
                   <label for="textarea">Description</label>
                 </div>
-              </div>
-            </form>
+                </div> 
           </div>
          
          
-         <form action="FoodLockerServlet" method="POST">
+         
              
          <%
             int anzZutaten = (Integer)request.getAttribute("countIngredientInput"); 
             int count = 0; 
+            int idCount = -1; 
             while(count < anzZutaten )
             {
+                idCount++; 
+            
          %>    
          <div style="width: 50%">
          <table border="0">
               <tr>
+                  
+                 
                 <td>
                     <div class="input-field col s6">
-                    <input id ="txt_menge" name ="txt_menge" type="text">
-                    <label for="txt_menge">Amount</label>
+                    <input id ="txt_menge<%=idCount%>" name ="txt_menge<%=idCount%>" type="text">
+                    <label for="txt_menge<%=idCount%>">Amount</label>
                     </div>
                     
                 </td>
                 <td>
                     <div class="input-field col s6">
-                    <input id ="txt_einheit" name ="txt_einheit" type="text">
-                    <label for="txt_einheit">Einheit</label>
+                    <input id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text">
+                    <label for="txt_einheit<%=idCount%>">Unit</label>
                     </div>
                     
                 </td>
                 <td>
                     <div class="input-field col s6">
-                    <input id ="txt_ingredient" name ="txt_ingredient" type="text">
-                     <label for="txt_ingredient">Ingredient</label>
+                    <input id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text">
+                     <label for="txt_ingredient<%=idCount%>">Ingredient</label>
                     </div>
                     
                 </td>
+                 <% if(count+1 == anzZutaten) {%>
                 <td>
                     <button id ="bt_newInsertNewIngredient" name ="bt_newInsertNewIngredient" class="btn waves-effect waves-light" onclick="this.form.submit()">+</button>  
                    
-                </td>
+                </td><%}%>
             </tr>
              
          </table>

@@ -322,7 +322,7 @@ public class DB_Access {
         return li_updatedIngredients;
     }
     
-    public void insertOwnRecipe(String title, String description, String amount, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
+    public void insertOwnRecipe(String title, String description, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
     {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();

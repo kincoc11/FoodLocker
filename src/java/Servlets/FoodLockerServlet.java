@@ -32,7 +32,14 @@ public class FoodLockerServlet extends HttpServlet {
     private PdfCreator pdf = new PdfCreator();
     private DB_Access access;
     private String pdfPath = System.getProperty("user.home") + File.separator + "/Desktop" + File.separator;
+    
     private int countIngredientInput = 1; 
+    private LinkedList<String> li_txt_ingredient = new LinkedList<>(); 
+    private LinkedList<Integer> li_menge = new LinkedList<>(); 
+    private LinkedList<String> li_txt_einheit = new LinkedList<>(); 
+    private int idCount;         
+            
+    
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -57,13 +64,27 @@ public class FoodLockerServlet extends HttpServlet {
     {
        countIngredientInput++; 
        request.setAttribute("countIngredientInput", countIngredientInput);
-       request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
     }
+    
+    public void saveInput(HttpServletRequest request, HttpServletResponse response)
+    {
+        
+        String title = request.getParameter("txt_title");
+        String description = request.getParameter("textarea");
+        li_menge.add(Integer.parseInt(request.getParameter("txt_menge"+idCount)));
+        li_txt_einheit.add(request.getParameter("txt_einheit"+idCount));
+        li_txt_ingredient.add(request.getParameter("txt_ingredient"+idCount));
+        idCount++; 
+        System.out.println(description);
+       
+    }
+    
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int cat_id = -1;
+        idCount=0; 
         countIngredientInput=1; 
         request.setAttribute("countIngredientInput", countIngredientInput);
         try {
@@ -113,6 +134,9 @@ public class FoodLockerServlet extends HttpServlet {
         if(request.getParameter("bt_newInsertNewIngredient") != null)
         {
             initializeNewIngredientInput(request, response);
+            saveInput(request, response); 
+            request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+
         }
         if (request.getParameter("txt_ingredient") != null) {
             String ingredient = request.getParameter("txt_ingredient");
