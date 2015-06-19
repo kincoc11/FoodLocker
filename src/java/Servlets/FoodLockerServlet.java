@@ -8,7 +8,6 @@ import database.DB_Access;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -31,6 +30,7 @@ public class FoodLockerServlet extends HttpServlet {
     private LinkedList<Category> li_category;
     private PdfCreator pdf = new PdfCreator();
     private DB_Access access;
+    private String pdfPath = System.getProperty("user.home") + File.separator + "/Desktop" + File.separator;
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -53,8 +53,7 @@ public class FoodLockerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            
-             throws ServletException, IOException {
+            throws ServletException, IOException {
         try {
             access = DB_Access.getInstance();
         } catch (Exception ex) {
@@ -143,11 +142,11 @@ public class FoodLockerServlet extends HttpServlet {
             recipeDescription = recipeDescription.replace("</b>", "");
 
             try {
-                pdf.createPdf(list, recipeTitle, recipeDescription);
+                String pdfPathFull = pdf.createPdf(pdfPath, list, recipeTitle, recipeDescription);
+                Desktop.getDesktop().open(new File(pdfPathFull));
             } catch (DocumentException ex) {
                 System.out.println(ex.getMessage());
             }
-            Desktop.getDesktop().open(new File(System.getProperty("user.home") + File.separator + "/Desktop" + File.separator + "shopping_list.pdf"));
 
         }
 
