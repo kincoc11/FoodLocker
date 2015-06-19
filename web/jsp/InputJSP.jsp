@@ -52,8 +52,14 @@
         </nav>
         
         <% 
+        int anzZutaten = (Integer)request.getAttribute("countIngredientInput"); 
+        int count = 0; 
+        int idCount = -1; 
         String title = ""; 
         String description = ""; 
+        
+       
+        
         if(request.getParameter("txt_title")!= null) 
         { 
            title = request.getParameter("txt_title");
@@ -62,6 +68,7 @@
         { 
            description = request.getParameter("textarea");
         }
+        
        %> 
         
         
@@ -88,12 +95,30 @@
          
              
          <%
-            int anzZutaten = (Integer)request.getAttribute("countIngredientInput"); 
-            int count = 0; 
-            int idCount = -1; 
+            
+                
             while(count < anzZutaten )
             {
+                String menge = "";
+                String einheit = ""; 
+                String new_ingredient = ""; 
+        
+                if(request.getParameter("txt_menge"+idCount)!= null) 
+                { 
+                   menge = request.getParameter("txt_menge"+idCount);
+                }
+                if(request.getParameter("txt_einheit"+idCount)!= null) 
+                { 
+                   einheit = request.getParameter("txt_einheit"+idCount);
+                }
+                if(request.getParameter("txt_ingredient"+idCount)!= null) 
+                { 
+                   new_ingredient = request.getParameter("txt_ingredient"+idCount);
+                }
+            
                 idCount++; 
+                
+                
             
          %>    
          <div style="width: 50%">
@@ -103,26 +128,26 @@
                  
                 <td>
                     <div class="input-field col s6">
-                    <input id ="txt_menge<%=idCount%>" name ="txt_menge<%=idCount%>" type="text">
+                    <input id ="txt_menge<%=idCount%>" name ="txt_menge<%=idCount%>" type="text" value = <%=menge%>>
                     <label for="txt_menge<%=idCount%>">Amount</label>
                     </div>
                     
                 </td>
                 <td>
                     <div class="input-field col s6">
-                    <input id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text">
+                    <input id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text" value = <%=einheit%>>
                     <label for="txt_einheit<%=idCount%>">Unit</label>
                     </div>
                     
                 </td>
                 <td>
                     <div class="input-field col s6">
-                    <input id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text">
+                    <input id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = <%=new_ingredient%>>
                      <label for="txt_ingredient<%=idCount%>">Ingredient</label>
                     </div>
                     
                 </td>
-                 <% if(count+1 == anzZutaten) {%>
+                 <% if(count == 0) {%>
                 <td>
                     <button id ="bt_newInsertNewIngredient" name ="bt_newInsertNewIngredient" class="btn waves-effect waves-light" onclick="this.form.submit()">+</button>  
                    
