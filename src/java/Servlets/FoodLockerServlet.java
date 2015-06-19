@@ -142,7 +142,7 @@ public class FoodLockerServlet extends HttpServlet {
         else if(request.getParameter("bt_submitRecipe") != null)
         {
             try {
-                access.insertOwnRecipe(title, description, category, li_txt_menge, li_txt_einheit, li_txt_ingredient);
+                access.createSqlStringForOwnRecipeInsert(title, description, category, li_txt_menge, li_txt_einheit, li_txt_ingredient);
             } catch (Exception ex) {
                 Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }            

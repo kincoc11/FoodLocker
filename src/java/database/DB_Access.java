@@ -322,7 +322,7 @@ public class DB_Access {
         return li_updatedIngredients;
     }
     
-    public void insertOwnRecipe(String title, String description, String category, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
+    public void createSqlStringForOwnRecipeInsert(String title, String description, String category, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
     {
         String sqlString = "";
         
@@ -337,16 +337,13 @@ public class DB_Access {
                 "WHERE UPPER(name) = '"+str.toUpperCase()+"' " +
                 "GROUP BY i.ingredient_id"; 
          
-             
-            
-            dummesResultSetWieSolliDasSchonWiederBenennen( sqlString, description, title);
+            addOwnRecipeToDatabase( sqlString, description, title);
            
-        
         }
         
     }
     
-    public void dummesResultSetWieSolliDasSchonWiederBenennen( String sqlString, String description, String title) throws SQLException, Exception
+    public void addOwnRecipeToDatabase( String sqlString, String description, String title) throws SQLException, Exception
     {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
