@@ -315,10 +315,29 @@ public class DB_Access {
             if(!str.equals(toDeleteIngredient))
             {
                 li_updatedIngredients.add(str);
-                System.out.println(str);
+         
             }
         }
         
         return li_updatedIngredients;
+    }
+    
+    public void insertOwnRecipe(String title, String description, String amount, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
+    {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+
+   
+
+        String sqlString = "";
+        sqlString = "SELECT * "
+                + "FROM category ";
+
+        stat.executeQuery(sqlString);
+
+      
+
+        connPool.releaseConnection(conn);
+       // return li_category;
     }
 }
