@@ -305,4 +305,20 @@ public class DB_Access {
         connPool.releaseConnection(conn);
         return li_recipes;
     }
+    
+    public LinkedList<String> updateIngredientList(String toDeleteIngredient, LinkedList<String> li_oldIngredients)
+    {
+        LinkedList<String> li_updatedIngredients = new LinkedList<>(); 
+        
+        for (String str : li_oldIngredients) 
+        {
+            if(!str.equals(toDeleteIngredient))
+            {
+                li_updatedIngredients.add(str);
+                System.out.println(str);
+            }
+        }
+        
+        return li_updatedIngredients;
+    }
 }
