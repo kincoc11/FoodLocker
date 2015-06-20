@@ -1,11 +1,12 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * @author Yvonne
  */
-public class Ingredient 
+public class Ingredient implements Serializable 
 {
     private int ingredient_id;
     private String name; 

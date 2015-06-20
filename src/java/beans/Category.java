@@ -1,12 +1,13 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Yvonne
  */
-public class Category 
+public class Category implements Serializable 
 {
     String cat_name; 
     int cat_id; 

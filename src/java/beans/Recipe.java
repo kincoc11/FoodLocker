@@ -1,5 +1,6 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -7,7 +8,7 @@ import java.util.logging.Logger;
  * 
  * @author Yvonne
  */
-public class Recipe 
+public class Recipe implements Serializable 
 {
     private int recipe_id;
     private String description; 
