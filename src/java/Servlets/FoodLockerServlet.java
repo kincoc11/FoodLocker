@@ -112,7 +112,15 @@ public class FoodLockerServlet extends HttpServlet {
                     Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (cat_id == 5) {
+                li_txt_menge.clear();
+                li_txt_einheit.clear(); 
+                li_txt_ingredient.clear();
+                countIngredientInput = 1; 
+                request.setAttribute("countIngredientInput", countIngredientInput);
+
                 request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+                
+                
             } else if (cat_id == 6) {
                 Enumeration<String> enumStr = request.getAttributeNames();
                 while (enumStr.hasMoreElements()) {

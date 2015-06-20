@@ -324,9 +324,26 @@ public class DB_Access {
     
     public void createSqlStringForOwnRecipeInsert(String title, String description, String category, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
     {
-        String sqlString = "";
-        System.out.println(description);
        
+        String formatedDescription = "";
+        
+        formatedDescription += "<b>Ingredients:</b><br/>";
+        
+        for (int i = 0; i<li_toInsertIngredients.size(); i++) 
+        {
+            formatedDescription += li_amount.get(i) +" ";
+            formatedDescription += li_unit.get(i)+" ";
+            formatedDescription += li_toInsertIngredients.get(i);
+            formatedDescription += "<br/>"; 
+
+        }
+        
+        formatedDescription += "<br/><b>How to:</b><br/>"+description.replace(Character.toString((char)10), "<br/>"); 
+        
+        
+        String sqlString = "";
+       
+        
         for (String str : li_toInsertIngredients) 
         {
             sqlString = "SELECT i.ingredient_id, " +
@@ -337,7 +354,7 @@ public class DB_Access {
                 "WHERE UPPER(name) = '"+str.toUpperCase()+"' " +
                 "GROUP BY i.ingredient_id"; 
          
-            addOwnRecipeToDatabase( sqlString, description, title);
+            addOwnRecipeToDatabase( sqlString, formatedDescription, title);
            
         }
         
@@ -348,7 +365,7 @@ public class DB_Access {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
         
-         ResultSet rs = stat.executeQuery(sqlString);
+        ResultSet rs = stat.executeQuery(sqlString);
 
         String insertString1 = "";
         String insertString2 = "";
