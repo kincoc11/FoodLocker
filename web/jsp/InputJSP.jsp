@@ -46,7 +46,7 @@
             
             $(function ()
             {
-                var arrayUnit = ["kg", "ml", "dag", "tablespoon", "teaspoon"];
+                var arrayUnit = ["kg", "ml", "dag", "tablespoon", "teaspoon", "piece", "package"];
                 var nameIdCount = <%=idCount%>+1;
                 var autoCompleteUnitName =  "#txt_einheit" + nameIdCount; 
                

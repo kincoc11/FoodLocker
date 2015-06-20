@@ -34,8 +34,6 @@ asasas
             }
         %>
 
-
-        <!--test5-->
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -111,8 +109,10 @@ asasas
         <div id="div_listIngredients" >
             <table>
                 <%
-                    if (request.getAttribute("li_input_ingredients") != null) {
-                        LinkedList<String> li_ingredients = (LinkedList<String>) request.getAttribute("li_input_ingredients");
+                    if (session.getAttribute("li_input_ingredients") != null) 
+                    {
+                        LinkedList<String> li_ingredients = (LinkedList<String>) session.getAttribute("li_input_ingredients");
+                        System.out.println(li_ingredients.size());
                         for (String ingredient : li_ingredients) {
                 %><tr><td id="td_ingredients"><%=ingredient%></td></tr>
                     <% }
@@ -130,8 +130,14 @@ asasas
             }
         %>        
     </span>
-    <% if (request.getAttribute("li_recipes") != null) {%> <%
-        LinkedList<Recipe> li_recipes = (LinkedList<Recipe>) request.getAttribute("li_recipes");
+    <% if (session.getAttribute("li_recipes") != null) {%> <%
+        if (request.getAttribute("surprise") != null) {%>
+    <h1 style="color:hotpink; font-size: 50px">Approved by Coki and Yvonne!</h1>
+    <a href="FoodLockerServlet?param=6" title="Back to normal mode">
+        <img src="res/surprise.jpg" height="300" width="450">
+    </a>
+    <%}
+        LinkedList<Recipe> li_recipes = (LinkedList<Recipe>) session.getAttribute("li_recipes");
         HashMap<Recipe, LinkedList<Ingredient>> shoppingList = null;
         if (li_recipes.isEmpty()) {%>
     <h3 id="h3_error">Unfortunately no recipes were found! We're sorry!</h3>
@@ -183,7 +189,7 @@ asasas
                                     }
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
                         <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
                         <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
                     </form>
@@ -321,7 +327,10 @@ asasas
     </div><%}
             }
         }
-    %>
+        if (request.getAttribute("surprise") != null) {%>
+    <audio autoplay="true" src="res/surprise.mp3">
+        <%}
+        %>
 
 
 </center>

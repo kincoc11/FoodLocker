@@ -47,3 +47,7 @@
     text-align: center;
     line-height: 50%;
 }
+
+audio { 
+   display:none;
+}
