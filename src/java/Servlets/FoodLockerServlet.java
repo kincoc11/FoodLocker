@@ -40,7 +40,7 @@ public class FoodLockerServlet extends HttpServlet {
     private String title; 
     private String description; 
     private String category;       
-    
+    private String inputRecipeError = ""; 
 
     public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -63,21 +63,117 @@ public class FoodLockerServlet extends HttpServlet {
 
     public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-       countIngredientInput++; 
-       request.setAttribute("countIngredientInput", countIngredientInput);
-    }
-    
-    public void saveInput(HttpServletRequest request, HttpServletResponse response)
-    {
+         if(request.getParameter("txt_title") != null || request.getParameter("textarea") != null
+                || request.getParameter("txt_category") != null || request.getParameter("txt_menge0") != null
+                || request.getParameter("txt_einheit0")  != null ||request.getParameter("txt_ingredient0") != null
+                || !request.getParameter("txt_title").equals("") || !request.getParameter("textarea").equals("")
+                || !request.getParameter("txt_category").equals("") || !request.getParameter("txt_menge0").equals("")
+                || !request.getParameter("txt_einheit0").equals("") || !request.getParameter("txt_ingredient0").equals(""))
+         {
+             System.out.println("test");
+              countIngredientInput++; 
+            request.setAttribute("countIngredientInput", countIngredientInput);
+         }
         
-        title = request.getParameter("txt_title");
-        description = request.getParameter("textarea");
-        category = request.getParameter("txt_category"); 
-        li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
-        li_txt_einheit.add(request.getParameter("txt_einheit0"));
-        li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+//        else if (request.getParameter("txt_menge0") != null && !request.getParameter("txt_menge0").equals("")) {
+//            try {
+//                Integer.parseInt(request.getParameter("txt_einheit0"));
+//            } catch (Exception e) {
+//                inputRecipeError = "Please enter a numeric amount";
+//                request.setAttribute("inputRecipeError", inputRecipeError);
+//                request.setAttribute("countIngredientInput", countIngredientInput);
+//                request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+//            }
+//        }
+      
+           
+            
         
        
+       
+    }
+    
+    public void saveInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        if(request.getParameter("txt_title") == null ||  request.getParameter("txt_title").equals("") )
+                
+        {
+          
+//            description = request.getParameter("textarea");
+//            category = request.getParameter("txt_category");
+//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
+//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
+//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+            inputRecipeError = "Please fill in all areas";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+
+        }
+        else if(request.getParameter("textarea") == null || request.getParameter("textarea").equals(""))
+        {
+//            title = request.getParameter("txt_title");
+//            category = request.getParameter("txt_category");
+//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
+//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
+//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+            inputRecipeError = "Please fill in all areas";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+        }
+        else if(request.getParameter("txt_category") == null || request.getParameter("txt_category").equals(""))
+        {
+//            title = request.getParameter("txt_title");
+//            description = request.getParameter("textarea");
+//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
+//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
+//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+            inputRecipeError = "Please fill in all areas";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+        }
+        else if(request.getParameter("txt_menge0") == null || request.getParameter("txt_menge0").equals(""))
+        {
+//            title = request.getParameter("txt_title");
+//            description = request.getParameter("textarea");
+//            category = request.getParameter("txt_category");
+//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
+//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+            inputRecipeError = "Please fill in all areas";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+        }
+        else if(request.getParameter("txt_einheit0")  == null ||request.getParameter("txt_einheit0").equals(""))
+        {
+//            title = request.getParameter("txt_title");
+//            description = request.getParameter("textarea");
+//            category = request.getParameter("txt_category");
+//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
+//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+            inputRecipeError = "Please fill in all areas";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+        }
+        else if(request.getParameter("txt_ingredient0") == null || request.getParameter("txt_ingredient0").equals(""))
+        {
+//            title = request.getParameter("txt_title");
+//            description = request.getParameter("textarea");
+//            category = request.getParameter("txt_category");
+//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
+//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
+            inputRecipeError = "Please fill in all areas";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+        }
+        else
+        {
+            title = request.getParameter("txt_title");
+            description = request.getParameter("textarea");
+            category = request.getParameter("txt_category");
+            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
+            li_txt_einheit.add(request.getParameter("txt_einheit0"));
+            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+        }
+
     }
     
     
@@ -142,6 +238,7 @@ public class FoodLockerServlet extends HttpServlet {
 
         if(request.getParameter("bt_newInsertNewIngredient") != null)
         {
+            
             initializeNewIngredientInput(request, response);
             saveInput(request, response); 
             request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
@@ -155,7 +252,6 @@ public class FoodLockerServlet extends HttpServlet {
                 Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }            
 
-       //     request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
         }
         
         if (request.getParameter("txt_ingredient") != null) {

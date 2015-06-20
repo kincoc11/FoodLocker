@@ -123,8 +123,8 @@ asasas
     </form>
 
     <span id="error">
-        <%                if (request.getAttribute("error") != null) {
-        %><h3 id="h3_error"><%=request.getAttribute("error")%>
+        <%                if (request.getAttribute("inputRecipeError") != null) {
+        %><h3 id="h3_error"><%=request.getAttribute("inputRecipeError")%>
         </h3>
         <%
             }

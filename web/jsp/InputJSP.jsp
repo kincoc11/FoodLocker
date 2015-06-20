@@ -111,6 +111,16 @@
         <form action="FoodLockerServlet" method="POST">
          <h1>Insert your own Recipe</h1><br/>
         
+         <span id="error">
+        <% if (request.getAttribute("error") != null) {
+        %><h3 id="h3_error"><%=request.getAttribute("error")%>
+        </h3>
+        <%
+            }
+        %>        
+    </span>
+         
+         
          <table style="width: 50%">
              <tr>
                  <td>
