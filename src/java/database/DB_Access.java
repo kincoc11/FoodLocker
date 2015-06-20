@@ -286,7 +286,7 @@ public class DB_Access {
         String sqlString = "";
         sqlString = "SELECT * "
                 + "FROM recipe r "
-                + "WHERE r.recipe_id = 1";
+                + "WHERE r.recipe_id = 1 OR r.recipe_id = 21";
 
         ResultSet rs = stat.executeQuery(sqlString);
 

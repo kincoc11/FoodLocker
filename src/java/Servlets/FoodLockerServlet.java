@@ -32,18 +32,27 @@ public class FoodLockerServlet extends HttpServlet {
     private PdfCreator pdf = new PdfCreator();
     private DB_Access access;
     private String pdfPath = System.getProperty("user.home") + File.separator + "/Desktop" + File.separator;
-    
-    private int countIngredientInput = 1; 
-    private LinkedList<String> li_txt_ingredient = new LinkedList<>(); 
-    private LinkedList<Integer> li_txt_menge = new LinkedList<>(); 
-    private LinkedList<String> li_txt_einheit = new LinkedList<>(); 
-    private String title; 
-    private String description; 
-    private String category;       
-    private String inputRecipeError = ""; 
 
-    public void initalizeListAllIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    private int countIngredientInput = 1;
+    private LinkedList<String> li_txt_ingredient = new LinkedList<>();
+    private LinkedList<Integer> li_txt_menge = new LinkedList<>();
+    private LinkedList<String> li_txt_einheit = new LinkedList<>();
+    private String title;
+    private String description;
+    private String category;
+    private String inputRecipeError = "";
 
+    /**
+     * The list of available ingredients for the drop down menu in the
+     * MainJSP.jsp is generated using a stringbuffer so it can be handled as an
+     * array in the javascript script in the jsp file.
+     *
+     * @param toDeleteIngredient
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public void initializeListOfAvailableIngredients(Ingredient toDeleteIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
         StringBuffer sb = new StringBuffer();
         if (toDeleteIngredient == null) {
             li_all_ingredients = access.getIngredients();
@@ -59,22 +68,21 @@ public class FoodLockerServlet extends HttpServlet {
         }
         sb.append("]");
         this.getServletContext().setAttribute("attrIngredients", sb);
+        
     }
 
-    public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-         if(request.getParameter("txt_title") != null || request.getParameter("textarea") != null
+    public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("txt_title") != null || request.getParameter("textarea") != null
                 || request.getParameter("txt_category") != null || request.getParameter("txt_menge0") != null
-                || request.getParameter("txt_einheit0")  != null ||request.getParameter("txt_ingredient0") != null
+                || request.getParameter("txt_einheit0") != null || request.getParameter("txt_ingredient0") != null
                 || !request.getParameter("txt_title").equals("") || !request.getParameter("textarea").equals("")
                 || !request.getParameter("txt_category").equals("") || !request.getParameter("txt_menge0").equals("")
-                || !request.getParameter("txt_einheit0").equals("") || !request.getParameter("txt_ingredient0").equals(""))
-         {
-             System.out.println("test");
-              countIngredientInput++; 
+                || !request.getParameter("txt_einheit0").equals("") || !request.getParameter("txt_ingredient0").equals("")) {
+            System.out.println("test");
+            countIngredientInput++;
             request.setAttribute("countIngredientInput", countIngredientInput);
-         }
-        
+        }
+
 //        else if (request.getParameter("txt_menge0") != null && !request.getParameter("txt_menge0").equals("")) {
 //            try {
 //                Integer.parseInt(request.getParameter("txt_einheit0"));
@@ -85,20 +93,11 @@ public class FoodLockerServlet extends HttpServlet {
 //                request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 //            }
 //        }
-      
-           
-            
-        
-       
-       
     }
-    
-    public void saveInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-        if(request.getParameter("txt_title") == null ||  request.getParameter("txt_title").equals("") )
-                
-        {
-          
+
+    public void saveInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("txt_title") == null || request.getParameter("txt_title").equals("")) {
+
 //            description = request.getParameter("textarea");
 //            category = request.getParameter("txt_category");
 //            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
@@ -108,9 +107,7 @@ public class FoodLockerServlet extends HttpServlet {
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
 
-        }
-        else if(request.getParameter("textarea") == null || request.getParameter("textarea").equals(""))
-        {
+        } else if (request.getParameter("textarea") == null || request.getParameter("textarea").equals("")) {
 //            title = request.getParameter("txt_title");
 //            category = request.getParameter("txt_category");
 //            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
@@ -119,9 +116,7 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        }
-        else if(request.getParameter("txt_category") == null || request.getParameter("txt_category").equals(""))
-        {
+        } else if (request.getParameter("txt_category") == null || request.getParameter("txt_category").equals("")) {
 //            title = request.getParameter("txt_title");
 //            description = request.getParameter("textarea");
 //            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
@@ -130,9 +125,7 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        }
-        else if(request.getParameter("txt_menge0") == null || request.getParameter("txt_menge0").equals(""))
-        {
+        } else if (request.getParameter("txt_menge0") == null || request.getParameter("txt_menge0").equals("")) {
 //            title = request.getParameter("txt_title");
 //            description = request.getParameter("textarea");
 //            category = request.getParameter("txt_category");
@@ -141,9 +134,7 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        }
-        else if(request.getParameter("txt_einheit0")  == null ||request.getParameter("txt_einheit0").equals(""))
-        {
+        } else if (request.getParameter("txt_einheit0") == null || request.getParameter("txt_einheit0").equals("")) {
 //            title = request.getParameter("txt_title");
 //            description = request.getParameter("textarea");
 //            category = request.getParameter("txt_category");
@@ -152,9 +143,7 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        }
-        else if(request.getParameter("txt_ingredient0") == null || request.getParameter("txt_ingredient0").equals(""))
-        {
+        } else if (request.getParameter("txt_ingredient0") == null || request.getParameter("txt_ingredient0").equals("")) {
 //            title = request.getParameter("txt_title");
 //            description = request.getParameter("textarea");
 //            category = request.getParameter("txt_category");
@@ -163,9 +152,7 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        }
-        else
-        {
+        } else {
             title = request.getParameter("txt_title");
             description = request.getParameter("textarea");
             category = request.getParameter("txt_category");
@@ -175,149 +162,209 @@ public class FoodLockerServlet extends HttpServlet {
         }
 
     }
-    
-    
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int cat_id = -1;
 
-        countIngredientInput=1; 
-        request.setAttribute("countIngredientInput", countIngredientInput);
-        try {
-            access = DB_Access.getInstance();
-        } catch (Exception ex) {
-            Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+    /**
+     * Deletes all attributes from both the request object and the session
+     * object.
+     *
+     * @param request
+     * @param response
+     */
+    public void restartQuery(HttpServletRequest request, HttpServletResponse response) {
+        Enumeration<String> enumAttributes = request.getAttributeNames();
+        while (enumAttributes.hasMoreElements()) {
+            request.removeAttribute(enumAttributes.nextElement());
         }
 
+        enumAttributes = request.getSession().getAttributeNames();
+        while (enumAttributes.hasMoreElements()) {
+            request.getSession().removeAttribute(enumAttributes.nextElement());
+        }
+    }
+
+    /**
+     * Reads the ingredients of a recipe, the title and the description as
+     * parameters from hidden textfields. Then the description is formatted
+     * properly. Finally a pdf file is created on the user's desktop and opened.
+     *
+     * @param request
+     * @param response
+     */
+    public void createShoppingListForRecipe(HttpServletRequest request, HttpServletResponse response) {
+        String list = request.getParameter("ingredientsOfRecipes");
+        String recipeTitle = request.getParameter("recipeTitle");
+        String recipeDescription = request.getParameter("recipeDescription");
+        recipeDescription = recipeDescription.replace("<br/>", "");
+        recipeDescription = recipeDescription.replace("<b>", "");
+        recipeDescription = recipeDescription.replace("</b>", "");
+
         try {
-            initalizeListAllIngredients(null, request, response);
+            String pdfPathFull = pdf.createPdf(pdfPath, list, recipeTitle, recipeDescription);
+            Desktop.getDesktop().open(new File(pdfPathFull));
+        } catch (DocumentException ex) {
+            System.out.println(ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    /**
+     * Firstly checks if the ingredient has the right format. 
+     * Then calls the right method for the recipe query by checking the checkbox (whether all
+     * ingredients must be included or not). Afterwards deletes the ingredient from the 
+     * source of the ingredient drop down menu in the jsp.
+     * @param ingredient
+     * @param request
+     * @param response
+     * @throws Exception 
+     */
+    public void callRightMethodForRecipeQuery(String ingredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HashMap<Recipe, LinkedList<Ingredient>> shoppingList = new HashMap<>();
+        if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) {
+            li_input_ingredients.add(ingredient);
+
+            if (request.getParameter("cb_include") == null) {
+                li_recipes = access.getRecipeForIngredientsWhereAllIngredientsAreAvailable(li_input_ingredients);
+
+            } else {
+                li_recipes = access.getRecipeForIngredients(li_input_ingredients);
+                for (Recipe r : li_recipes) {
+                    LinkedList<Ingredient> li_shoppingList = access.getShoppingList(r, li_input_ingredients);
+                    shoppingList.put(r, li_shoppingList);
+                }
+                request.setAttribute("shoppingList", shoppingList);
+                request.setAttribute("checkbox_checked", "checked");
+            }
+            request.getSession().setAttribute("li_recipes", li_recipes);
+
+            Ingredient ing = findIndexForIngredientStringAndCreateIngredientObject(ingredient);
+            initializeListOfAvailableIngredients(ing, request, response);
+        }
+    }
+
+    /**
+     * Searches in the list of all ingredients for the index so it can be deleted
+     * from the source of the drop down list in the jsp
+     * @param ingredient
+     * @return 
+     */
+    public Ingredient findIndexForIngredientStringAndCreateIngredientObject(String ingredient) {
+        int index = -1;
+        for (int i = 0; i < li_all_ingredients.size(); i++) {
+            Ingredient ing = li_all_ingredients.get(i);
+            String name = ing.getName();
+            if (name.equals(ingredient)) {
+                index = ing.getIngredient_id();
+            }
+        }
+
+        Ingredient ing = new Ingredient(index, ingredient);
+        return ing;
+    }
+    
+    public void showRecipesForSpecificCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        int cat_id = -1;
+
+        countIngredientInput = 1;
+        request.setAttribute("countIngredientInput", countIngredientInput);
+       
+
+        try {
+            initializeListOfAvailableIngredients(null, request, response);
             li_category = access.getCategory();
             request.setAttribute("li_category", li_category);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
         if (request.getParameter("param") != null) {
             cat_id = Integer.parseInt(request.getParameter("param"));
             if (cat_id >= 0 && cat_id <= 4) {
                 try {
                     li_recipes = access.getRecipeForCategory(cat_id);
-                    request.setAttribute("li_recipes", li_recipes);
+                    request.getSession().setAttribute("li_recipes", li_recipes);
                 } catch (Exception ex) {
                     Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (cat_id == 5) {
                 li_txt_menge.clear();
-                li_txt_einheit.clear(); 
+                li_txt_einheit.clear();
                 li_txt_ingredient.clear();
-                countIngredientInput = 1; 
+                countIngredientInput = 1;
                 request.setAttribute("countIngredientInput", countIngredientInput);
 
                 request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
-                
-                
+
             } else if (cat_id == 6) {
-                Enumeration<String> enumStr = request.getAttributeNames();
-                while (enumStr.hasMoreElements()) {
-                    request.removeAttribute(enumStr.nextElement());
-                }
+                restartQuery(request, response);
             }
-           
 
         }
-         if (cat_id != 5) {
-                request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
-                li_input_ingredients.clear();
-            }
+        if (cat_id != 5) {
+            // da failt no was wenn ma as fenster neu öffnet
+            li_input_ingredients.clear();
+            request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            access = DB_Access.getInstance();
+        } catch (Exception ex) {
+            Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        showRecipesForSpecificCategory(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if(request.getParameter("bt_newInsertNewIngredient") != null)
-        {
-            
+        try {
+            access = DB_Access.getInstance();
+        } catch (Exception ex) {
+            Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (request.getParameter("bt_newInsertNewIngredient") != null) {
+
             initializeNewIngredientInput(request, response);
-            saveInput(request, response); 
+            saveInput(request, response);
             request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
-        }
-        else if(request.getParameter("bt_submitRecipe") != null)
-        {
+        } else if (request.getParameter("bt_submitRecipe") != null) {
             try {
                 access.createSqlStringForOwnRecipeInsert(title, description, category, li_txt_menge, li_txt_einheit, li_txt_ingredient);
             } catch (Exception ex) {
-                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }            
-
-        }
-        
-        if (request.getParameter("txt_ingredient") != null) {
-            String ingredient = request.getParameter("txt_ingredient");
-            HashMap<Recipe, LinkedList<Ingredient>> shoppingList = new HashMap<>();
-            int index = -1;
-            try {
-                if (ingredient.equals("omnomnom")) {
-                    li_recipes = access.getEasterEggRecipes();
-                    request.setAttribute("li_recipes", li_recipes);
-                } else if (access.isIngredientAvailable(ingredient)) {
-                    if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) {
-                        li_input_ingredients.add(ingredient);
-
-                        //wenn Parameter null ist, ist die Checkbox unchecked
-                        if (request.getParameter("cb_include") == null) {
-                            li_recipes = access.getRecipeForIngredientsWhereAllIngredientsAreAvailable(li_input_ingredients);
-
-                        } else {
-                            li_recipes = access.getRecipeForIngredients(li_input_ingredients);
-                            for (Recipe r : li_recipes) {
-                                LinkedList<Ingredient> li_shoppingList = access.getShoppingList(r, li_input_ingredients);
-                                shoppingList.put(r, li_shoppingList);
-                            }
-                            request.setAttribute("shoppingList", shoppingList);
-                            request.setAttribute("checkbox_checked", "checked");
-                        }
-                        request.setAttribute("li_recipes", li_recipes);
-
-                        for (int i = 0; i < li_all_ingredients.size(); i++) {
-                            Ingredient ing = li_all_ingredients.get(i);
-                            String name = ing.getName();
-                            if (name.equals(ingredient)) {
-                                index = ing.getIngredient_id();
-                            }
-                        }
-
-                        Ingredient ing = new Ingredient(index, ingredient);
-                        initalizeListAllIngredients(ing, request, response);
-                    }
-                } else {
-
-                    request.setAttribute("error", "The ingredient you want to add is not available. We're sorry! :(");
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        if (request.getParameter("ingredients") != null) {
-            String list = request.getParameter("ingredients");
-            String recipeTitle = request.getParameter("recipeTitle");
-            String recipeDescription = request.getParameter("recipeDescription");
-            recipeDescription = recipeDescription.replace("<br/>", "");
-            recipeDescription = recipeDescription.replace("<b>", "");
-            recipeDescription = recipeDescription.replace("</b>", "");
-
-            try {
-                String pdfPathFull = pdf.createPdf(pdfPath, list, recipeTitle, recipeDescription);
-                Desktop.getDesktop().open(new File(pdfPathFull));
-            } catch (DocumentException ex) {
                 System.out.println(ex.getMessage());
             }
 
         }
 
-        request.setAttribute("li_input_ingredients", li_input_ingredients);
+        if (request.getParameter("txt_ingredient") != null) {
+            String ingredient = request.getParameter("txt_ingredient");
+
+            try {
+                if (ingredient.equals("omnomnom")) {
+                    li_recipes = access.getEasterEggRecipes();
+                    request.getSession().setAttribute("li_recipes", li_recipes);
+                    request.setAttribute("surprise", "surprise");
+                } else if (access.isIngredientAvailable(ingredient)) {
+                    callRightMethodForRecipeQuery(ingredient, request, response);
+                } else {
+                    request.setAttribute("error", "The ingredient you want to add is not available. We're sorry! :(");
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        if (request.getParameter("ingredientsOfRecipes") != null) {
+            createShoppingListForRecipe(request, response);
+        }
+
+        request.getSession().setAttribute("li_input_ingredients", li_input_ingredients);
         request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
     }
 
