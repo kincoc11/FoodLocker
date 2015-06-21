@@ -73,6 +73,23 @@ public class DB_Access {
         connPool.releaseConnection(conn);
         return false;
     }
+    
+    public boolean isCategoryAvailable(String name) throws Exception
+    {
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        String sqlString = "";
+        sqlString = "SELECT * "
+                + "FROM category WHERE UPPER(name) = UPPER('" + name + "');";
+        
+        ResultSet rs = stat.executeQuery(sqlString);
+     
+        if (rs.next() == true) {
+            return true;
+        }
+        connPool.releaseConnection(conn);
+        return false;
+    }
 
     public LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients) throws Exception {
         Connection conn = connPool.getConnection();

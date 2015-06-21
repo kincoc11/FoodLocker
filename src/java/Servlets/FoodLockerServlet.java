@@ -72,7 +72,7 @@ public class FoodLockerServlet extends HttpServlet {
 
     }
 
-    public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
 
          if (request.getParameter("txt_menge0") != null && !request.getParameter("txt_menge0").isEmpty()) {
             try {
@@ -92,7 +92,8 @@ public class FoodLockerServlet extends HttpServlet {
                 && request.getParameter("txt_einheit0") != null && request.getParameter("txt_ingredient0") != null
                 && !request.getParameter("txt_title").isEmpty() && !request.getParameter("textarea").isEmpty()
                 && !request.getParameter("txt_category").isEmpty() && !request.getParameter("txt_menge0").isEmpty()
-                && !request.getParameter("txt_einheit0").isEmpty() && !request.getParameter("txt_ingredient0").isEmpty())
+                && !request.getParameter("txt_einheit0").isEmpty() && !request.getParameter("txt_ingredient0").isEmpty()
+                && access.isIngredientAvailable(request.getParameter("txt_ingredient0"))==true)
         {
 
             countIngredientInput++;
@@ -108,10 +109,10 @@ public class FoodLockerServlet extends HttpServlet {
         request.setAttribute("isError", isError);
         request.setAttribute("countIngredientInput", countIngredientInput);
 
-//        
+        
     }
 
-    public void saveInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void saveInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         if (request.getParameter("txt_title").isEmpty()) {
 
             inputRecipeError = "Please fill in all areas";
@@ -143,7 +144,15 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        } else {
+        } 
+        else if (access.isIngredientAvailable(request.getParameter("txt_ingredient0"))==false)
+        {
+            inputRecipeError = "Please enter a valid ingredient";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+        }
+        
+        else {
             title = request.getParameter("txt_title");
             description = request.getParameter("textarea");
             category = request.getParameter("txt_category");
@@ -152,6 +161,17 @@ public class FoodLockerServlet extends HttpServlet {
             li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
         }
 
+    }
+    
+    public void checkCategory(HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        if (access.isCategoryAvailable(request.getParameter("txt_category"))==false)
+        {
+            inputRecipeError = "Please enter a valid category";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+            request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+        } 
     }
 
     /**
@@ -299,6 +319,8 @@ public class FoodLockerServlet extends HttpServlet {
         }
     }
 
+    
+  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -311,6 +333,8 @@ public class FoodLockerServlet extends HttpServlet {
         showRecipesForSpecificCategory(request, response);
     }
 
+    
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -322,13 +346,33 @@ public class FoodLockerServlet extends HttpServlet {
         }
         if (request.getParameter("bt_newInsertNewIngredient") != null) {
 
-            initializeNewIngredientInput(request, response);
-            saveInput(request, response);
+            try
+            {
+                initializeNewIngredientInput(request, response);
+            } catch (Exception ex)
+            {
+                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try
+            {
+                saveInput(request, response);
+            } catch (Exception ex)
+            {
+                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
         } else if (request.getParameter("bt_submitRecipe") != null) {
+            try
+            {
+                checkCategory(request, response);
+            } catch (Exception ex)
+            {
+                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             try {
                 access.createSqlStringForOwnRecipeInsert(title, description, category, li_txt_menge, li_txt_einheit, li_txt_ingredient);
+                request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
