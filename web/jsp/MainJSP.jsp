@@ -1,3 +1,5 @@
+
+
 <%-- 
     Document   : MainJSP
     Created on : 10.04.2015, 08:19:23
@@ -123,8 +125,8 @@ asasas
     </form>
 
     <span id="error">
-        <%                if (request.getAttribute("inputRecipeError") != null) {
-        %><h3 id="h3_error"><%=request.getAttribute("inputRecipeError")%>
+        <%                if (request.getAttribute("error") != null) {
+        %><h3 id="h3_error"><%=request.getAttribute("error")%>
         </h3>
         <%
             }

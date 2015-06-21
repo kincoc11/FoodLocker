@@ -28,7 +28,7 @@
 
         <%
             int idCount = -1;
-
+            System.out.println("InputJSP: start");
         %>
         <script>
 
@@ -151,13 +151,19 @@
 
 
             <%
-                boolean isError = (boolean) request.getAttribute("isError");
-
+                boolean isError = false;
+                if(request.getAttribute("isError")!=null)
+                {
+                    isError= (boolean) request.getAttribute("isError");
+                }
+                 
+                
                 while (count < anzZutaten)
                 {
+                    System.out.println("Input JSP: anfang while/ count "+count+" / Anz zutaten "+anzZutaten+" / idCount "+idCount);
                     if (idCount == -1 || isError == false)
                     {
-
+                        System.out.println("Input JSP: in if/ count "+count+" / Anz zutaten "+anzZutaten+" / idCount "+idCount);
                         String menge = "";
                         String einheit = "";
                         String new_ingredient = "";
@@ -165,6 +171,7 @@
                         if (request.getParameter("txt_menge" + idCount) != null)
                         {
                             menge = request.getParameter("txt_menge" + idCount);
+                            
                         }
                         if (request.getParameter("txt_einheit" + idCount) != null)
                         {
@@ -174,7 +181,7 @@
                         {
                             new_ingredient = request.getParameter("txt_ingredient" + idCount);
                         }
-
+                        System.out.println("Input JSP: <"+menge+"><"+einheit+"><"+new_ingredient+">");
                         idCount++;
 
                         if (idCount != 0)
@@ -224,6 +231,7 @@
             <%
                 }else
                             {
+                                System.out.println("Input JSP: "+count+"--");
                                 count--;
                             }
             } else
@@ -269,15 +277,14 @@
                         count++;
                     } else
                     {
+                        System.out.println("Input JSP: in else "+count);
                         idCount++;
                         //count++;
                         isError = false;
                     }
+                    System.out.println("Input JSP: ende while "+count+" / Anz zutaten "+anzZutaten+" / idCount "+idCount);
                 }%>
-        </form>
-
-
-        <form action="FoodLockerServlet" method="POST">
+       
 
             <button style = "width:50% " id ="bt_submitRecipe" name ="bt_submitRecipe" class="btn waves-effect waves-light" onclick="this.form.submit()">Add recipe</button>  
 
