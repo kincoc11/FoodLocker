@@ -41,6 +41,7 @@ public class FoodLockerServlet extends HttpServlet {
     private String description;
     private String category;
     private String inputRecipeError = "";
+    private boolean isError = false;
 
     /**
      * The list of available ingredients for the drop down menu in the
@@ -68,22 +69,27 @@ public class FoodLockerServlet extends HttpServlet {
         }
         sb.append("]");
         this.getServletContext().setAttribute("attrIngredients", sb);
-        
+
     }
 
     public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
 
-if(request.getParameter("txt_title") != null && request.getParameter("textarea") != null
+        
+        if (request.getParameter("txt_title") != null && request.getParameter("textarea") != null
                 && request.getParameter("txt_category") != null && request.getParameter("txt_menge0") != null
-                && request.getParameter("txt_einheit0")  != null &&request.getParameter("txt_ingredient0") != null
+                && request.getParameter("txt_einheit0") != null && request.getParameter("txt_ingredient0") != null
                 && !request.getParameter("txt_title").isEmpty() && !request.getParameter("textarea").isEmpty()
                 && !request.getParameter("txt_category").isEmpty() && !request.getParameter("txt_menge0").isEmpty()
                 && !request.getParameter("txt_einheit0").isEmpty() && !request.getParameter("txt_ingredient0").isEmpty()) {
-           
+
             countIngredientInput++;
-            request.setAttribute("countIngredientInput", countIngredientInput);
+            isError = false;
+        } else {
+            isError = true;
         }
+
+        request.setAttribute("isError", isError);
+        request.setAttribute("countIngredientInput", countIngredientInput);
 
 //        else if (request.getParameter("txt_menge0") != null && !request.getParameter("txt_menge0").equals("")) {
 //            try {
@@ -100,59 +106,32 @@ if(request.getParameter("txt_title") != null && request.getParameter("textarea")
     public void saveInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("txt_title").isEmpty()) {
 
-//            description = request.getParameter("textarea");
-//            category = request.getParameter("txt_category");
-//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
-//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
-//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
 
-        } else if ( request.getParameter("textarea").isEmpty()) {
-//            title = request.getParameter("txt_title");
-//            category = request.getParameter("txt_category");
-//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
-//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
-//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+        } else if (request.getParameter("textarea").isEmpty()) {
+
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
         } else if (request.getParameter("txt_category").isEmpty()) {
-//            title = request.getParameter("txt_title");
-//            description = request.getParameter("textarea");
-//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
-//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
-//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
         } else if (request.getParameter("txt_menge0").isEmpty()) {
-//            title = request.getParameter("txt_title");
-//            description = request.getParameter("textarea");
-//            category = request.getParameter("txt_category");
-//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
-//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
         } else if (request.getParameter("txt_einheit0").isEmpty()) {
-//            title = request.getParameter("txt_title");
-//            description = request.getParameter("textarea");
-//            category = request.getParameter("txt_category");
-//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
-//            li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
+
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
         } else if (request.getParameter("txt_ingredient0").isEmpty()) {
-            
-//            title = request.getParameter("txt_title");
-//            description = request.getParameter("textarea");
-//            category = request.getParameter("txt_category");
-//            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
-//            li_txt_einheit.add(request.getParameter("txt_einheit0"));
-            
+
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
@@ -213,14 +192,15 @@ if(request.getParameter("txt_title") != null && request.getParameter("textarea")
     }
 
     /**
-     * Firstly checks if the ingredient has the right format. 
-     * Then calls the right method for the recipe query by checking the checkbox (whether all
-     * ingredients must be included or not). Afterwards deletes the ingredient from the 
-     * source of the ingredient drop down menu in the jsp.
+     * Firstly checks if the ingredient has the right format. Then calls the
+     * right method for the recipe query by checking the checkbox (whether all
+     * ingredients must be included or not). Afterwards deletes the ingredient
+     * from the source of the ingredient drop down menu in the jsp.
+     *
      * @param ingredient
      * @param request
      * @param response
-     * @throws Exception 
+     * @throws Exception
      */
     public void callRightMethodForRecipeQuery(String ingredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
         HashMap<Recipe, LinkedList<Ingredient>> shoppingList = new HashMap<>();
@@ -247,10 +227,11 @@ if(request.getParameter("txt_title") != null && request.getParameter("textarea")
     }
 
     /**
-     * Searches in the list of all ingredients for the index so it can be deleted
-     * from the source of the drop down list in the jsp
+     * Searches in the list of all ingredients for the index so it can be
+     * deleted from the source of the drop down list in the jsp
+     *
      * @param ingredient
-     * @return 
+     * @return
      */
     public Ingredient findIndexForIngredientStringAndCreateIngredientObject(String ingredient) {
         int index = -1;
@@ -265,14 +246,12 @@ if(request.getParameter("txt_title") != null && request.getParameter("textarea")
         Ingredient ing = new Ingredient(index, ingredient);
         return ing;
     }
-    
-    public void showRecipesForSpecificCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+
+    public void showRecipesForSpecificCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int cat_id = -1;
 
         countIngredientInput = 1;
         request.setAttribute("countIngredientInput", countIngredientInput);
-       
 
         try {
             initializeListOfAvailableIngredients(null, request, response);
@@ -315,6 +294,7 @@ if(request.getParameter("txt_title") != null && request.getParameter("textarea")
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("isError", isError);
         try {
             access = DB_Access.getInstance();
         } catch (Exception ex) {

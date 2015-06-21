@@ -17,161 +17,171 @@
 <html>
     <head>
         <title>Insert Recipe</title>
-        
-        
+
+
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
-        
+
         <%
-            int idCount = -1; 
-            
-            %>
+            int idCount = -1;
+
+        %>
         <script>
 
             $(function ()
             {
-                var nameIdCount = <%=idCount%>+1;
-                var autoCompleteIngredientName =  "#txt_ingredient" + nameIdCount; 
+                var nameIdCount = <%=idCount%> + 1;
+                var autoCompleteIngredientName = "#txt_ingredient" + nameIdCount;
                 var arrayIngredients = <%= this.getServletContext().getAttribute("attrIngredients")%>;
 
                 $(autoCompleteIngredientName).autocomplete({
                     source: arrayIngredients
                 });
             });
-            
-            
+
+
             $(function ()
             {
                 var arrayUnit = ["kg", "ml", "dag", "tablespoon", "teaspoon", "piece", "package"];
-                var nameIdCount = <%=idCount%>+1;
-                var autoCompleteUnitName =  "#txt_einheit" + nameIdCount; 
-               
-                    $(autoCompleteUnitName).autocomplete({
+                var nameIdCount = <%=idCount%> + 1;
+                var autoCompleteUnitName = "#txt_einheit" + nameIdCount;
+
+                $(autoCompleteUnitName).autocomplete({
                     source: arrayUnit
                 });
-                
+
             });
-            
+
             $(function ()
             {
                 var arrayUnit = ["Breakfast", "Snacks and Side Dishes", "Main Dishes", "Desserts", "Easter"];
-                 
-               
-                    $("#txt_category").autocomplete({
+
+
+                $("#txt_category").autocomplete({
                     source: arrayUnit
                 });
-                
+
             });
         </script>
-        
+
     </head>
     <body style="text-align: center">
-        
-        
+
+
         <nav id="nav_style">
             <div class="nav-wrapper">
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="FoodLockerServlet?param=5">Restart</a></li>  
                     <li><a href="FoodLockerServlet">Back</a></li> 
-                       
+
                 </ul>
             </div>
         </nav>
-        
-        <% 
-        int anzZutaten = (Integer)request.getAttribute("countIngredientInput"); 
-        int count = 0; 
-        
-        String title = ""; 
-        String description = ""; 
-        String category = ""; 
-       
-        
-        if(request.getParameter("txt_title")!= null) 
-        { 
-           title = request.getParameter("txt_title");
-        }
-        if(request.getParameter("textarea")!= null) 
-        { 
-           description = request.getParameter("textarea");
-        }
-        if(request.getParameter("txt_category")!= null) 
-        { 
-           category = request.getParameter("txt_category");
-        }
-        
-       %> 
-        
-        
+
+        <%
+            int anzZutaten = (Integer) request.getAttribute("countIngredientInput");
+            int count = 0;
+
+            String title = "";
+            String description = "";
+            String category = "";
+
+            if (request.getParameter("txt_title") != null)
+            {
+                title = request.getParameter("txt_title");
+            }
+            if (request.getParameter("textarea") != null)
+            {
+                description = request.getParameter("textarea");
+            }
+            if (request.getParameter("txt_category") != null)
+            {
+                category = request.getParameter("txt_category");
+            }
+
+        %> 
+
+
     <center>
         <form action="FoodLockerServlet" method="POST">
-         <h1>Insert your own Recipe</h1><br/>
-        
-         <span id="error">
-        <% if (request.getAttribute("inputRecipeError") != null) {
-        %><h3 id="h3_error"><%=request.getAttribute("inputRecipeError")%>
-        </h3>
-        <%
-            }
-        %>        
-    </span>
-         
-         
-         <table style="width: 50%">
-             <tr>
-                 <td>
-                    <div class="input-field col s6" >
-                        <input id ="txt_title" name ="txt_title" type="text" 
-                               value= <%=title%>> 
-                           <label for="txt_title">Title</label>
+            <h1>Insert your own Recipe</h1><br/>
+
+            <span id="error">
+                <% if (request.getAttribute("inputRecipeError") != null)
+                    {
+                %><h3 id="h3_error"><%=request.getAttribute("inputRecipeError")%>
+                </h3>
+                <%
+                    }
+                %>        
+            </span>
+
+
+            <table style="width: 50%">
+                <tr>
+                    <td>
+                        <div class="input-field col s6" >
+                            <input id ="txt_title" name ="txt_title" type="text" 
+                                   value= <%=title%>> 
+                            <label for="txt_title">Title</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-field col s6">
+                            <input id ="txt_category" name ="txt_category" type="text" 
+                                   value= <%=category%>> 
+                            <label for="txt_category">Category</label>
+                        </div>
+                    </td></tr></table>
+
+            <div style="width: 50%" class="row">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="textarea" name ="textarea" class="materialize-textarea"><%=description%></textarea>
+                        <label for="textarea">Description</label>
                     </div>
-                 </td>
-                <td>
-                    <div class="input-field col s6">
-                       <input id ="txt_category" name ="txt_category" type="text" 
-                              value= <%=category%>> 
-                          <label for="txt_category">Category</label>
-                   </div>
-                </td></tr></table>
-        
-        <div style="width: 50%" class="row">
-              <div class="row">
-                <div class="input-field col s12">
-                  <textarea id="textarea" name ="textarea" class="materialize-textarea"><%=description%></textarea>
-                  <label for="textarea">Description</label>
-                </div>
                 </div> 
-          </div>
-         
-         
-         
-             
-         <%
-            
-                
-             while (count < anzZutaten) {
+            </div>
 
-                    String menge = "";
-                    String einheit = "";
-                    String new_ingredient = "";
 
-                    if (request.getParameter("txt_menge" + idCount) != null) {
-                        menge = request.getParameter("txt_menge" + idCount);
-                    }
-                    if (request.getParameter("txt_einheit" + idCount) != null) {
-                        einheit = request.getParameter("txt_einheit" + idCount);
-                    }
-                    if (request.getParameter("txt_ingredient" + idCount) != null) {
-                        new_ingredient = request.getParameter("txt_ingredient" + idCount);
-                    }
 
-                    idCount++;
 
-                    if (idCount != 0) {
+            <%
+                boolean isError = (boolean) request.getAttribute("isError");
+
+                while (count < anzZutaten)
+                {
+                    if (idCount == -1 || isError == false)
+                    {
+
+                        String menge = "";
+                        String einheit = "";
+                        String new_ingredient = "";
+
+                        if (request.getParameter("txt_menge" + idCount) != null)
+                        {
+                            menge = request.getParameter("txt_menge" + idCount);
+                        }
+                        if (request.getParameter("txt_einheit" + idCount) != null)
+                        {
+                            einheit = request.getParameter("txt_einheit" + idCount);
+                        }
+                        if (request.getParameter("txt_ingredient" + idCount) != null)
+                        {
+                            new_ingredient = request.getParameter("txt_ingredient" + idCount);
+                        }
+
+                        idCount++;
+
+                        if (idCount != 0)
+                        {
+                            if (!menge.isEmpty() && !einheit.isEmpty() && !new_ingredient.isEmpty())
+                            {
+
             %>
             <div style="width: 50%">
                 <table border="0">
@@ -199,7 +209,8 @@
                             </div>
 
                         </td>
-                        <% if (count == 0) {%>
+                        <% if (count == 0)
+                            {%>
                         <td>
                             <button readonly id ="bt_newInsertNewIngredient" name ="bt_newInsertNewIngredient" class="btn waves-effect waves-light" onclick="this.form.submit()">+</button>  
 
@@ -211,7 +222,12 @@
 
 
             <%
-            } else {
+                }else
+                            {
+                                count--;
+                            }
+            } else
+            {
             %>    
             <div style="width: 50%">
                 <table border="0">
@@ -239,7 +255,8 @@
                             </div>
 
                         </td>
-                        <% if (count == 0) {%>
+                        <% if (count == 0)
+                            {%>
                         <td>
                             <button id ="bt_newInsertNewIngredient" name ="bt_newInsertNewIngredient" class="btn waves-effect waves-light" onclick="this.form.submit()">+</button>  
 
@@ -249,17 +266,23 @@
                 </table>
             </div>
             <% }
-                 count++;
-             }%>
+                        count++;
+                    } else
+                    {
+                        idCount++;
+                        //count++;
+                        isError = false;
+                    }
+                }%>
         </form>
 
-        
-         <form action="FoodLockerServlet" method="POST">
-             
+
+        <form action="FoodLockerServlet" method="POST">
+
             <button style = "width:50% " id ="bt_submitRecipe" name ="bt_submitRecipe" class="btn waves-effect waves-light" onclick="this.form.submit()">Add recipe</button>  
- 
-         </form>
+
+        </form>
     </center>
-        
-    </body>
+
+</body>
 </html>
