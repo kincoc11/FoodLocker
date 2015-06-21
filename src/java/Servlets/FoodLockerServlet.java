@@ -74,33 +74,41 @@ public class FoodLockerServlet extends HttpServlet {
 
     public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        
-        if (request.getParameter("txt_title") != null && request.getParameter("textarea") != null
+         if (request.getParameter("txt_menge0") != null && !request.getParameter("txt_menge0").isEmpty()) {
+            try {
+                Integer.parseInt(request.getParameter("txt_menge0"));
+            } catch (Exception e) {
+                inputRecipeError = "Please enter a numeric amount";
+                request.setAttribute("inputRecipeError", inputRecipeError);
+                
+                isError = true;
+                request.setAttribute("isError", isError);
+                request.setAttribute("countIngredientInput", countIngredientInput);
+                request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+            }
+        }
+          if (request.getParameter("txt_title") != null && request.getParameter("textarea") != null
                 && request.getParameter("txt_category") != null && request.getParameter("txt_menge0") != null
                 && request.getParameter("txt_einheit0") != null && request.getParameter("txt_ingredient0") != null
                 && !request.getParameter("txt_title").isEmpty() && !request.getParameter("textarea").isEmpty()
                 && !request.getParameter("txt_category").isEmpty() && !request.getParameter("txt_menge0").isEmpty()
-                && !request.getParameter("txt_einheit0").isEmpty() && !request.getParameter("txt_ingredient0").isEmpty()) {
+                && !request.getParameter("txt_einheit0").isEmpty() && !request.getParameter("txt_ingredient0").isEmpty())
+        {
 
             countIngredientInput++;
             isError = false;
-        } else {
+        }
+       
+        
+        else
+        {
             isError = true;
         }
 
         request.setAttribute("isError", isError);
         request.setAttribute("countIngredientInput", countIngredientInput);
 
-//        else if (request.getParameter("txt_menge0") != null && !request.getParameter("txt_menge0").equals("")) {
-//            try {
-//                Integer.parseInt(request.getParameter("txt_einheit0"));
-//            } catch (Exception e) {
-//                inputRecipeError = "Please enter a numeric amount";
-//                request.setAttribute("inputRecipeError", inputRecipeError);
-//                request.setAttribute("countIngredientInput", countIngredientInput);
-//                request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
-//            }
-//        }
+//        
     }
 
     public void saveInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
