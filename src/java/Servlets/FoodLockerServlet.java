@@ -72,13 +72,15 @@ public class FoodLockerServlet extends HttpServlet {
     }
 
     public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("txt_title") != null || request.getParameter("textarea") != null
-                || request.getParameter("txt_category") != null || request.getParameter("txt_menge0") != null
-                || request.getParameter("txt_einheit0") != null || request.getParameter("txt_ingredient0") != null
-                || !request.getParameter("txt_title").equals("") || !request.getParameter("textarea").equals("")
-                || !request.getParameter("txt_category").equals("") || !request.getParameter("txt_menge0").equals("")
-                || !request.getParameter("txt_einheit0").equals("") || !request.getParameter("txt_ingredient0").equals("")) {
-            System.out.println("test");
+        
+
+if(request.getParameter("txt_title") != null && request.getParameter("textarea") != null
+                && request.getParameter("txt_category") != null && request.getParameter("txt_menge0") != null
+                && request.getParameter("txt_einheit0")  != null &&request.getParameter("txt_ingredient0") != null
+                && !request.getParameter("txt_title").isEmpty() && !request.getParameter("textarea").isEmpty()
+                && !request.getParameter("txt_category").isEmpty() && !request.getParameter("txt_menge0").isEmpty()
+                && !request.getParameter("txt_einheit0").isEmpty() && !request.getParameter("txt_ingredient0").isEmpty()) {
+           
             countIngredientInput++;
             request.setAttribute("countIngredientInput", countIngredientInput);
         }
@@ -96,7 +98,7 @@ public class FoodLockerServlet extends HttpServlet {
     }
 
     public void saveInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("txt_title") == null || request.getParameter("txt_title").equals("")) {
+        if (request.getParameter("txt_title").isEmpty()) {
 
 //            description = request.getParameter("textarea");
 //            category = request.getParameter("txt_category");
@@ -107,7 +109,7 @@ public class FoodLockerServlet extends HttpServlet {
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
 
-        } else if (request.getParameter("textarea") == null || request.getParameter("textarea").equals("")) {
+        } else if ( request.getParameter("textarea").isEmpty()) {
 //            title = request.getParameter("txt_title");
 //            category = request.getParameter("txt_category");
 //            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
@@ -116,7 +118,7 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        } else if (request.getParameter("txt_category") == null || request.getParameter("txt_category").equals("")) {
+        } else if (request.getParameter("txt_category").isEmpty()) {
 //            title = request.getParameter("txt_title");
 //            description = request.getParameter("textarea");
 //            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
@@ -125,7 +127,7 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        } else if (request.getParameter("txt_menge0") == null || request.getParameter("txt_menge0").equals("")) {
+        } else if (request.getParameter("txt_menge0").isEmpty()) {
 //            title = request.getParameter("txt_title");
 //            description = request.getParameter("textarea");
 //            category = request.getParameter("txt_category");
@@ -134,7 +136,7 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        } else if (request.getParameter("txt_einheit0") == null || request.getParameter("txt_einheit0").equals("")) {
+        } else if (request.getParameter("txt_einheit0").isEmpty()) {
 //            title = request.getParameter("txt_title");
 //            description = request.getParameter("textarea");
 //            category = request.getParameter("txt_category");
@@ -143,12 +145,14 @@ public class FoodLockerServlet extends HttpServlet {
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        } else if (request.getParameter("txt_ingredient0") == null || request.getParameter("txt_ingredient0").equals("")) {
+        } else if (request.getParameter("txt_ingredient0").isEmpty()) {
+            
 //            title = request.getParameter("txt_title");
 //            description = request.getParameter("textarea");
 //            category = request.getParameter("txt_category");
 //            li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
 //            li_txt_einheit.add(request.getParameter("txt_einheit0"));
+            
             inputRecipeError = "Please fill in all areas";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
@@ -198,14 +202,14 @@ public class FoodLockerServlet extends HttpServlet {
         recipeDescription = recipeDescription.replace("<b>", "");
         recipeDescription = recipeDescription.replace("</b>", "");
 
-        try {
-            String pdfPathFull = pdf.createPdf(pdfPath, list, recipeTitle, recipeDescription);
-            Desktop.getDesktop().open(new File(pdfPathFull));
-        } catch (DocumentException ex) {
-            System.out.println(ex.getMessage());
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
+//        try {
+//            String pdfPathFull = pdf.createPdf(pdfPath, list, recipeTitle, recipeDescription);
+//            Desktop.getDesktop().open(new File(pdfPathFull));
+//        } catch (DocumentException ex) {
+//            System.out.println(ex.getMessage());
+//        } catch (IOException ex) {
+//            System.out.println(ex.getMessage());
+//        }
     }
 
     /**

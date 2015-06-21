@@ -112,8 +112,8 @@
          <h1>Insert your own Recipe</h1><br/>
         
          <span id="error">
-        <% if (request.getAttribute("error") != null) {
-        %><h3 id="h3_error"><%=request.getAttribute("error")%>
+        <% if (request.getAttribute("inputRecipeError") != null) {
+        %><h3 id="h3_error"><%=request.getAttribute("inputRecipeError")%>
         </h3>
         <%
             }
@@ -153,69 +153,106 @@
          <%
             
                 
-            while(count < anzZutaten )
-            {
-                
-                
-                String menge = "";
-                String einheit = ""; 
-                String new_ingredient = ""; 
-        
-                if(request.getParameter("txt_menge"+idCount)!= null) 
-                { 
-                   menge = request.getParameter("txt_menge"+idCount);
-                }
-                if(request.getParameter("txt_einheit"+idCount)!= null) 
-                { 
-                   einheit = request.getParameter("txt_einheit"+idCount);
-                }
-                if(request.getParameter("txt_ingredient"+idCount)!= null) 
-                { 
-                   new_ingredient = request.getParameter("txt_ingredient"+idCount);
-                }
-            
-                 
-                idCount++;
-                
-            
-         %>    
-         <div style="width: 50%">
-         <table border="0">
-              <tr>
-                  
-                 
-                <td>
-                    <div class="input-field col s6">
-                    <input id ="txt_menge<%=idCount%>" name ="txt_menge<%=idCount%>" type="text" value = <%=menge%>>
-                    <label for="txt_menge<%=idCount%>">Amount</label>
-                    </div>
-                    
-                </td>
-                <td>
-                    <div class="input-field col s6">
-                    <input id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text" value = <%=einheit%>>
-                    <label for="txt_einheit<%=idCount%>">Unit</label>
-                    </div>
-                    
-                </td>
-                <td>
-                    <div class="input-field col s6">
-                    <input id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = <%=new_ingredient%>>
-                     <label for="txt_ingredient<%=idCount%>">Ingredient</label>
-                    </div>
-                    
-                </td>
-                 <% if(count == 0) {%>
-                <td>
-                    <button id ="bt_newInsertNewIngredient" name ="bt_newInsertNewIngredient" class="btn waves-effect waves-light" onclick="this.form.submit()">+</button>  
-                   
-                </td><%}%>
-            </tr>
-             
-         </table>
-         </div>
-         <% count++; } %>
-         </form>
+             while (count < anzZutaten) {
+
+                    String menge = "";
+                    String einheit = "";
+                    String new_ingredient = "";
+
+                    if (request.getParameter("txt_menge" + idCount) != null) {
+                        menge = request.getParameter("txt_menge" + idCount);
+                    }
+                    if (request.getParameter("txt_einheit" + idCount) != null) {
+                        einheit = request.getParameter("txt_einheit" + idCount);
+                    }
+                    if (request.getParameter("txt_ingredient" + idCount) != null) {
+                        new_ingredient = request.getParameter("txt_ingredient" + idCount);
+                    }
+
+                    idCount++;
+
+                    if (idCount != 0) {
+            %>
+            <div style="width: 50%">
+                <table border="0">
+                    <tr>
+
+
+                        <td>
+                            <div class="input-field col s6">
+                                <input readonly id ="txt_menge<%=idCount%>" name ="txt_menge<%=idCount%>" type="text" value = <%=menge%>>
+                                <label for="txt_menge<%=idCount%>">Amount</label>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="input-field col s6">
+                                <input readonly id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text" value = <%=einheit%>>
+                                <label for="txt_einheit<%=idCount%>">Unit</label>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="input-field col s6">
+                                <input readonly id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = <%=new_ingredient%>>
+                                <label for="txt_ingredient<%=idCount%>">Ingredient</label>
+                            </div>
+
+                        </td>
+                        <% if (count == 0) {%>
+                        <td>
+                            <button readonly id ="bt_newInsertNewIngredient" name ="bt_newInsertNewIngredient" class="btn waves-effect waves-light" onclick="this.form.submit()">+</button>  
+
+                        </td><%}%>
+                    </tr>
+
+                </table>
+            </div>
+
+
+            <%
+            } else {
+            %>    
+            <div style="width: 50%">
+                <table border="0">
+                    <tr>
+
+
+                        <td>
+                            <div class="input-field col s6">
+                                <input id ="txt_menge<%=idCount%>" name ="txt_menge<%=idCount%>" type="text" value = <%=menge%>>
+                                <label for="txt_menge<%=idCount%>">Amount</label>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="input-field col s6">
+                                <input id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text" value = <%=einheit%>>
+                                <label for="txt_einheit<%=idCount%>">Unit</label>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="input-field col s6">
+                                <input id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = <%=new_ingredient%>>
+                                <label for="txt_ingredient<%=idCount%>">Ingredient</label>
+                            </div>
+
+                        </td>
+                        <% if (count == 0) {%>
+                        <td>
+                            <button id ="bt_newInsertNewIngredient" name ="bt_newInsertNewIngredient" class="btn waves-effect waves-light" onclick="this.form.submit()">+</button>  
+
+                        </td><%}%>
+                    </tr>
+
+                </table>
+            </div>
+            <% }
+                 count++;
+             }%>
+        </form>
+
         
          <form action="FoodLockerServlet" method="POST">
              
