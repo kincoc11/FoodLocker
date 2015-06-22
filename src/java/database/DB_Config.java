@@ -11,7 +11,7 @@ package database;
  */
 public interface DB_Config 
 {
-  public static final String DB_NAME = "FoodLocker";
+  public static final String DB_NAME = "FoodLockerDB";
   public static final String DB_USER = "postgres"; 
   public static final String DB_PASSSWD = "postgres"; 
   public static final String DB_URL = "jdbc:postgresql://localhost/";

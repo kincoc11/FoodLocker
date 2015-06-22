@@ -17,7 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import pdf.PdfCreator;
+//import pdf.PdfCreator;
 
 /**
  *
@@ -30,7 +30,7 @@ public class FoodLockerServlet extends HttpServlet
     private LinkedList<Ingredient> li_all_ingredients;
     private LinkedList<Recipe> li_recipes;
     private LinkedList<Category> li_category;
-    private PdfCreator pdf = new PdfCreator();
+    //private PdfCreator pdf = new PdfCreator();
     private DB_Access access;
     private String pdfPath = System.getProperty("user.home") + File.separator + "/Desktop" + File.separator;
 
@@ -103,7 +103,8 @@ public class FoodLockerServlet extends HttpServlet
                 && !request.getParameter("txt_title").isEmpty() && !request.getParameter("textarea").isEmpty()
                 && !request.getParameter("txt_category").isEmpty() && !request.getParameter("txt_menge0").isEmpty()
                 && !request.getParameter("txt_einheit0").isEmpty() && !request.getParameter("txt_ingredient0").isEmpty()
-                && access.isIngredientAvailable(request.getParameter("txt_ingredient0")) == true)
+                && access.isIngredientAvailable(request.getParameter("txt_ingredient0")) == true
+                && access.isUnitAvailable(request.getParameter("txt_einheit0")) == true)
         {
 
             countIngredientInput++;
@@ -162,7 +163,13 @@ public class FoodLockerServlet extends HttpServlet
             inputRecipeError = "Please enter a valid ingredient";
             request.setAttribute("inputRecipeError", inputRecipeError);
             request.setAttribute("countIngredientInput", countIngredientInput);
-        } else
+        }
+        else if (access.isUnitAvailable(request.getParameter("txt_einheit0")) == false)
+        {
+            inputRecipeError = "Please enter a valid unit";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+        }else
         {
             title = request.getParameter("txt_title");
             description = request.getParameter("textarea");
@@ -172,6 +179,53 @@ public class FoodLockerServlet extends HttpServlet
             li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
         }
 
+    }
+    
+    public void checkCategory(HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+       
+        if (access.isCategoryAvailable(request.getParameter("txt_category")) == false)
+        {
+            inputRecipeError = "Please enter a valid category";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+            request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+
+        }
+
+    }
+    
+    public void checkTitle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        if(request.getParameter("txt_title").isEmpty())
+        {
+            inputRecipeError = "Please enter a title";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+            request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+        }
+    }
+
+    public void checkDescription(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        if(request.getParameter("textarea").isEmpty())
+        {
+            inputRecipeError = "Please enter a description";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+            request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+        }
+    }
+    
+      public void checkIngredients(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        if(li_txt_ingredient.size()==0)
+        {
+            inputRecipeError = "Please enter at least one ingredient";
+            request.setAttribute("inputRecipeError", inputRecipeError);
+            request.setAttribute("countIngredientInput", countIngredientInput);
+            request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -356,20 +410,8 @@ public class FoodLockerServlet extends HttpServlet
         showRecipesForSpecificCategory(request, response);
     }
 
-    public void checkCategory(HttpServletRequest request, HttpServletResponse response) throws Exception
-    {
-        System.out.println("FoodLockerServlet.checkCategory: start");
-        if (access.isCategoryAvailable(request.getParameter("txt_category")) == false)
-        {
-            inputRecipeError = "Please enter a valid category";
-            request.setAttribute("inputRecipeError", inputRecipeError);
-            request.setAttribute("countIngredientInput", countIngredientInput);
-            request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
-        }
-
-    }
-
+        
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
@@ -406,10 +448,13 @@ public class FoodLockerServlet extends HttpServlet
             try
             {
                 checkCategory(request, response);
+                checkTitle(request, response);
+                checkDescription(request, response);
+                checkIngredients(request, response); 
             } catch (Exception ex)
             {
                 System.out.println("FoodLockerServlet.doPost: "+ex.toString());
-//                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+
             }
             
             try {

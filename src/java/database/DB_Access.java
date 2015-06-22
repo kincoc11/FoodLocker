@@ -23,6 +23,7 @@ public class DB_Access {
     private HashMap<Recipe, LinkedList<Ingredient>> recipesWithIngredients = new HashMap<>();
     private int recipeCount = 0; 
     private static DB_Access theInstance = null;
+    private final String[] array_unit = {"kg", "ml", "dag", "tablespoon", "teaspoon", "piece", "package"}; 
 
     public static DB_Access getInstance() throws ClassNotFoundException, Exception {
         if (theInstance == null) {
@@ -72,6 +73,19 @@ public class DB_Access {
         }
         connPool.releaseConnection(conn);
         return false;
+    }
+    
+    public boolean isUnitAvailable(String unit)
+    {
+        for (int i = 0; i < array_unit.length; i++)
+        {
+            if(array_unit[i].toUpperCase().equals(unit.toUpperCase()))
+            {
+                return true; 
+            }
+            
+        }
+        return false; 
     }
     
     public boolean isCategoryAvailable(String name) throws Exception
