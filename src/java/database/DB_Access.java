@@ -36,6 +36,11 @@ public class DB_Access {
         connPool = DB_ConnectionPool.getInstance();
     }
 
+    /**
+     * Gets all ingredients from the DB and add these to a list
+     * @return
+     * @throws Exception 
+     */
     public LinkedList getIngredients() throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -60,6 +65,12 @@ public class DB_Access {
         return li_ingredients;
     }
 
+    /**
+     * checks if the given ingredient is available in the DB
+     * @param name
+     * @return
+     * @throws Exception 
+     */
     public boolean isIngredientAvailable(String name) throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -75,6 +86,11 @@ public class DB_Access {
         return false;
     }
     
+    /**
+     * checks if the given unit is available in the unit array
+     * @param unit
+     * @return 
+     */
     public boolean isUnitAvailable(String unit)
     {
         for (int i = 0; i < array_unit.length; i++)
@@ -88,6 +104,12 @@ public class DB_Access {
         return false; 
     }
     
+    /**
+     * checks if the given category is available in the DB
+     * @param name
+     * @return
+     * @throws Exception 
+     */
     public boolean isCategoryAvailable(String name) throws Exception
     {
         Connection conn = connPool.getConnection();
@@ -105,6 +127,12 @@ public class DB_Access {
         return false;
     }
 
+    /**
+     * Searches after recipes where the given ingredients are included
+     * @param li_used_ingredients
+     * @return
+     * @throws Exception 
+     */
     public LinkedList<Recipe> getRecipeForIngredients(LinkedList<String> li_used_ingredients) throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -147,6 +175,12 @@ public class DB_Access {
         return li_recipes;
     }
 
+    /**
+     * Searches after recipes where only the given ingredients are included
+     * @param li_used_ingredients
+     * @return
+     * @throws Exception 
+     */
     public LinkedList<Recipe> getRecipeForIngredientsWhereAllIngredientsAreAvailable(LinkedList<String> li_used_ingredients) throws Exception {
         Collections.sort(li_used_ingredients);
 
@@ -209,6 +243,12 @@ public class DB_Access {
         return finishedRecipes;
     }
 
+    /**
+     * Finds out which ingredients are needed for a certain recipe
+     * @param title
+     * @return
+     * @throws Exception 
+     */
     public LinkedList<Ingredient> getIngredientsForRecipe(String title) throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -254,6 +294,12 @@ public class DB_Access {
         return li_ingredientsPerRecipe;
     }
 
+    /**
+     * Searches for all recipes in a given category
+     * @param cat_id
+     * @return
+     * @throws Exception 
+     */
     public LinkedList<Recipe> getRecipeForCategory(int cat_id) throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -282,6 +328,12 @@ public class DB_Access {
         return li_recipes;
     }
 
+    /**
+     * Give back all available categories
+     * @return
+     * @throws SQLException
+     * @throws Exception 
+     */
     public LinkedList<Category> getCategory() throws SQLException, Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -309,6 +361,11 @@ public class DB_Access {
         return li_category;
     }
 
+    /**
+     * 
+     * @return
+     * @throws Exception 
+     */
     public LinkedList<Recipe> getEasterEggRecipes() throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -337,22 +394,21 @@ public class DB_Access {
         return li_recipes;
     }
     
-    public LinkedList<String> updateIngredientList(String toDeleteIngredient, LinkedList<String> li_oldIngredients)
-    {
-        LinkedList<String> li_updatedIngredients = new LinkedList<>(); 
-        
-        for (String str : li_oldIngredients) 
-        {
-            if(!str.equals(toDeleteIngredient))
-            {
-                li_updatedIngredients.add(str);
-         
-            }
-        }
-        
-        return li_updatedIngredients;
-    }
     
+
+    /**
+     * Creates an SQL String to find out the IDs for the category and the ingredient, 
+     * the highest recipeId and formats the description
+     * 
+     * @param title
+     * @param description
+     * @param category
+     * @param li_amount
+     * @param li_unit
+     * @param li_toInsertIngredients
+     * @throws SQLException
+     * @throws Exception 
+     */
     public void createSqlStringForOwnRecipeInsert(String title, String description, String category, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
     {
         String formatedDescription = "";
@@ -390,6 +446,14 @@ public class DB_Access {
         
     }
     
+    /**
+     * Create Insert Statements
+     * @param sqlString
+     * @param description
+     * @param title
+     * @throws SQLException
+     * @throws Exception 
+     */
     public void addOwnRecipeToDatabase( String sqlString, String description, String title) throws SQLException, Exception
     {
         Connection conn = connPool.getConnection();
@@ -433,6 +497,11 @@ public class DB_Access {
             connPool.releaseConnection(conn);
     }
     
+    /**
+     * 
+     * @param sqlString
+     * @throws Exception 
+     */
     public void executeInsertStatement1(String sqlString) throws Exception
     {
 
@@ -446,6 +515,12 @@ public class DB_Access {
 
 
     }
+    
+    /**
+     * 
+     * @param sqlString
+     * @throws Exception 
+     */
     public void executeInsertStatement2(String sqlString) throws Exception
     {
 

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import util.ServletUtil;
-//import pdf.PdfCreator;
+import pdf.PdfCreator;
 
 /**
  *
@@ -31,7 +31,7 @@ public class FoodLockerServlet extends HttpServlet
     private LinkedList<Ingredient> li_all_ingredients;
     private LinkedList<Recipe> li_recipes;
     private LinkedList<Category> li_category;
-    //private PdfCreator pdf = new PdfCreator();
+    private PdfCreator pdf = new PdfCreator();
     private DB_Access access;
     private String pdfPath = System.getProperty("user.home") + File.separator + "/Desktop" + File.separator;
 
@@ -79,7 +79,17 @@ public class FoodLockerServlet extends HttpServlet
 
     }
 
-    public void initializeNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception
+    /**
+     * Checks if parameters from the InputJSP are null or Empty. If they are null or Empty
+     * it forwards back to the InoutJSP with an error message
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws Exception 
+     */
+    public void checkNewIngredientInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception
     {
 
         if (request.getParameter("txt_menge0") != null && !request.getParameter("txt_menge0").isEmpty())
@@ -120,6 +130,15 @@ public class FoodLockerServlet extends HttpServlet
 
     }
 
+    /**
+     * Checks if any parameters from the InputJSP are null
+     * If not it saves the parameters into variables
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws Exception 
+     */
     public void saveInput(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception
     {
         if (request.getParameter("txt_title").isEmpty())
@@ -179,12 +198,17 @@ public class FoodLockerServlet extends HttpServlet
             li_txt_einheit.add(request.getParameter("txt_einheit0"));
             li_txt_ingredient.add(request.getParameter("txt_ingredient0"));
             
-            System.out.println("Category: "+category + " / ingredient: " +request.getParameter("txt_ingredient0"));
             
         }
 
     }
     
+    /**
+     * Checks if the category from the InputJSP is available
+     * @param request
+     * @param response
+     * @throws Exception 
+     */
     public void checkCategory(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
        String test_category = request.getParameter("txt_category"); 
@@ -220,6 +244,13 @@ public class FoodLockerServlet extends HttpServlet
 
     }
     
+    /**
+     * Checks if the title from the InputJSP is not null or empty
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void checkTitle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         if(request.getParameter("txt_title").isEmpty())
@@ -235,6 +266,13 @@ public class FoodLockerServlet extends HttpServlet
         }
     }
 
+    /**
+     * Checks if the description from the InputJSP is not null or Empty
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void checkDescription(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         if(request.getParameter("textarea").isEmpty())
@@ -250,6 +288,13 @@ public class FoodLockerServlet extends HttpServlet
         }
     }
     
+    /**
+     * Checks if at least one ingredient has been entered for the new recipe
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
       public void checkIngredients(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         if(li_txt_ingredient.size()==0)
@@ -300,14 +345,14 @@ public class FoodLockerServlet extends HttpServlet
         recipeDescription = recipeDescription.replace("<b>", "");
         recipeDescription = recipeDescription.replace("</b>", "");
 
-//        try {
-//            String pdfPathFull = pdf.createPdf(pdfPath, list, recipeTitle, recipeDescription);
-//            Desktop.getDesktop().open(new File(pdfPathFull));
-//        } catch (DocumentException ex) {
-//            System.out.println(ex.getMessage());
-//        } catch (IOException ex) {
-//            System.out.println(ex.getMessage());
-//        }
+        try {
+            String pdfPathFull = pdf.createPdf(pdfPath, list, recipeTitle, recipeDescription);
+            Desktop.getDesktop().open(new File(pdfPathFull));
+        } catch (DocumentException ex) {
+            System.out.println(ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     /**
@@ -466,7 +511,7 @@ public class FoodLockerServlet extends HttpServlet
 
             try
             {
-                initializeNewIngredientInput(request, response);
+                checkNewIngredientInput(request, response);
             } catch (Exception ex)
             {
                 Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);

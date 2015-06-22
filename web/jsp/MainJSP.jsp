@@ -1,10 +1,7 @@
-
-
 <%-- 
     Document   : MainJSP
     Created on : 10.04.2015, 08:19:23
     Author     : Corinna
-asasas
 --%>
 
 <%@page import="java.util.HashMap"%>
