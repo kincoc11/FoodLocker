@@ -187,7 +187,7 @@ public class DB_Access {
                 for (int i = 0; i < li_used_ingredients.size(); i++) {
                     inner:
                     for (int j = i; j < li_ingredients.size(); j++) {
-                        if (li_ingredients.get(j).getName().equals(li_used_ingredients.get(i))) {
+                        if (li_ingredients.get(j).getName().toUpperCase().equals(li_used_ingredients.get(i).toUpperCase())) {
                             countOfEqualIngredients++;
                             System.out.println(r.getTitle() + " - Count: " + countOfEqualIngredients);
                             if (countOfEqualIngredients == li_used_ingredients.size()) {
@@ -355,7 +355,6 @@ public class DB_Access {
     
     public void createSqlStringForOwnRecipeInsert(String title, String description, String category, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
     {
-        System.out.println("DB_Access: anfang createSQLStringForOwnRecipe");
         String formatedDescription = "";
         
         formatedDescription += "<b>Ingredients:</b><br/>";
@@ -393,8 +392,6 @@ public class DB_Access {
     
     public void addOwnRecipeToDatabase( String sqlString, String description, String title) throws SQLException, Exception
     {
-      System.out.println("DB_Access: anfang add Own recipe to database");
-
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
         
@@ -438,7 +435,6 @@ public class DB_Access {
     
     public void executeInsertStatement1(String sqlString) throws Exception
     {
-                System.out.println("DB_Access: anfang execute InsertStatement1");
 
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -452,7 +448,6 @@ public class DB_Access {
     }
     public void executeInsertStatement2(String sqlString) throws Exception
     {
-                        System.out.println("DB_Access: anfang execute InsertStatement2");
 
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
