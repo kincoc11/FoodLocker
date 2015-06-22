@@ -478,6 +478,14 @@ public class FoodLockerServlet extends HttpServlet
             {
                 Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
+            Ingredient ing = findIndexForIngredientStringAndCreateIngredientObject(request.getParameter("txt_ingredient0")); 
+            try
+            {
+                initializeListOfAvailableIngredients(ing, request, response);
+            } catch (Exception ex)
+            {
+                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
         } else if (request.getParameter("bt_submitRecipe") != null)
