@@ -160,7 +160,6 @@
                 
                 while (count < anzZutaten)
                 {
-                    System.out.println("Input JSP: anfang while/ count "+count+" / Anz zutaten "+anzZutaten+" / idCount "+idCount);
                     if (idCount == -1 || isError == false)
                     {
                         System.out.println("Input JSP: in if/ count "+count+" / Anz zutaten "+anzZutaten+" / idCount "+idCount);
@@ -181,7 +180,7 @@
                         {
                             new_ingredient = request.getParameter("txt_ingredient" + idCount);
                         }
-                        System.out.println("Input JSP: <"+menge+"><"+einheit+"><"+new_ingredient+">");
+                      
                         idCount++;
 
                         if (idCount != 0)
@@ -231,7 +230,6 @@
             <%
                 }else
                             {
-                                System.out.println("Input JSP: "+count+"--");
                                 count--;
                             }
             } else
@@ -277,12 +275,9 @@
                         count++;
                     } else
                     {
-                        System.out.println("Input JSP: in else "+count);
                         idCount++;
-                        //count++;
                         isError = false;
                     }
-                    System.out.println("Input JSP: ende while "+count+" / Anz zutaten "+anzZutaten+" / idCount "+idCount);
                 }%>
        
 
