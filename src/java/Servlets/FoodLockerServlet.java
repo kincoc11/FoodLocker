@@ -410,14 +410,18 @@ public class FoodLockerServlet extends HttpServlet
                 li_txt_einheit.clear();
                 li_txt_ingredient.clear();
                 countIngredientInput = 1;
-                request.setAttribute("countIngredientInput", countIngredientInput);
-
+                title = ""; 
+                description = ""; 
+                category=""; 
                 request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
-            } else if (cat_id == 6)
+            } 
+            
+            else if (cat_id == 6)
             {
                 restartQuery(request, response);
             }
+           
 
         }
         if (cat_id != 5)

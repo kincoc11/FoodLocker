@@ -355,7 +355,7 @@ public class DB_Access {
     
     public void createSqlStringForOwnRecipeInsert(String title, String description, String category, LinkedList<Integer> li_amount, LinkedList<String> li_unit, LinkedList<String> li_toInsertIngredients) throws SQLException, Exception
     {
-       
+        System.out.println("DB_Access: anfang createSQLStringForOwnRecipe");
         String formatedDescription = "";
         
         formatedDescription += "<b>Ingredients:</b><br/>";
@@ -373,7 +373,7 @@ public class DB_Access {
         
         
         String sqlString = "";
-       
+        recipeCount = 0; 
         
         for (String str : li_toInsertIngredients) 
         {
@@ -393,6 +393,8 @@ public class DB_Access {
     
     public void addOwnRecipeToDatabase( String sqlString, String description, String title) throws SQLException, Exception
     {
+      System.out.println("DB_Access: anfang add Own recipe to database");
+
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
         
@@ -436,6 +438,8 @@ public class DB_Access {
     
     public void executeInsertStatement1(String sqlString) throws Exception
     {
+                System.out.println("DB_Access: anfang execute InsertStatement1");
+
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
 
@@ -448,6 +452,8 @@ public class DB_Access {
     }
     public void executeInsertStatement2(String sqlString) throws Exception
     {
+                        System.out.println("DB_Access: anfang execute InsertStatement2");
+
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
 
