@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import util.ServletUtil;
 //import pdf.PdfCreator;
 
 /**
@@ -171,8 +172,8 @@ public class FoodLockerServlet extends HttpServlet
             request.setAttribute("countIngredientInput", countIngredientInput);
         }else
         {
-            title = request.getParameter("txt_title");
-            description = request.getParameter("textarea");
+            title = ServletUtil.filter(request.getParameter("txt_title"));
+            description = ServletUtil.filter(request.getParameter("textarea"));
             category = request.getParameter("txt_category");
             li_txt_menge.add(Integer.parseInt(request.getParameter("txt_menge0")));
             li_txt_einheit.add(request.getParameter("txt_einheit0"));
