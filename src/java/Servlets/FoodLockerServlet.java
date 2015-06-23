@@ -26,7 +26,7 @@ import pdf.PdfCreator;
  */
 public class FoodLockerServlet extends HttpServlet
 {
-
+//asdfasdf
     private LinkedList<String> li_input_ingredients = new LinkedList<>();
     private LinkedList<Ingredient> li_all_ingredients;
     private LinkedList<Recipe> li_recipes;
