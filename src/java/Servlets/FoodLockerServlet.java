@@ -462,7 +462,8 @@ public class FoodLockerServlet extends HttpServlet {
                 checkIngredients(request, response);
 
                 access.createSqlStringForOwnRecipeInsert(title, description, category, li_txt_menge, li_txt_einheit, li_txt_ingredient);
-
+                restartQuery(request, response);
+                initializeListOfAvailableIngredients(null, request, response);
                 request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
             } catch (Exception ex) {
                 System.out.println("FoodLockerServlet.doPost: " + ex.toString());

@@ -426,7 +426,6 @@ public class DB_Access {
         
         formatedDescription += "<br/><b>How to:</b><br/>"+description.replace(Character.toString((char)10), "<br/>"); 
         
-        
         String sqlString = "";
         recipeCount = 0; 
         
