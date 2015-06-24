@@ -96,7 +96,7 @@
                 <label for="txt_ingredient">Ingredient</label>
         </div>
         <div id="div_checkbox_include">
-            <%                if (request.getAttribute("checkbox_checked") != null) {
+            <%                if (session.getAttribute("checkbox_checked") != null) {
             %>
             <input type="checkbox" id="cb_include" name="cb_include" checked />
             <%} else {%>
@@ -161,8 +161,8 @@
                 li_Cat4.add(r);
             }
         }
-        if (request.getAttribute("shoppingList") != null) {
-            shoppingList = (HashMap<Recipe, LinkedList<Ingredient>>) request.getAttribute("shoppingList");
+        if (session.getAttribute("shoppingList") != null) {
+            shoppingList = (HashMap<Recipe, LinkedList<Ingredient>>) session.getAttribute("shoppingList");
         }
         if (!li_recipes.isEmpty()) {
     %><div style="width: 50%">
@@ -180,7 +180,7 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                            if (request.getAttribute("shoppingList") != null) {
+                            if (session.getAttribute("shoppingList") != null) {
                                 
                                 if (shoppingList.containsKey(r)) {
                                     LinkedList<Ingredient> ings = shoppingList.get(r);
@@ -214,7 +214,7 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                            if (request.getAttribute("shoppingList") != null) {
+                            if (session.getAttribute("shoppingList") != null) {
                                 if (shoppingList.containsKey(r)) {
                                     LinkedList<Ingredient> ings = shoppingList.get(r);
                                     String list = "";
@@ -246,7 +246,7 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                            if (request.getAttribute("shoppingList") != null) {
+                            if (session.getAttribute("shoppingList") != null) {
                                 if (shoppingList.containsKey(r)) {
                                     LinkedList<Ingredient> ings = shoppingList.get(r);
                                     System.out.println("asdfasdfasdf:"+ings.size());
@@ -279,7 +279,7 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                            if (request.getAttribute("shoppingList") != null) {
+                            if (session.getAttribute("shoppingList") != null) {
                                 if (shoppingList.containsKey(r)) {
                                     LinkedList<Ingredient> ings = shoppingList.get(r);
                                     String list = "";
@@ -310,7 +310,7 @@
                 <div class="collapsible-header"><%=r.getTitle()%></div>
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
-                            if (request.getAttribute("shoppingList") != null) {
+                            if (session.getAttribute("shoppingList") != null) {
                                 if (shoppingList.containsKey(r)) {
                                     LinkedList<Ingredient> ings = shoppingList.get(r);
                                     String list = "";

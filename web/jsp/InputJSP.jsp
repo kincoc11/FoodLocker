@@ -75,7 +75,7 @@
         <nav id="nav_style">
             <div class="nav-wrapper">
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="FoodLockerServlet?param=5">Restart</a></li>  
+                    <li><a href="FoodLockerServlet?param=7">Restart</a></li>  
                     <li><a href="FoodLockerServlet">Back</a></li> 
 
                 </ul>

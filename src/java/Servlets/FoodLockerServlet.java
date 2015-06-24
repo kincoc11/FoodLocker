@@ -10,9 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -27,9 +25,6 @@ import pdf.PdfCreator;
  * @author Corinna
  */
 public class FoodLockerServlet extends HttpServlet {
-//asdfasdf
-    //asdasdasd
-    //asdasdasdasd
 
     private LinkedList<String> li_input_ingredients = new LinkedList<>();
     private LinkedList<Ingredient> li_all_ingredients;
@@ -288,6 +283,36 @@ public class FoodLockerServlet extends HttpServlet {
         while (enumAttributes.hasMoreElements()) {
             request.getSession().removeAttribute(enumAttributes.nextElement());
         }
+
+        if (li_input_ingredients != null) {
+            li_input_ingredients.clear();
+        }
+        if (li_recipes != null) {
+            li_recipes.clear();
+
+        }
+
+        if (li_category != null) {
+            li_category.clear();
+
+        }
+        countIngredientInput = 1;
+
+        if (li_txt_ingredient != null) {
+            li_txt_ingredient.clear();
+
+        }
+
+        if (li_txt_menge != null) {
+            li_txt_menge.clear();
+
+        }
+
+        if (li_txt_einheit != null) {
+            li_txt_einheit.clear();
+
+        }
+        isError = false;
     }
 
     /**
@@ -339,24 +364,21 @@ public class FoodLockerServlet extends HttpServlet {
                 li_recipes = access.getRecipeForIngredientsWhereAllIngredientsAreAvailable(li_input_ingredients);
 
             } else {
-                
+
                 li_recipes = access.getRecipeForIngredients(li_input_ingredients);
                 for (Recipe r : li_recipes) {
                     LinkedList<Ingredient> li_shoppingList = access.getShoppingList(r, li_input_ingredients);
                     shoppingList.put(r, li_shoppingList);
                 }
-                System.out.println("size: "+shoppingList.size());
-                
-                
-        }
-                request.setAttribute("shoppingList", shoppingList);
-                request.setAttribute("checkbox_checked", "checked");
-            }
-            request.getSession().setAttribute("li_recipes", li_recipes);
-            Ingredient ing = findIndexForIngredientStringAndCreateIngredientObject(ingredient);
-            initializeListOfAvailableIngredients(ing, request, response);
 
-        
+            }
+            request.getSession().setAttribute("shoppingList", shoppingList);
+            request.getSession().setAttribute("checkbox_checked", "checked");
+        }
+        request.getSession().setAttribute("li_recipes", li_recipes);
+        Ingredient ing = findIndexForIngredientStringAndCreateIngredientObject(ingredient);
+        initializeListOfAvailableIngredients(ing, request, response);
+
     }
 
     /**
@@ -413,14 +435,14 @@ public class FoodLockerServlet extends HttpServlet {
                 category = "";
                 request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
-            } else if (cat_id == 6) {
+            } else if (cat_id == 6 || cat_id == 7) {
                 restartQuery(request, response);
             }
 
         }
         if (cat_id != 5) {
             // da failt no was wenn ma as fenster neu öffnet
-            li_input_ingredients.clear();
+            //li_input_ingredients.clear();
             request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
         }
     }
@@ -511,7 +533,6 @@ public class FoodLockerServlet extends HttpServlet {
         }
 
     }
-//sadf
 
     @Override
     public String getServletInfo() {
