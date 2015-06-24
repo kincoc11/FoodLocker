@@ -41,7 +41,7 @@ public class PdfCreator {
     
     public String createPdf(String path, String ingredients, String recipeTitle, String recipeDescription) throws DocumentException, IOException 
     {
-        path+="shoppingList_"+recipeTitle+".pdf";
+        path+="shoppingList.pdf";
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
         document.open();

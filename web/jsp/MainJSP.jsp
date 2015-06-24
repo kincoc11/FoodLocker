@@ -129,6 +129,16 @@
             }
         %>        
     </span>
+    <span id="error">
+        <% if (request.getAttribute("einfuegenErfolgreich") != null) {
+        %><h3 id="h3_einfuegenErfolgreich"><%=request.getAttribute("einfuegenErfolgreich")%>
+        </h3>
+        <%
+            }
+        %>        
+    </span>
+    
+    
     <% if (session.getAttribute("li_recipes") != null) {%> <%
         if (request.getAttribute("surprise") != null) {%>
     <h1 style="color:hotpink; font-size: 50px">Approved by Coki and Yvonne!</h1>
