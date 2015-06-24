@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -305,7 +303,7 @@ public class FoodLockerServlet extends HttpServlet
 
     /**
      * Deletes all attributes from both the request object and the session
-     * object.
+     * object. Resets all instance variables
      *
      * @param request
      * @param response
@@ -331,32 +329,28 @@ public class FoodLockerServlet extends HttpServlet
         if (li_recipes != null)
         {
             li_recipes.clear();
-
         }
 
         if (li_category != null)
         {
             li_category.clear();
-
         }
+        
         countIngredientInput = 1;
 
         if (li_txt_ingredient != null)
         {
             li_txt_ingredient.clear();
-
         }
 
         if (li_txt_menge != null)
         {
             li_txt_menge.clear();
-
         }
 
         if (li_txt_einheit != null)
         {
             li_txt_einheit.clear();
-
         }
         isError = false;
         
@@ -416,7 +410,7 @@ public class FoodLockerServlet extends HttpServlet
             if (request.getParameter("cb_include") == null)
             {
                 li_recipes = access.getRecipeForIngredientsWhereAllIngredientsAreAvailable(li_input_ingredients);
-
+                request.getSession().setAttribute("checkbox_checked", null);
             } else
             {
 
@@ -426,10 +420,11 @@ public class FoodLockerServlet extends HttpServlet
                     LinkedList<Ingredient> li_shoppingList = access.getShoppingList(r, li_input_ingredients);
                     shoppingList.put(r, li_shoppingList);
                 }
+                request.getSession().setAttribute("checkbox_checked", "checked");
 
             }
             request.getSession().setAttribute("shoppingList", shoppingList);
-            request.getSession().setAttribute("checkbox_checked", "checked");
+            
         }
         request.getSession().setAttribute("li_recipes", li_recipes);
         Ingredient ing = findIndexForIngredientStringAndCreateIngredientObject(ingredient);
@@ -489,7 +484,7 @@ public class FoodLockerServlet extends HttpServlet
                     request.getSession().setAttribute("li_recipes", li_recipes);
                 } catch (Exception ex)
                 {
-                    Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println(ex.getMessage());
                 }
             } else if (cat_id == 5)
             {
@@ -527,8 +522,6 @@ public class FoodLockerServlet extends HttpServlet
         }
         if (cat_id != 5)
         {
-            // da failt no was wenn ma as fenster neu öffnet
-            //li_input_ingredients.clear();
             request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
         }
     }
@@ -545,7 +538,7 @@ public class FoodLockerServlet extends HttpServlet
             access = DB_Access.getInstance();
         } catch (Exception ex)
         {
-            Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         showRecipesForSpecificCategory(request, response);
     }
@@ -560,7 +553,7 @@ public class FoodLockerServlet extends HttpServlet
             access = DB_Access.getInstance();
         } catch (Exception ex)
         {
-            Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         if (request.getParameter("bt_newInsertNewIngredient") != null)
         {
@@ -570,14 +563,14 @@ public class FoodLockerServlet extends HttpServlet
                 checkNewIngredientInput(request, response);
             } catch (Exception ex)
             {
-                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
             }
             try
             {
                 saveInput(request, response);
             } catch (Exception ex)
             {
-                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
             }
             Ingredient ing = findIndexForIngredientStringAndCreateIngredientObject(request.getParameter("txt_ingredient0"));
             try
@@ -585,7 +578,7 @@ public class FoodLockerServlet extends HttpServlet
                 initializeListOfAvailableIngredients(ing, request, response);
             } catch (Exception ex)
             {
-                Logger.getLogger(FoodLockerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
             }
             request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 

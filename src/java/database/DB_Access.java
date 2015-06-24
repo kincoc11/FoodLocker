@@ -231,7 +231,8 @@ public class DB_Access {
                             break inner;
 
                         } //da die Zutaten in beiden Listen sortiert sind, muss die erste Zutat schon gleich sein, ansonsten wird mit dem nächsten Rezept fortgesetzt
-                        else {
+                        else 
+                        {
                             break outer;
                         }
                     }
@@ -274,6 +275,17 @@ public class DB_Access {
         return li_ingredientsPerRecipe;
     }
     
+    
+    /**
+     * gets the ingredients from a specific recipe from the database
+     * and compares these ingredients with the ingredients the user sent.
+     * returns a LinkedList with the ingredients contained that are missing
+     * in the user's input
+     * @param r
+     * @param li_used_ingredients
+     * @return
+     * @throws Exception 
+     */
     public LinkedList<Ingredient> getShoppingList(Recipe r, LinkedList<String> li_used_ingredients) throws Exception {        
         LinkedList<Ingredient> li_ingredientsPerRecipe = getIngredientsForRecipe(r.getTitle());
        
@@ -329,7 +341,7 @@ public class DB_Access {
     }
 
     /**
-     * Give back all available categories
+     * Gives back all available categories
      * @return
      * @throws SQLException
      * @throws Exception 
@@ -362,7 +374,7 @@ public class DB_Access {
     }
 
     /**
-     * 
+     * returns the favourite recipes of Corinna and Yvonne
      * @return
      * @throws Exception 
      */
@@ -439,7 +451,7 @@ public class DB_Access {
                 "WHERE UPPER(name) = '"+str.toUpperCase()+"' " +
                 "GROUP BY i.ingredient_id"; 
          
-            addOwnRecipeToDatabase( sqlString, formatedDescription, title);
+            addOwnRecipeToDatabase(sqlString, formatedDescription, title);
            
         }
         
@@ -509,7 +521,10 @@ public class DB_Access {
 
         try{
         stat.executeQuery(sqlString); }
-        catch(Exception ex){}
+         catch(Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
         connPool.releaseConnection(conn);
 
 
@@ -528,7 +543,10 @@ public class DB_Access {
 
         try{
         stat.executeQuery(sqlString); }
-        catch(Exception ex){}
+        catch(Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
         
         connPool.releaseConnection(conn);
 

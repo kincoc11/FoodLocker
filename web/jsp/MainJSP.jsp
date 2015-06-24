@@ -14,7 +14,27 @@
 <!DOCTYPE html>
 <html>
     <head>
-<!--asdfkslökdfj-->
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
+        <link rel="stylesheet" href="css/jquery-ui.css">
+        <script src="js/jquery-1.10.2.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script>
+
+            $(function ()
+            {
+                var arrayIngredients = <%= this.getServletContext().getAttribute("attrIngredients")%>;
+
+                $("#txt_ingredient").autocomplete({
+                    source: arrayIngredients
+                });
+            });
+        </script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <%
             if (request.getParameter("param") == null) {
         %><title>Food Locker</title><%
@@ -30,38 +50,12 @@
         %><title>Easter</title><%
         } else {
         %><title>Food Locker</title><%
-            //asdasdasasd
             }
         %>
-
-        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <script type="text/javascript" src="js/materialize.min.js"></script>
-        <script>
-
-            $(function ()
-            {
-                var arrayIngredients = <%= this.getServletContext().getAttribute("attrIngredients")%>;
-
-                $("#txt_ingredient").autocomplete({
-                    source: arrayIngredients
-                });
-            });
-        </script>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-
-
-    <body style="text-align: center">
-
+    <body>
         <%
             LinkedList<Category> li_category = (LinkedList) request.getAttribute("li_category");
-
         %>
 
         <nav id="nav_style">
@@ -72,7 +66,6 @@
                     <li><a href="FoodLockerServlet?param=2">Side Dishes</a></li>
                     <li><a href="FoodLockerServlet?param=3">Desserts</a></li>
                     <li><a href="FoodLockerServlet?param=4">Easter</a></li>
-
                 </ul>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="FoodLockerServlet?param=5">Add Recipe</a></li>
@@ -80,10 +73,8 @@
                 </ul>
             </div>
         </nav>
-
     <center>
         <h1>Foodlocker</h1><br/>
-
         <div class="input-field col s6" style="width: 25%">
             <form action="FoodLockerServlet" method="POST">
                 <input id ="txt_ingredient" name ="txt_ingredient" type="text" onkeydown="
@@ -92,54 +83,51 @@
                             this.form.submit();
                             return false;
                         }">
-
                 <label for="txt_ingredient">Ingredient</label>
         </div>
-        <div id="div_checkbox_include">
+        <div id="div_center">
             <%                if (session.getAttribute("checkbox_checked") != null) {
             %>
             <input type="checkbox" id="cb_include" name="cb_include" checked />
             <%} else {%>
             <input type="checkbox" id="cb_include" name="cb_include" />
             <%}%>
-
             <label for="cb_include">Do you want to include ingredients you did not mention?</label>
         </div>
-
         <div id="div_listIngredients" >
             <table>
                 <%
-                    if (session.getAttribute("li_input_ingredients") != null) 
-                    {
+                    if (session.getAttribute("li_input_ingredients") != null) {
                         LinkedList<String> li_ingredients = (LinkedList<String>) session.getAttribute("li_input_ingredients");
                         for (String ingredient : li_ingredients) {
                 %><tr><td id="td_ingredients"><%=ingredient%></td></tr>
                     <% }
                         }%>
-
             </table>
         </div>
     </form>
+    <div id="div_center">
+        <span id="error">
+            <%                if (request.getAttribute("error") != null) {
+            %><center><h3 id="h3_error" style="text-align: center"><%=request.getAttribute("error")%>
+                </h3></center>
+                <%
+                    }
+                %>        
+        </span>
+        <span id="error">
+            <% if (request.getAttribute("einfuegenErfolgreich") != null) {
+            %><h3 id="h3_einfuegenErfolgreich"><%=request.getAttribute("einfuegenErfolgreich")%>
+            </h3>
+            <%
+                }
+            %>        
+        </span>
+    </div>
 
-    <span id="error">
-        <%                if (request.getAttribute("error") != null) {
-        %><h3 id="h3_error"><%=request.getAttribute("error")%>
-        </h3>
-        <%
-            }
-        %>        
-    </span>
-    <span id="error">
-        <% if (request.getAttribute("einfuegenErfolgreich") != null) {
-        %><h3 id="h3_einfuegenErfolgreich"><%=request.getAttribute("einfuegenErfolgreich")%>
-        </h3>
-        <%
-            }
-        %>        
-    </span>
-    
-    
-    <% if (session.getAttribute("li_recipes") != null) {%> <%
+    <% if (session.getAttribute("li_recipes") != null) 
+        {
+    %> <%
         if (request.getAttribute("surprise") != null) {%>
     <h1 style="color:hotpink; font-size: 50px">Approved by Coki and Yvonne!</h1>
     <a href="FoodLockerServlet?param=6" title="Back to normal mode">
@@ -191,7 +179,7 @@
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
                             if (session.getAttribute("shoppingList") != null) {
-                                
+
                                 if (shoppingList.containsKey(r)) {
                                     LinkedList<Ingredient> ings = shoppingList.get(r);
                                     System.out.println(ings.size());
@@ -199,7 +187,7 @@
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
-                                    if(!list.equals("")){
+                                    if (!list.equals("")) {
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
                         <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
@@ -231,7 +219,7 @@
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
-                                    if(!list.equals("")){
+                                    if (!list.equals("")) {
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
                         <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
@@ -259,12 +247,12 @@
                             if (session.getAttribute("shoppingList") != null) {
                                 if (shoppingList.containsKey(r)) {
                                     LinkedList<Ingredient> ings = shoppingList.get(r);
-                                    System.out.println("asdfasdfasdf:"+ings.size());
+                                    System.out.println("asdfasdfasdf:" + ings.size());
                                     String list = "";
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
-                                    if(!list.equals("")){
+                                    if (!list.equals("")) {
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
                         <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
@@ -296,7 +284,7 @@
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
-                                    if(!list.equals("")){
+                                    if (!list.equals("")) {
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
                         <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
@@ -327,7 +315,7 @@
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
-                                    if(!list.equals("")){
+                                    if (!list.equals("")) {
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
                         <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
@@ -349,8 +337,6 @@
     <audio autoplay="true" src="res/surprise.mp3">
         <%}
         %>
-
-
 </center>
 </body>
 </html>
