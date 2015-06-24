@@ -10,7 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -303,6 +305,9 @@ public class FoodLockerServlet extends HttpServlet {
         recipeDescription = recipeDescription.replace("<br/>", "");
         recipeDescription = recipeDescription.replace("<b>", "");
         recipeDescription = recipeDescription.replace("</b>", "");
+        recipeDescription = recipeDescription.replace("<i>", "");
+        recipeDescription = recipeDescription.replace("</i>", "");
+        System.out.println("hiandhello");
 
         try {
             String pdfPathFull = pdf.createPdf(pdfPath, list, recipeTitle, recipeDescription);
@@ -327,26 +332,31 @@ public class FoodLockerServlet extends HttpServlet {
      */
     public void callRightMethodForRecipeQuery(String ingredient, HttpServletRequest request, HttpServletResponse response) throws Exception {
         HashMap<Recipe, LinkedList<Ingredient>> shoppingList = new HashMap<>();
-        if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 20) {
+        if (!li_input_ingredients.contains(ingredient) && li_input_ingredients.size() < 10 && ingredient.length() <= 25) {
             li_input_ingredients.add(ingredient);
 
             if (request.getParameter("cb_include") == null) {
                 li_recipes = access.getRecipeForIngredientsWhereAllIngredientsAreAvailable(li_input_ingredients);
 
             } else {
+                
                 li_recipes = access.getRecipeForIngredients(li_input_ingredients);
                 for (Recipe r : li_recipes) {
                     LinkedList<Ingredient> li_shoppingList = access.getShoppingList(r, li_input_ingredients);
                     shoppingList.put(r, li_shoppingList);
                 }
+                System.out.println("size: "+shoppingList.size());
+                
+                
+        }
                 request.setAttribute("shoppingList", shoppingList);
                 request.setAttribute("checkbox_checked", "checked");
             }
             request.getSession().setAttribute("li_recipes", li_recipes);
-
             Ingredient ing = findIndexForIngredientStringAndCreateIngredientObject(ingredient);
             initializeListOfAvailableIngredients(ing, request, response);
-        }
+
+        
     }
 
     /**
@@ -468,7 +478,7 @@ public class FoodLockerServlet extends HttpServlet {
                 initializeListOfAvailableIngredients(null, request, response);
                 request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
             } catch (Exception ex) {
-                System.out.println("FoodLockerServlet.doPost: " + ex.toString());
+                System.out.println(ex.toString());
 
             }
 
@@ -487,13 +497,14 @@ public class FoodLockerServlet extends HttpServlet {
                 } else {
                     request.setAttribute("error", "The ingredient you want to add is not available. We're sorry! :(");
                 }
+
                 request.getSession().setAttribute("li_input_ingredients", li_input_ingredients);
                 request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         }
-        if (request.getParameter("ingredientsOfRecipes") != null) {
+        if (request.getParameter("ingredientsOfRecipes") != null && !request.getParameter("ingredientsOfRecipes").isEmpty()) {
             createShoppingListForRecipe(request, response);
             request.getSession().setAttribute("li_input_ingredients", li_input_ingredients);
             request.getRequestDispatcher("jsp/MainJSP.jsp").forward(request, response);
@@ -501,6 +512,7 @@ public class FoodLockerServlet extends HttpServlet {
 
     }
 //sadf
+
     @Override
     public String getServletInfo() {
         return "Short description";

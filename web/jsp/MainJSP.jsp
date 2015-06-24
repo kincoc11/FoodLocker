@@ -112,7 +112,6 @@
                     if (session.getAttribute("li_input_ingredients") != null) 
                     {
                         LinkedList<String> li_ingredients = (LinkedList<String>) session.getAttribute("li_input_ingredients");
-                        System.out.println(li_ingredients.size());
                         for (String ingredient : li_ingredients) {
                 %><tr><td id="td_ingredients"><%=ingredient%></td></tr>
                     <% }
@@ -139,6 +138,7 @@
     <%}
         LinkedList<Recipe> li_recipes = (LinkedList<Recipe>) session.getAttribute("li_recipes");
         HashMap<Recipe, LinkedList<Ingredient>> shoppingList = null;
+
         if (li_recipes.isEmpty()) {%>
     <h3 id="h3_error">Unfortunately no recipes were found! We're sorry!</h3>
     <%} else {
@@ -181,19 +181,22 @@
                 <div class="collapsible-body" style="text-align:left"><p><%=r.getDescription()%><br>
                         <%
                             if (request.getAttribute("shoppingList") != null) {
+                                
                                 if (shoppingList.containsKey(r)) {
                                     LinkedList<Ingredient> ings = shoppingList.get(r);
+                                    System.out.println(ings.size());
                                     String list = "";
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
+                                    if(!list.equals("")){
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
                         <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
                         <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
                         <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
                     </form>
-                    <%
+                    <%}
                         }%></p></div>
             </li>    <%}
                     }
@@ -218,13 +221,14 @@
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
+                                    if(!list.equals("")){
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
                         <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
                         <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
                     </form>
-                    <%
+                    <%}
                         }%></p></div>
             </li>    <%}
                     }
@@ -245,17 +249,19 @@
                             if (request.getAttribute("shoppingList") != null) {
                                 if (shoppingList.containsKey(r)) {
                                     LinkedList<Ingredient> ings = shoppingList.get(r);
+                                    System.out.println("asdfasdfasdf:"+ings.size());
                                     String list = "";
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
+                                    if(!list.equals("")){
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
                         <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
                         <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
                     </form>
-                    <%
+                    <%}
                             }
                         }%></p></div>
             </li>    <%}
@@ -280,13 +286,14 @@
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
+                                    if(!list.equals("")){
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
                         <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
                         <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
                     </form>
-                    <%
+                    <%}
                         }%></p></div>
             </li>    <%}
                     }
@@ -310,13 +317,14 @@
                                     for (Ingredient i : ings) {
                                         list += i.getName() + ";";
                                     }
+                                    if(!list.equals("")){
                         %><form action="FoodLockerServlet" method="POST">
                         <button class="btn waves-effect waves-light" style="margin-left: 27px;" onclick="this.form.submit()">Print Shopping List</button>
-                        <input type="hidden" name="ingredients" value="<%=list%>" />
+                        <input type="hidden" name="ingredientsOfRecipes" value="<%=list%>" />
                         <input type="hidden" name="recipeTitle" value="<%=r.getTitle()%>" />
                         <input type="hidden" name="recipeDescription" value="<%=r.getDescription()%>" />
                     </form>
-                    <%
+                    <%}
                         }%></p></div>
             </li>    <%}
                     }

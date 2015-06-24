@@ -270,12 +270,13 @@ public class DB_Access {
         }
 
         connPool.releaseConnection(conn);
+        System.out.println("asdf: "+li_ingredientsPerRecipe.size());
         return li_ingredientsPerRecipe;
     }
     
-    public LinkedList<Ingredient> getShoppingList(Recipe r, LinkedList<String> li_used_ingredients) throws Exception {
+    public LinkedList<Ingredient> getShoppingList(Recipe r, LinkedList<String> li_used_ingredients) throws Exception {        
         LinkedList<Ingredient> li_ingredientsPerRecipe = getIngredientsForRecipe(r.getTitle());
-
+       
         Collections.sort(li_ingredientsPerRecipe, new IngredientComparator());
         Collections.sort(li_used_ingredients);
 
@@ -290,7 +291,6 @@ public class DB_Access {
             }
             
         }
-
         return li_ingredientsPerRecipe;
     }
 
