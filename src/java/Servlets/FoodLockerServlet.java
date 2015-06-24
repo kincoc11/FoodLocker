@@ -302,7 +302,7 @@ public class FoodLockerServlet extends HttpServlet {
         String list = request.getParameter("ingredientsOfRecipes");
         String recipeTitle = request.getParameter("recipeTitle");
         String recipeDescription = request.getParameter("recipeDescription");
-        recipeDescription = recipeDescription.replace("<br/>", "");
+        recipeDescription = recipeDescription.replace("<br/>", "\n");
         recipeDescription = recipeDescription.replace("<b>", "");
         recipeDescription = recipeDescription.replace("</b>", "");
         recipeDescription = recipeDescription.replace("<i>", "");
