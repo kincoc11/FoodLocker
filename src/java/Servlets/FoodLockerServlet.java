@@ -130,7 +130,7 @@ public class FoodLockerServlet extends HttpServlet
     }
 
     /**
-     * Checks if any parameters from the InputJSP are null If not it saves the
+     * Checks if any parameters from the InputJSP are null. If not it saves the
      * parameters into variables
      *
      * @param request
@@ -211,20 +211,9 @@ public class FoodLockerServlet extends HttpServlet
     public void checkCategory(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         String test_category = request.getParameter("txt_category");
-        String final_category = "";
+        
 
-        if (test_category.toUpperCase().equals("SNACKS"))
-        {
-            final_category = "Snacks and Side Dishes";
-        } else if (test_category.toUpperCase().equals("MAIN"))
-        {
-            final_category = "Main Dishes";
-        } else
-        {
-            final_category = test_category;
-        }
-
-        if (access.isCategoryAvailable(final_category) == false)
+        if (access.isCategoryAvailable(test_category) == false)
         {
             inputRecipeError = "Please enter a valid category";
             request.setAttribute("inputRecipeError", inputRecipeError);
@@ -233,7 +222,7 @@ public class FoodLockerServlet extends HttpServlet
 
         } else
         {
-            category = final_category;
+            category = test_category;
         }
 
     }

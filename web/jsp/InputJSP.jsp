@@ -101,6 +101,7 @@
             if (request.getParameter("txt_category") != null)
             {
                 category = request.getParameter("txt_category");
+                System.out.println("hiiii: "+category);
             }
 
         %> 
@@ -126,14 +127,14 @@
                     <td>
                         <div class="input-field col s6" >
                             <input id ="txt_title" name ="txt_title" type="text" 
-                                   value= <%=title%>> 
+                                   value= "<%=title%>"> 
                             <label for="txt_title">Title</label>
                         </div>
                     </td>
                     <td>
                         <div class="input-field col s6">
                             <input id ="txt_category" name ="txt_category" type="text" 
-                                   value= <%=category%>> 
+                                   value= "<%=category%>"> 
                             <label for="txt_category">Category</label>
                         </div>
                     </td></tr></table>
@@ -203,14 +204,14 @@
                         </td>
                         <td>
                             <div class="input-field col s6">
-                                <input readonly id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text" value = <%=einheit%>>
+                                <input readonly id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text" value = "<%=einheit%>">
                                 <label for="txt_einheit<%=idCount%>">Unit</label>
                             </div>
 
                         </td>
                         <td>
                             <div class="input-field col s6">
-                                <input readonly id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = <%=new_ingredient%>>
+                                <input readonly id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = "<%=new_ingredient%>">
                                 <label for="txt_ingredient<%=idCount%>">Ingredient</label>
                             </div>
 
@@ -249,14 +250,14 @@
                         </td>
                         <td>
                             <div class="input-field col s6">
-                                <input id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text" value = <%=einheit%>>
+                                <input id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text" value = "<%=einheit%>">
                                 <label for="txt_einheit<%=idCount%>">Unit</label>
                             </div>
 
                         </td>
                         <td>
                             <div class="input-field col s6">
-                                <input id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = <%=new_ingredient%>>
+                                <input id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = "<%=new_ingredient%>">
                                 <label for="txt_ingredient<%=idCount%>">Ingredient</label>
                             </div>
 
