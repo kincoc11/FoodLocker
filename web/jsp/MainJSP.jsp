@@ -107,22 +107,18 @@
         </div>
     </form>
     <div id="div_center">
-        <span id="error">
             <%                if (request.getAttribute("error") != null) {
-            %><center><h3 id="h3_error" style="text-align: center"><%=request.getAttribute("error")%>
-                </h3></center>
+            %><h3 id="h3_error"><%=request.getAttribute("error")%>
+                </h3>
                 <%
                     }
                 %>        
-        </span>
-        <span id="error">
             <% if (request.getAttribute("einfuegenErfolgreich") != null) {
             %><h3 id="h3_einfuegenErfolgreich"><%=request.getAttribute("einfuegenErfolgreich")%>
             </h3>
             <%
                 }
             %>        
-        </span>
     </div>
 
     <% if (session.getAttribute("li_recipes") != null) 
@@ -137,8 +133,9 @@
         LinkedList<Recipe> li_recipes = (LinkedList<Recipe>) session.getAttribute("li_recipes");
         HashMap<Recipe, LinkedList<Ingredient>> shoppingList = null;
 
-        if (li_recipes.isEmpty()) {%>
-    <h3 id="h3_error">Unfortunately no recipes were found! We're sorry!</h3>
+        if (li_recipes.isEmpty()) {%>    <div id="div_center">
+
+            <h3 id="h3_error">Unfortunately no recipes were found! We're sorry!</h3></div>
     <%} else {
         LinkedList<Recipe> li_Cat0 = new LinkedList<>();
         LinkedList<Recipe> li_Cat1 = new LinkedList<>();
