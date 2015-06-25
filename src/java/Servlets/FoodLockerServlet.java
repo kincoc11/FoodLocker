@@ -211,7 +211,6 @@ public class FoodLockerServlet extends HttpServlet
     public void checkCategory(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         String test_category = request.getParameter("txt_category");
-        
 
         if (access.isCategoryAvailable(test_category) == false)
         {
@@ -324,7 +323,7 @@ public class FoodLockerServlet extends HttpServlet
         {
             li_category.clear();
         }
-        
+
         countIngredientInput = 1;
 
         if (li_txt_ingredient != null)
@@ -342,7 +341,7 @@ public class FoodLockerServlet extends HttpServlet
             li_txt_einheit.clear();
         }
         isError = false;
-        
+
     }
 
     /**
@@ -363,7 +362,6 @@ public class FoodLockerServlet extends HttpServlet
         recipeDescription = recipeDescription.replace("</b>", "");
         recipeDescription = recipeDescription.replace("<i>", "");
         recipeDescription = recipeDescription.replace("</i>", "");
-     
 
         try
         {
@@ -413,7 +411,7 @@ public class FoodLockerServlet extends HttpServlet
 
             }
             request.getSession().setAttribute("shoppingList", shoppingList);
-            
+
         }
         request.getSession().setAttribute("li_recipes", li_recipes);
         Ingredient ing = findIndexForIngredientStringAndCreateIngredientObject(ingredient);
@@ -486,24 +484,23 @@ public class FoodLockerServlet extends HttpServlet
                 category = "";
                 request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
-            } else if (cat_id == 6 )
+            } else if (cat_id == 6)
             {
                 restartQuery(request, response);
                 einfuegenErfolgreich = "";
                 request.setAttribute("einfuegenErfolgreich", einfuegenErfolgreich);
-            }
-            else if(cat_id == 7)
+            } else if (cat_id == 7)
             {
                 //restartQuery(request, response);
                 einfuegenErfolgreich = "";
                 request.setAttribute("einfuegenErfolgreich", einfuegenErfolgreich);
-                 li_txt_menge.clear();
+                li_txt_menge.clear();
                 li_txt_einheit.clear();
                 li_txt_ingredient.clear();
                 countIngredientInput = 1;
-                title = ""; 
-                description = ""; 
-                category=""; 
+                title = "";
+                description = "";
+                category = "";
                 request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
             }
@@ -515,6 +512,13 @@ public class FoodLockerServlet extends HttpServlet
         }
     }
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
@@ -532,6 +536,13 @@ public class FoodLockerServlet extends HttpServlet
         showRecipesForSpecificCategory(request, response);
     }
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
@@ -552,14 +563,14 @@ public class FoodLockerServlet extends HttpServlet
                 checkNewIngredientInput(request, response);
             } catch (Exception ex)
             {
-            System.out.println(ex.getMessage());
+                System.out.println(ex.getMessage());
             }
             try
             {
                 saveInput(request, response);
             } catch (Exception ex)
             {
-            System.out.println(ex.getMessage());
+                System.out.println(ex.getMessage());
             }
             Ingredient ing = findIndexForIngredientStringAndCreateIngredientObject(request.getParameter("txt_ingredient0"));
             try
@@ -567,7 +578,7 @@ public class FoodLockerServlet extends HttpServlet
                 initializeListOfAvailableIngredients(ing, request, response);
             } catch (Exception ex)
             {
-            System.out.println(ex.getMessage());
+                System.out.println(ex.getMessage());
             }
             request.getRequestDispatcher("jsp/InputJSP.jsp").forward(request, response);
 
@@ -629,6 +640,10 @@ public class FoodLockerServlet extends HttpServlet
 
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String getServletInfo()
     {

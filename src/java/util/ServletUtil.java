@@ -6,6 +6,12 @@ package util;
  */
 public class ServletUtil 
 {
+    /**
+     * replaces greather than, smaller than sign,
+     * AND operator and double quotes with the appropriate HTML entities
+     * @param input
+     * @return 
+     */
     public static String filter(String input)
     {
         StringBuffer output = new StringBuffer(input.length());

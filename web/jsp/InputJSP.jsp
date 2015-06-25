@@ -17,8 +17,6 @@
 <html>
     <head>
         <title>Insert Recipe</title>
-
-
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -67,11 +65,8 @@
 
             });
         </script>
-
     </head>
     <body style="text-align: center">
-
-
         <nav id="nav_style">
             <div class="nav-wrapper">
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -81,7 +76,6 @@
                 </ul>
             </div>
         </nav>
-
         <%
             int anzZutaten = (Integer) request.getAttribute("countIngredientInput");
             int count = 0;
@@ -101,16 +95,11 @@
             if (request.getParameter("txt_category") != null)
             {
                 category = request.getParameter("txt_category");
-                System.out.println("hiiii: "+category);
             }
-
         %> 
-
-
     <center>
         <form action="FoodLockerServlet" method="POST">
             <h1>Insert your own Recipe</h1><br/>
-
             <span id="error">
                 <% if (request.getAttribute("inputRecipeError") != null)
                     {
@@ -120,8 +109,6 @@
                     }
                 %>        
             </span>
-
- 
             <table style="width: 50%">
                 <tr>
                     <td>
@@ -138,7 +125,6 @@
                             <label for="txt_category">Category</label>
                         </div>
                     </td></tr></table>
-
             <div style="width: 50%" class="row">
                 <div class="row">
                     <div class="input-field col s12">
@@ -147,10 +133,6 @@
                     </div>
                 </div> 
             </div>
-
-
-
-
             <%
                 boolean isError = false;
                 if(request.getAttribute("isError")!=null)
@@ -170,8 +152,7 @@
 
                         if (request.getParameter("txt_menge" + idCount) != null)
                         {
-                            menge = request.getParameter("txt_menge" + idCount);
-                            
+                            menge = request.getParameter("txt_menge" + idCount);    
                         }
                         if (request.getParameter("txt_einheit" + idCount) != null)
                         {
@@ -188,13 +169,10 @@
                         {
                             if (!menge.isEmpty() && !einheit.isEmpty() && !new_ingredient.isEmpty())
                             {
-
             %>
             <div style="width: 50%">
                 <table border="0">
                     <tr>
-
-
                         <td>
                             <div class="input-field col s6">
                                 <input readonly id ="txt_menge<%=idCount%>" name ="txt_menge<%=idCount%>" type="text" value = <%=menge%>>
@@ -214,7 +192,6 @@
                                 <input readonly id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = "<%=new_ingredient%>">
                                 <label for="txt_ingredient<%=idCount%>">Ingredient</label>
                             </div>
-
                         </td>
                         <% if (count == 0)
                             {%>
@@ -226,10 +203,8 @@
 
                 </table>
             </div>
-
-
             <%
-                }else
+             }           else
                             {
                                 count--;
                             }
@@ -239,37 +214,30 @@
             <div style="width: 50%">
                 <table border="0">
                     <tr>
-
-
                         <td>
                             <div class="input-field col s6">
                                 <input id ="txt_menge<%=idCount%>" name ="txt_menge<%=idCount%>" type="text" value = <%=menge%>>
                                 <label for="txt_menge<%=idCount%>">Amount</label>
                             </div>
-
                         </td>
                         <td>
                             <div class="input-field col s6">
                                 <input id ="txt_einheit<%=idCount%>" name ="txt_einheit<%=idCount%>" type="text" value = "<%=einheit%>">
                                 <label for="txt_einheit<%=idCount%>">Unit</label>
                             </div>
-
                         </td>
                         <td>
                             <div class="input-field col s6">
                                 <input id ="txt_ingredient<%=idCount%>" name ="txt_ingredient<%=idCount%>" type="text" value = "<%=new_ingredient%>">
                                 <label for="txt_ingredient<%=idCount%>">Ingredient</label>
                             </div>
-
                         </td>
                         <% if (count == 0)
                             {%>
                         <td>
                             <button id ="bt_newInsertNewIngredient" name ="bt_newInsertNewIngredient" class="btn waves-effect waves-light" onclick="this.form.submit()">+</button>  
-
                         </td><%}%>
                     </tr>
-
                 </table>
             </div>
             <% }
@@ -280,12 +248,8 @@
                         isError = false;
                     }
                 }%>
-       
-
             <button style = "width:50% " id ="bt_submitRecipe" name ="bt_submitRecipe" class="btn waves-effect waves-light" onclick="this.form.submit()">Add recipe</button>  
-
         </form>
     </center>
-
 </body>
 </html>
