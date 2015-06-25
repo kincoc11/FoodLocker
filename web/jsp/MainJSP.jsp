@@ -67,9 +67,6 @@
         %>
     </head>
     <body>
-        <a href="res/surprise.jpg">Download PDFViewer</a>
-
-
         <%
             LinkedList<Category> li_category = (LinkedList) request.getAttribute("li_category");
         %>
