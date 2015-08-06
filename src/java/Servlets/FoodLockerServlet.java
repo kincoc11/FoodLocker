@@ -21,6 +21,8 @@ import pdf.PdfCreator;
 /**
  *
  * @author Corinna
+ * @since
+ * 
  */
 public class FoodLockerServlet extends HttpServlet
 {
@@ -75,7 +77,29 @@ public class FoodLockerServlet extends HttpServlet
         }
         sb.append("]");
         this.getServletContext().setAttribute("attrIngredients", sb);
-
+    }
+    
+    public void initializeToInsertIngredient(Ingredient toInsertIngredient, HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        StringBuffer sb = new StringBuffer();
+        if (toInsertIngredient == null)
+        {
+            li_all_ingredients = access.getIngredients();
+        } else
+        {
+            li_all_ingredients.add(toInsertIngredient);
+        }
+        sb.append("[");
+        for (int i = 0; i < li_all_ingredients.size(); i++)
+        {
+            sb.append("\"").append(li_all_ingredients.get(i).getName()).append("\"");
+            if (i + 1 < li_all_ingredients.size())
+            {
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        this.getServletContext().setAttribute("attrIngredients", sb);
     }
 
     /**
@@ -95,7 +119,15 @@ public class FoodLockerServlet extends HttpServlet
         {
             try
             {
+                if(request.getParameter("txt_ingredient0") != null && !request.getParameter("txt_ingredient0").isEmpty())
+                {
+                    String test_ing = request.getParameter("txt_ingredient0");
+                    Ingredient i = findIndexForIngredientStringAndCreateIngredientObject(test_ing); 
+                    initializeToInsertIngredient(i, request, response); 
+
+                }
                 Integer.parseInt(request.getParameter("txt_menge0"));
+                
             } catch (Exception e)
             {
                 inputRecipeError = "Please enter a numeric amount";
@@ -121,6 +153,13 @@ public class FoodLockerServlet extends HttpServlet
             isError = false;
         } else
         {
+            if(request.getParameter("txt_ingredient0") != null && !request.getParameter("txt_ingredient0").isEmpty())
+            {
+                String test_ing = request.getParameter("txt_ingredient0");
+                Ingredient i = findIndexForIngredientStringAndCreateIngredientObject(test_ing); 
+                initializeToInsertIngredient(i, request, response); 
+                
+            }
             isError = true;
         }
 
@@ -443,6 +482,7 @@ public class FoodLockerServlet extends HttpServlet
         return ing;
     }
 
+    
     public void showRecipesForSpecificCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         int cat_id = -1;
@@ -600,7 +640,6 @@ public class FoodLockerServlet extends HttpServlet
             } catch (Exception ex)
             {
                 System.out.println(ex.toString());
-
             }
 
         }
